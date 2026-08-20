@@ -11,116 +11,140 @@ import "./styles.css";
 const products = [
   {
     id: 1,
-    name: "Aero Flux 01",
-    category: "Running",
-    price: 149,
-    old: 179,
-    tag: "New Release",
-    colorName: "Champagne Gold / Slate",
-    colorHex: 0xeeeade,
-    soleHex: 0x121215,
-    accentHex: 0xc49a45,
-    darkHex: 0x1c1c20,
-    swatches: ["#e8e5df", "#c49a45", "#111113"],
-    sizes: [7, 8, 9, 10, 11],
-    rating: 4.9,
-    reviews: 128,
-    description: "Sculpted for maximum energy return and lightweight motion. Features engineered mesh and champagne gold metallic counter stabilization."
+    name: "Air Jordan 1 Cyber Cyan",
+    category: "High-Top",
+    price: 219,
+    old: 249,
+    tag: "Reference Edition",
+    colorName: "Stealth Black / White / Neon Cyan Glow",
+    colorConfig: {
+      upper: 0xffffff,
+      overlay: 0x121214,
+      swoosh: 0x00f0ff,
+      emissive: 0x00d8ff,
+      sole: 0xffffff,
+      outsole: 0x00d8ff
+    },
+    swatches: ["#00f0ff", "#121214", "#ffffff"],
+    sizes: [7, 8, 9, 10, 11, 12],
+    rating: 5.0,
+    reviews: 342,
+    description: "High-top silhouette modeled directly from 3D blueprints. Full-grain black & white leather with pulsing Neon Cyan Swoosh and translucent icy blue outsole."
   },
   {
     id: 2,
-    name: "Shadow Core Stealth",
-    category: "Street",
-    price: 169,
-    old: 199,
+    name: "Air Jordan 1 Crimson Flame",
+    category: "High-Top",
+    price: 219,
+    old: 249,
     tag: "Best Seller",
-    colorName: "Matte Obsidian / Platinum",
-    colorHex: 0x16161a,
-    soleHex: 0x0a0a0d,
-    accentHex: 0xdfbd75,
-    darkHex: 0x222228,
-    swatches: ["#151517", "#dfbd75", "#ffffff"],
+    colorName: "Stealth Black / White / Crimson Glow",
+    colorConfig: {
+      upper: 0xffffff,
+      overlay: 0x121214,
+      swoosh: 0xff2a55,
+      emissive: 0xff0033,
+      sole: 0xffffff,
+      outsole: 0xff2a55
+    },
+    swatches: ["#ff2a55", "#121214", "#ffffff"],
     sizes: [7, 8, 9, 10, 11, 12],
-    rating: 4.8,
-    reviews: 94,
-    description: "Sleek low-profile street silhouette built with water-resistant matte leather and multi-density foam outsoles."
+    rating: 4.9,
+    reviews: 218,
+    description: "Iconic high-top profile with glowing Crimson Red lateral swoosh, metallic silver lace lock, and high-rebound cushioning."
   },
   {
     id: 3,
-    name: "Sovereign X Pro",
-    category: "Running",
-    price: 189,
-    old: 219,
+    name: "Air Jordan 1 Voltage Gold",
+    category: "High-Top",
+    price: 229,
+    old: 259,
     tag: "Trending",
-    colorName: "Onyx / Brushed Amber",
-    colorHex: 0x222226,
-    soleHex: 0x141211,
-    accentHex: 0xd9825b,
-    darkHex: 0x352b25,
-    swatches: ["#222226", "#c49a45", "#68686e"],
-    sizes: [8, 9, 10, 11],
+    colorName: "Stealth Black / White / Gold Glow",
+    colorConfig: {
+      upper: 0xffffff,
+      overlay: 0x121214,
+      swoosh: 0xffb700,
+      emissive: 0xff8800,
+      sole: 0xffffff,
+      outsole: 0xffb700
+    },
+    swatches: ["#ffb700", "#121214", "#ffffff"],
+    sizes: [8, 9, 10, 11, 12],
     rating: 4.9,
-    reviews: 210,
-    description: "Elite marathon-grade performance running sneaker equipped with carbon plate transition and adaptive cushioning."
+    reviews: 184,
+    description: "Luxury amber gold glow edition. Features high-top ankle collar, Wings badge, and translucent gold tread outsole."
   },
   {
     id: 4,
-    name: "Mono Court Heritage",
-    category: "Lifestyle",
-    price: 129,
-    old: 149,
-    tag: "Classic",
-    colorName: "Alabaster / Warm Copper",
-    colorHex: 0xf5f4ef,
-    soleHex: 0xe5e4dd,
-    accentHex: 0xd9825b,
-    darkHex: 0x333338,
-    swatches: ["#f5f4ef", "#d9825b", "#333333"],
+    name: "Air Jordan 1 Ultraviolet",
+    category: "High-Top",
+    price: 229,
+    old: 259,
+    tag: "Limited Edition",
+    colorName: "Stealth Black / White / Cyber Violet",
+    colorConfig: {
+      upper: 0xffffff,
+      overlay: 0x121214,
+      swoosh: 0xa855f7,
+      emissive: 0x9333ea,
+      sole: 0xffffff,
+      outsole: 0xa855f7
+    },
+    swatches: ["#a855f7", "#121214", "#ffffff"],
     sizes: [7, 8, 9, 10, 11],
     rating: 4.8,
-    reviews: 67,
-    description: "Timeless court silhouette handcrafted from full-grain Italian leather with hand-stitched rubber cupsole."
+    reviews: 145,
+    description: "Deep ultraviolet glowing swoosh with matte black overlays, white Italian leather panels, and icy violet sole."
   },
   {
     id: 5,
-    name: "Obsidian 90 Limited",
-    category: "Street",
-    price: 199,
-    old: 229,
-    tag: "Limited Edition",
-    colorName: "Midnight / Carbon Fiber",
-    colorHex: 0x1c1a24,
-    soleHex: 0x0f0e14,
-    accentHex: 0xc084fc,
-    darkHex: 0x2a2436,
-    swatches: ["#1c1a24", "#c084fc", "#111113"],
+    name: "Air Jordan 1 Emerald Glow",
+    category: "High-Top",
+    price: 219,
+    old: 249,
+    tag: "New Drop",
+    colorName: "Stealth Black / White / Emerald Green",
+    colorConfig: {
+      upper: 0xffffff,
+      overlay: 0x121214,
+      swoosh: 0x10b981,
+      emissive: 0x059669,
+      sole: 0xffffff,
+      outsole: 0x10b981
+    },
+    swatches: ["#10b981", "#121214", "#ffffff"],
     sizes: [8, 9, 10, 11, 12],
-    rating: 5.0,
-    reviews: 312,
-    description: "Numbered limited edition drop. Carbon fiber shank plate with translucent grip pattern and gold foil heel branding."
+    rating: 4.9,
+    reviews: 98,
+    description: "Vibrant neon emerald green accents with black leather overlays, silver lace tags, and responsive court sole."
   },
   {
     id: 6,
-    name: "Cloud Step Ultra",
-    category: "Lifestyle",
-    price: 139,
-    old: 159,
-    tag: "New",
-    colorName: "Pure White / Electric Blue",
-    colorHex: 0xe9f1f7,
-    soleHex: 0xd5e8f5,
-    accentHex: 0x38bdf8,
-    darkHex: 0x223040,
-    swatches: ["#e9f1f7", "#38bdf8", "#111113"],
-    sizes: [7, 8, 9, 10],
-    rating: 4.7,
-    reviews: 53,
-    description: "Ultra-breathable knit lifestyle sneaker designed for all-day comfort, effortless slip-on fit, and weightless stride."
+    name: "Air Jordan 1 Pure Ice",
+    category: "High-Top",
+    price: 209,
+    old: 239,
+    tag: "Classic",
+    colorName: "Pure White / Azure Ice Glow",
+    colorConfig: {
+      upper: 0xffffff,
+      overlay: 0xf0f0f5,
+      swoosh: 0x38bdf8,
+      emissive: 0x0284c7,
+      sole: 0xffffff,
+      outsole: 0x38bdf8
+    },
+    swatches: ["#38bdf8", "#ffffff", "#e2e8f0"],
+    sizes: [7, 8, 9, 10, 11],
+    rating: 4.8,
+    reviews: 167,
+    description: "Clean triple-white leather high-top silhouette highlighted by an electric icy blue swoosh and translucent blue outsole."
   }
 ];
 
-function Sneaker3D({
-  colorConfig = { upper: 0xeeeade, sole: 0x121215, accent: 0xc49a45, dark: 0x1c1c20 },
+function JordanHigh3D({
+  colorConfig = products[0].colorConfig,
   compact = false,
   interactiveHover = false
 }) {
@@ -132,10 +156,10 @@ function Sneaker3D({
     let renderer, scene, camera, shoeGroup;
     const currentMount = mount.current;
 
-    let targetRotX = -0.18;
-    let targetRotY = -0.28;
-    let currentRotX = -0.18;
-    let currentRotY = -0.28;
+    let targetRotX = -0.15;
+    let targetRotY = -0.25;
+    let currentRotX = -0.15;
+    let currentRotY = -0.25;
 
     let isDragging = false;
     let startMousePos = { x: 0, y: 0 };
@@ -153,8 +177,8 @@ function Sneaker3D({
         dragRotOffset.x += deltaY;
         startMousePos = { x: e.clientX, y: e.clientY };
       } else {
-        targetRotY = normX * 0.85 - 0.28;
-        targetRotX = normY * 0.4 - 0.18;
+        targetRotY = normX * 0.85 - 0.25;
+        targetRotX = normY * 0.4 - 0.15;
       }
     };
 
@@ -179,7 +203,7 @@ function Sneaker3D({
     try {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-      camera.position.set(0.15, 0.45, compact ? 6.2 : 5.7);
+      camera.position.set(0.1, 0.3, compact ? 6.4 : 5.8);
 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -190,111 +214,154 @@ function Sneaker3D({
 
       shoeGroup = new THREE.Group();
 
-      // High-End Pure 3D Sculpted Materials (NO IMAGE FILES!)
-      const upperMat = new THREE.MeshStandardMaterial({
+      // Materials matching the Air Jordan High Cyan Glow spec sheet
+      const whiteLeather = new THREE.MeshStandardMaterial({
         color: colorConfig.upper,
-        roughness: 0.38,
-        metalness: 0.06
+        roughness: 0.35,
+        metalness: 0.05
       });
-      const soleMat = new THREE.MeshStandardMaterial({
-        color: colorConfig.sole,
-        roughness: 0.25
-      });
-      const accentMat = new THREE.MeshStandardMaterial({
-        color: colorConfig.accent,
-        roughness: 0.24,
-        metalness: 0.55
-      });
-      const darkMat = new THREE.MeshStandardMaterial({
-        color: colorConfig.dark || 0x1c1c20,
+      const blackOverlay = new THREE.MeshStandardMaterial({
+        color: colorConfig.overlay,
         roughness: 0.45,
+        metalness: 0.08
+      });
+      const glowSwooshMat = new THREE.MeshStandardMaterial({
+        color: colorConfig.swoosh,
+        emissive: colorConfig.emissive,
+        emissiveIntensity: 0.75,
+        roughness: 0.2,
+        metalness: 0.3
+      });
+      const whiteSoleMat = new THREE.MeshStandardMaterial({
+        color: colorConfig.sole,
+        roughness: 0.3
+      });
+      const icyOutsoleMat = new THREE.MeshStandardMaterial({
+        color: colorConfig.outsole,
+        emissive: colorConfig.emissive,
+        emissiveIntensity: 0.4,
+        transparent: true,
+        opacity: 0.82,
+        roughness: 0.15,
         metalness: 0.1
       });
+      const silverMetalMat = new THREE.MeshStandardMaterial({
+        color: 0xe0e0e5,
+        roughness: 0.15,
+        metalness: 0.85
+      });
       const laceMat = new THREE.MeshStandardMaterial({
-        color: 0x27272c,
-        roughness: 0.65
+        color: 0x121215,
+        roughness: 0.7
       });
 
-      // 1. Sculpted Upper Main Mesh
-      const upper = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
-      upper.scale.set(1.72, 0.52, 0.72);
-      upper.position.set(0.15, 0.22, 0);
+      // 1. High-Top Ankle Collar (Black Leather Overlay)
+      const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.65, 0.8, 32), blackOverlay);
+      collar.position.set(-0.75, 0.85, 0);
+      collar.rotation.z = 0.22;
+      shoeGroup.add(collar);
+
+      // 2. White Leather Upper Body
+      const upper = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), whiteLeather);
+      upper.scale.set(1.68, 0.54, 0.72);
+      upper.position.set(0.12, 0.26, 0);
       shoeGroup.add(upper);
 
-      // 2. Toe Box Mesh
-      const toe = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
-      toe.scale.set(1.15, 0.46, 0.70);
-      toe.position.set(1.18, 0.18, 0);
+      // 3. White Toe Box
+      const toe = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), whiteLeather);
+      toe.scale.set(1.18, 0.44, 0.68);
+      toe.position.set(1.15, 0.18, 0);
       shoeGroup.add(toe);
 
-      // 3. Heel Counter Mesh
-      const heel = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 20), darkMat);
-      heel.scale.set(0.48, 0.58, 0.7);
-      heel.position.set(-1.25, 0.24, 0);
+      // 4. Black Toe Overlay (Mudguard)
+      const toeOverlay = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.12, 16, 32, Math.PI), blackOverlay);
+      toeOverlay.rotation.y = Math.PI / 2;
+      toeOverlay.position.set(1.22, 0.14, 0);
+      shoeGroup.add(toeOverlay);
+
+      // 5. Black Heel Counter
+      const heel = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 20), blackOverlay);
+      heel.scale.set(0.52, 0.64, 0.72);
+      heel.position.set(-1.22, 0.36, 0);
       shoeGroup.add(heel);
 
-      // 4. Outsole Platform Mesh
-      const sole = new THREE.Mesh(new THREE.BoxGeometry(3.55, 0.27, 1.34), soleMat);
-      sole.position.set(0.05, -0.28, 0);
-      sole.rotation.z = -0.025;
-      shoeGroup.add(sole);
+      // 6. White Rubber Midsole
+      const midSole = new THREE.Mesh(new THREE.BoxGeometry(3.55, 0.22, 1.34), whiteSoleMat);
+      midSole.position.set(0.05, -0.22, 0);
+      midSole.rotation.z = -0.02;
+      shoeGroup.add(midSole);
 
-      // 5. Midsole Metallic Cushioning Trim
-      const mid = new THREE.Mesh(new THREE.BoxGeometry(2.65, 0.16, 1.18), accentMat);
-      mid.position.set(0.35, -0.12, 0);
-      shoeGroup.add(mid);
+      // 7. Translucent Icy Glowing Outsole
+      const outSole = new THREE.Mesh(new THREE.BoxGeometry(3.58, 0.12, 1.36), icyOutsoleMat);
+      outSole.position.set(0.05, -0.37, 0);
+      outSole.rotation.z = -0.02;
+      shoeGroup.add(outSole);
 
-      // 6. 3D Sculpted Laces
-      for (let i = 0; i < 5; i++) {
-        const lace = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.035, 0.06), laceMat);
-        lace.position.set(0.05 + i * 0.28, 0.66, 0.62);
-        lace.rotation.z = -0.1;
+      // 8. Glowing Electric Cyan Swoosh (Lateral Side)
+      const swoosh = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.09, 0.12), glowSwooshMat);
+      swoosh.position.set(-0.25, 0.54, 0.70);
+      swoosh.rotation.z = -0.36;
+      shoeGroup.add(swoosh);
+
+      // Swoosh Medial Side
+      const swooshMedial = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.09, 0.12), glowSwooshMat);
+      swooshMedial.position.set(-0.25, 0.54, -0.70);
+      swooshMedial.rotation.z = -0.36;
+      shoeGroup.add(swooshMedial);
+
+      // 9. Black Lacing System (6 Lace Bars)
+      for (let i = 0; i < 6; i++) {
+        const lace = new THREE.Mesh(new THREE.BoxGeometry(0.60, 0.035, 0.06), laceMat);
+        lace.position.set(-0.2 + i * 0.26, 0.58 + i * 0.06, 0.62);
+        lace.rotation.z = -0.15;
         shoeGroup.add(lace);
       }
 
-      // 7. Lateral Metallic Branding Stripe
-      const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.08, 0.11), accentMat);
-      stripe.position.set(-0.38, 0.58, 0.69);
-      stripe.rotation.z = -0.34;
-      shoeGroup.add(stripe);
+      // 10. Metallic Silver Lace Lock Tag
+      const laceLock = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.08, 0.14), silverMetalMat);
+      laceLock.position.set(0.95, 0.38, 0.62);
+      shoeGroup.add(laceLock);
 
-      // 8. Metallic Heel Ring Counter
-      const ring = new THREE.Mesh(
-        new THREE.TorusGeometry(0.74, 0.035, 10, 64, Math.PI * 1.25),
-        accentMat
+      // 11. Ankle Wings Logo Badge
+      const wingsBadge = new THREE.Mesh(
+        new THREE.TorusGeometry(0.24, 0.03, 10, 32),
+        glowSwooshMat
       );
-      ring.rotation.y = Math.PI / 2;
-      ring.rotation.z = 0.25;
-      ring.position.set(-0.72, 0.34, 0.57);
-      shoeGroup.add(ring);
+      wingsBadge.rotation.y = Math.PI / 2;
+      wingsBadge.position.set(-0.78, 0.95, 0.64);
+      shoeGroup.add(wingsBadge);
 
-      // 9. Soft Ground Shadow Plane
+      // 12. Soft Ground Glow Shadow Disc
       const shadowGeo = new THREE.PlaneGeometry(3.8, 1.4);
       const shadowMat = new THREE.MeshBasicMaterial({
-        color: 0x000000,
+        color: colorConfig.swoosh,
         transparent: true,
-        opacity: 0.18,
+        opacity: 0.25,
         side: THREE.DoubleSide
       });
       const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
       shadowMesh.rotation.x = Math.PI / 2;
-      shadowMesh.position.set(0, -0.45, 0);
+      shadowMesh.position.set(0, -0.46, 0);
       shoeGroup.add(shadowMesh);
 
-      shoeGroup.rotation.x = -0.18;
-      shoeGroup.rotation.y = -0.28;
-      shoeGroup.rotation.z = 0.08;
+      shoeGroup.rotation.x = -0.15;
+      shoeGroup.rotation.y = -0.25;
+      shoeGroup.rotation.z = 0.06;
       scene.add(shoeGroup);
 
-      // Studio Lighting
-      scene.add(new THREE.HemisphereLight(0xffffff, 0x1f1f24, 2.5));
-      const key = new THREE.DirectionalLight(0xfff9ef, 3.5);
+      // Cyan Electric Glow Lighting setup
+      scene.add(new THREE.HemisphereLight(0xffffff, 0x111115, 2.2));
+      const key = new THREE.DirectionalLight(0xffffff, 3.8);
       key.position.set(3, 5, 5);
       scene.add(key);
 
-      const fill = new THREE.PointLight(colorConfig.accent, 7, 12);
-      fill.position.set(-3, 1, 3);
-      scene.add(fill);
+      const cyanGlowLight = new THREE.PointLight(colorConfig.swoosh, 10, 15);
+      cyanGlowLight.position.set(0, -0.2, 1.2);
+      scene.add(cyanGlowLight);
+
+      const rimLight = new THREE.PointLight(colorConfig.swoosh, 8, 12);
+      rimLight.position.set(-3, 2, -2);
+      scene.add(rimLight);
 
       const resize = () => {
         if (!currentMount) return;
@@ -308,17 +375,21 @@ function Sneaker3D({
       let time = Math.random() * 10;
       const animate = () => {
         frame = requestAnimationFrame(animate);
-        time += 0.012;
+        time += 0.014;
+
+        // Pulsing Neon Glow Effect
+        glowSwooshMat.emissiveIntensity = 0.6 + Math.sin(time * 3) * 0.25;
+        cyanGlowLight.intensity = 8 + Math.sin(time * 3) * 3;
 
         // Cursor-Only tilt + Mouse Drag (NO page scroll angle!)
-        const idleRotY = Math.sin(time) * 0.04;
-        const idleRotX = Math.cos(time * 0.7) * 0.03;
+        const idleRotY = Math.sin(time * 0.8) * 0.04;
+        const idleRotX = Math.cos(time * 0.6) * 0.03;
 
         const finalTargetY = targetRotY + dragRotOffset.y + idleRotY;
         const finalTargetX = targetRotX + dragRotOffset.x + idleRotX;
 
-        currentRotY += (finalTargetY - currentRotY) * 0.065;
-        currentRotX += (finalTargetX - currentRotX) * 0.065;
+        currentRotY += (finalTargetY - currentRotY) * 0.07;
+        currentRotX += (finalTargetX - currentRotX) * 0.07;
 
         shoeGroup.rotation.y = currentRotY;
         shoeGroup.rotation.x = currentRotX;
@@ -347,7 +418,7 @@ function Sneaker3D({
     }
   }, [colorConfig, compact, interactiveHover]);
 
-  return <div ref={mount} className={"shoe3d " + (compact ? "compact" : "")} aria-label="Pure 3D sculpted sneaker canvas"></div>;
+  return <div ref={mount} className={"shoe3d " + (compact ? "compact" : "")} aria-label="High-Top Air Jordan 3D Sneaker Canvas"></div>;
 }
 
 function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
@@ -365,10 +436,10 @@ function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
           <Heart size={18} fill={wished ? "currentColor" : "none"} />
         </button>
 
-        {/* Pure 3D Sculpted Sneaker Canvas floating directly on the page! */}
+        {/* Air Jordan High 3D Canvas floating directly on the page! */}
         <div className="card-3d-wrapper">
-          <Sneaker3D
-            colorConfig={{ upper: p.colorHex, sole: p.soleHex, accent: p.accentHex, dark: p.darkHex }}
+          <JordanHigh3D
+            colorConfig={p.colorConfig}
             compact
             interactiveHover
           />
@@ -516,7 +587,7 @@ function App() {
           <div className="hero-copy">
             <div className="eyebrow"><Sparkles size={15} /> SPRING / SUMMER 2026</div>
             <h1>MOVE<br /><em>DIFFERENT.</em></h1>
-            <p>Engineered sneakers for people who don't stand still. Precision comfort, sculptural 3D design and everyday energy.</p>
+            <p>Engineered high-top sneakers modeled directly from 3D blueprints. Precision comfort, glowing neon cyan accents, and everyday energy.</p>
             <div className="hero-buttons">
               <a href="#shop" className="primary">Explore collection <ArrowRight /></a>
               <a href="#story" className="text-link">Why Soleva <ArrowRight /></a>
@@ -531,18 +602,18 @@ function App() {
             <div className="orbit orbit1"></div>
             <div className="orbit orbit2"></div>
             <div className="scroll-sneaker">
-              <Sneaker3D colorConfig={{ upper: 0xeeeade, sole: 0x121215, accent: 0xc49a45 }} />
+              <JordanHigh3D colorConfig={products[0].colorConfig} />
             </div>
             <div className="floating-label label-a"><Rotate3D size={17} /><span>360°<small>DRAG TO ROTATE</small></span></div>
-            <div className="floating-label label-b"><Zap size={17} /><span>PURE 3D<small>NO IMAGES</small></span></div>
+            <div className="floating-label label-b"><Zap size={17} /><span>NEON GLOW<small>3D JORDAN</small></span></div>
           </div>
         </section>
 
         <section className="marquee">
-          <div>ENGINEERED FOR MOTION · PURE 3D FOOTWEAR · ENGINEERED FOR MOTION · PURE 3D FOOTWEAR · </div>
+          <div>AIR JORDAN 1 GLOW SHOWCASE · NEON CYAN EMBEDDED 3D · AIR JORDAN 1 GLOW SHOWCASE · </div>
         </section>
 
-        {/* Shop Grid Section with Pure 3D Sculpted Shoes (NO CARDS!) */}
+        {/* Shop Grid Section with Air Jordan 1 Glow 3D Shoes (NO CARDS!) */}
         <section id="shop" className="shop-section">
           <div className="section-head">
             <div>
@@ -556,7 +627,7 @@ function App() {
 
           <div className={"shop-controls " + (shopOpen ? "show" : "")}>
             <div className="chips">
-              {["All", "Running", "Street", "Lifestyle"].map(c => (
+              {["All", "High-Top", "Running", "Street", "Lifestyle"].map(c => (
                 <button className={category === c ? "selected" : ""} onClick={() => setCategory(c)} key={c}>{c}</button>
               ))}
             </div>
@@ -597,7 +668,7 @@ function App() {
           <div className="feature-visual">
             <div className="spec-ring">S<span>3</span></div>
             <div className="feature-shoe">
-              <Sneaker3D compact colorConfig={{ upper: 0x222226, sole: 0x141211, accent: 0xd9825b }} />
+              <JordanHigh3D compact colorConfig={products[1].colorConfig} />
             </div>
             <div className="spec-label top">RESPONSIVE<br />FOAM</div>
             <div className="spec-label bottom">LIGHTWEIGHT<br />MESH</div>
@@ -649,7 +720,7 @@ function App() {
             <p>Premium sneakers for people in motion.</p>
             <div className="socials"><Instagram /><Facebook /><Twitter /></div>
           </div>
-          <div><b>SHOP</b><a href="#shop">All sneakers</a><a href="#shop">Running</a><a href="#shop">Street</a></div>
+          <div><b>SHOP</b><a href="#shop">All sneakers</a><a href="#shop">High-Top</a><a href="#shop">Street</a></div>
           <div><b>HELP</b><a href="#story">Shipping</a><a href="#story">Returns</a><a href="#story">Contact</a></div>
           <div>
             <b>STAY IN THE LOOP</b>
@@ -666,7 +737,7 @@ function App() {
           <div className="quick-modal" onClick={e => e.stopPropagation()}>
             <button className="modal-close" onClick={() => setQuickProduct(null)}><X size={18} /></button>
             <div className="modal-art">
-              <Sneaker3D colorConfig={{ upper: quickProduct.colorHex, sole: quickProduct.soleHex, accent: quickProduct.accentHex, dark: quickProduct.darkHex }} compact />
+              <JordanHigh3D colorConfig={quickProduct.colorConfig} compact />
             </div>
             <div className="modal-details">
               <span className="tag">{quickProduct.tag}</span>
@@ -677,8 +748,8 @@ function App() {
               </div>
               <p>{quickProduct.description}</p>
               <div className="specs-list">
-                <div><ShieldCheck size={16} /> <span>100% Genuine Italian Leather & Engineered Mesh</span></div>
-                <div><Zap size={16} /> <span>Tri-Density Reactive Foam Cushioning</span></div>
+                <div><ShieldCheck size={16} /> <span>100% Genuine Italian Leather & High-Top Collar</span></div>
+                <div><Zap size={16} /> <span>Pulsing Neon Swoosh & Translucent Icy Outsole</span></div>
                 <div><Truck size={16} /> <span>Free Express Shipping & 30-Day Returns</span></div>
               </div>
               <button
