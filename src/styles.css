@@ -402,7 +402,7 @@ a { text-decoration: none; color: inherit; }
 }
 .filter-toggle { display: none; }
 
-/* 3D Product Cards Grid */
+/* Real 3D Product Cards Grid */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -904,20 +904,12 @@ footer {
   gap: 14px;
   align-items: center;
 }
-.cart-swatch {
+.cart-item-img {
   width: 75px;
   height: 75px;
   border-radius: 12px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line);
-}
-.cart-swatch div {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  object-fit: cover;
+  background: #eee;
 }
 .cart-meta { display: grid; gap: 4px; }
 .cart-meta b { font-size: 14px; }
