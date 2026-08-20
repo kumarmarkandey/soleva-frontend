@@ -17,7 +17,10 @@ const products = [
     old: 179,
     tag: "New Release",
     colorName: "Champagne Gold / Slate",
-    imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+    colorHex: 0xeeeade,
+    soleHex: 0x121215,
+    accentHex: 0xc49a45,
+    darkHex: 0x1c1c20,
     swatches: ["#e8e5df", "#c49a45", "#111113"],
     sizes: [7, 8, 9, 10, 11],
     rating: 4.9,
@@ -32,7 +35,10 @@ const products = [
     old: 199,
     tag: "Best Seller",
     colorName: "Matte Obsidian / Platinum",
-    imageUrl: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80",
+    colorHex: 0x16161a,
+    soleHex: 0x0a0a0d,
+    accentHex: 0xdfbd75,
+    darkHex: 0x222228,
     swatches: ["#151517", "#dfbd75", "#ffffff"],
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 4.8,
@@ -47,7 +53,10 @@ const products = [
     old: 219,
     tag: "Trending",
     colorName: "Onyx / Brushed Amber",
-    imageUrl: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80",
+    colorHex: 0x222226,
+    soleHex: 0x141211,
+    accentHex: 0xd9825b,
+    darkHex: 0x352b25,
     swatches: ["#222226", "#c49a45", "#68686e"],
     sizes: [8, 9, 10, 11],
     rating: 4.9,
@@ -62,7 +71,10 @@ const products = [
     old: 149,
     tag: "Classic",
     colorName: "Alabaster / Warm Copper",
-    imageUrl: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=800&q=80",
+    colorHex: 0xf5f4ef,
+    soleHex: 0xe5e4dd,
+    accentHex: 0xd9825b,
+    darkHex: 0x333338,
     swatches: ["#f5f4ef", "#d9825b", "#333333"],
     sizes: [7, 8, 9, 10, 11],
     rating: 4.8,
@@ -77,7 +89,10 @@ const products = [
     old: 229,
     tag: "Limited Edition",
     colorName: "Midnight / Carbon Fiber",
-    imageUrl: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
+    colorHex: 0x1c1a24,
+    soleHex: 0x0f0e14,
+    accentHex: 0xc084fc,
+    darkHex: 0x2a2436,
     swatches: ["#1c1a24", "#c084fc", "#111113"],
     sizes: [8, 9, 10, 11, 12],
     rating: 5.0,
@@ -92,7 +107,10 @@ const products = [
     old: 159,
     tag: "New",
     colorName: "Pure White / Electric Blue",
-    imageUrl: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=800&q=80",
+    colorHex: 0xe9f1f7,
+    soleHex: 0xd5e8f5,
+    accentHex: 0x38bdf8,
+    darkHex: 0x223040,
     swatches: ["#e9f1f7", "#38bdf8", "#111113"],
     sizes: [7, 8, 9, 10],
     rating: 4.7,
@@ -102,7 +120,7 @@ const products = [
 ];
 
 function Sneaker3D({
-  imageUrl = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+  colorConfig = { upper: 0xeeeade, sole: 0x121215, accent: 0xc49a45, dark: 0x1c1c20 },
   compact = false,
   interactiveHover = false
 }) {
@@ -114,10 +132,10 @@ function Sneaker3D({
     let renderer, scene, camera, shoeGroup;
     const currentMount = mount.current;
 
-    let targetRotX = -0.15;
-    let targetRotY = -0.2;
-    let currentRotX = -0.15;
-    let currentRotY = -0.2;
+    let targetRotX = -0.18;
+    let targetRotY = -0.28;
+    let currentRotX = -0.18;
+    let currentRotY = -0.28;
 
     let isDragging = false;
     let startMousePos = { x: 0, y: 0 };
@@ -135,8 +153,8 @@ function Sneaker3D({
         dragRotOffset.x += deltaY;
         startMousePos = { x: e.clientX, y: e.clientY };
       } else {
-        targetRotY = normX * 0.8 - 0.2;
-        targetRotX = normY * 0.4 - 0.15;
+        targetRotY = normX * 0.85 - 0.28;
+        targetRotX = normY * 0.4 - 0.18;
       }
     };
 
@@ -161,7 +179,7 @@ function Sneaker3D({
     try {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-      camera.position.set(0, 0, compact ? 5.8 : 5.2);
+      camera.position.set(0.15, 0.45, compact ? 6.2 : 5.7);
 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -172,56 +190,109 @@ function Sneaker3D({
 
       shoeGroup = new THREE.Group();
 
-      // Texture real high-resolution sneaker photography onto 3D Canvas Mesh
-      const textureLoader = new THREE.TextureLoader();
-      textureLoader.crossOrigin = "anonymous";
-      textureLoader.load(imageUrl, (texture) => {
-        texture.colorSpace = THREE.SRGBColorSpace;
-
-        const geometry = new THREE.PlaneGeometry(3.6, 2.7, 32, 32);
-        const pos = geometry.attributes.position;
-        for (let i = 0; i < pos.count; i++) {
-          const u = (pos.getX(i) + 1.8) / 3.6;
-          const v = (pos.getY(i) + 1.35) / 2.7;
-          const depthZ = -Math.pow(u - 0.5, 2) * 0.45 - Math.pow(v - 0.5, 2) * 0.25;
-          pos.setZ(i, depthZ);
-        }
-        geometry.computeVertexNormals();
-
-        const material = new THREE.MeshStandardMaterial({
-          map: texture,
-          transparent: true,
-          side: THREE.DoubleSide,
-          roughness: 0.35,
-          metalness: 0.15,
-        });
-
-        const shoeMesh = new THREE.Mesh(geometry, material);
-        shoeGroup.add(shoeMesh);
-
-        // 3D Soft Shadow Base Plane
-        const shadowGeo = new THREE.PlaneGeometry(3.8, 1.2);
-        const shadowMat = new THREE.MeshBasicMaterial({
-          color: 0x000000,
-          transparent: true,
-          opacity: 0.22,
-          side: THREE.DoubleSide
-        });
-        const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
-        shadowMesh.rotation.x = Math.PI / 2;
-        shadowMesh.position.set(0, -1.3, 0);
-        shoeGroup.add(shadowMesh);
+      // High-End Pure 3D Sculpted Materials (NO IMAGE FILES!)
+      const upperMat = new THREE.MeshStandardMaterial({
+        color: colorConfig.upper,
+        roughness: 0.38,
+        metalness: 0.06
+      });
+      const soleMat = new THREE.MeshStandardMaterial({
+        color: colorConfig.sole,
+        roughness: 0.25
+      });
+      const accentMat = new THREE.MeshStandardMaterial({
+        color: colorConfig.accent,
+        roughness: 0.24,
+        metalness: 0.55
+      });
+      const darkMat = new THREE.MeshStandardMaterial({
+        color: colorConfig.dark || 0x1c1c20,
+        roughness: 0.45,
+        metalness: 0.1
+      });
+      const laceMat = new THREE.MeshStandardMaterial({
+        color: 0x27272c,
+        roughness: 0.65
       });
 
+      // 1. Sculpted Upper Main Mesh
+      const upper = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
+      upper.scale.set(1.72, 0.52, 0.72);
+      upper.position.set(0.15, 0.22, 0);
+      shoeGroup.add(upper);
+
+      // 2. Toe Box Mesh
+      const toe = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
+      toe.scale.set(1.15, 0.46, 0.70);
+      toe.position.set(1.18, 0.18, 0);
+      shoeGroup.add(toe);
+
+      // 3. Heel Counter Mesh
+      const heel = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 20), darkMat);
+      heel.scale.set(0.48, 0.58, 0.7);
+      heel.position.set(-1.25, 0.24, 0);
+      shoeGroup.add(heel);
+
+      // 4. Outsole Platform Mesh
+      const sole = new THREE.Mesh(new THREE.BoxGeometry(3.55, 0.27, 1.34), soleMat);
+      sole.position.set(0.05, -0.28, 0);
+      sole.rotation.z = -0.025;
+      shoeGroup.add(sole);
+
+      // 5. Midsole Metallic Cushioning Trim
+      const mid = new THREE.Mesh(new THREE.BoxGeometry(2.65, 0.16, 1.18), accentMat);
+      mid.position.set(0.35, -0.12, 0);
+      shoeGroup.add(mid);
+
+      // 6. 3D Sculpted Laces
+      for (let i = 0; i < 5; i++) {
+        const lace = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.035, 0.06), laceMat);
+        lace.position.set(0.05 + i * 0.28, 0.66, 0.62);
+        lace.rotation.z = -0.1;
+        shoeGroup.add(lace);
+      }
+
+      // 7. Lateral Metallic Branding Stripe
+      const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.08, 0.11), accentMat);
+      stripe.position.set(-0.38, 0.58, 0.69);
+      stripe.rotation.z = -0.34;
+      shoeGroup.add(stripe);
+
+      // 8. Metallic Heel Ring Counter
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(0.74, 0.035, 10, 64, Math.PI * 1.25),
+        accentMat
+      );
+      ring.rotation.y = Math.PI / 2;
+      ring.rotation.z = 0.25;
+      ring.position.set(-0.72, 0.34, 0.57);
+      shoeGroup.add(ring);
+
+      // 9. Soft Ground Shadow Plane
+      const shadowGeo = new THREE.PlaneGeometry(3.8, 1.4);
+      const shadowMat = new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        transparent: true,
+        opacity: 0.18,
+        side: THREE.DoubleSide
+      });
+      const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+      shadowMesh.rotation.x = Math.PI / 2;
+      shadowMesh.position.set(0, -0.45, 0);
+      shoeGroup.add(shadowMesh);
+
+      shoeGroup.rotation.x = -0.18;
+      shoeGroup.rotation.y = -0.28;
+      shoeGroup.rotation.z = 0.08;
       scene.add(shoeGroup);
 
       // Studio Lighting
-      scene.add(new THREE.HemisphereLight(0xffffff, 0x1f1f24, 2.8));
+      scene.add(new THREE.HemisphereLight(0xffffff, 0x1f1f24, 2.5));
       const key = new THREE.DirectionalLight(0xfff9ef, 3.5);
       key.position.set(3, 5, 5);
       scene.add(key);
 
-      const fill = new THREE.PointLight(0xc49a45, 7, 12);
+      const fill = new THREE.PointLight(colorConfig.accent, 7, 12);
       fill.position.set(-3, 1, 3);
       scene.add(fill);
 
@@ -239,20 +310,18 @@ function Sneaker3D({
         frame = requestAnimationFrame(animate);
         time += 0.012;
 
-        // Smooth Cursor-Only tilt + Mouse Drag (NO page scroll angle!)
+        // Cursor-Only tilt + Mouse Drag (NO page scroll angle!)
         const idleRotY = Math.sin(time) * 0.04;
         const idleRotX = Math.cos(time * 0.7) * 0.03;
 
         const finalTargetY = targetRotY + dragRotOffset.y + idleRotY;
         const finalTargetX = targetRotX + dragRotOffset.x + idleRotX;
 
-        currentRotY += (finalTargetY - currentRotY) * 0.07;
-        currentRotX += (finalTargetX - currentRotX) * 0.07;
+        currentRotY += (finalTargetY - currentRotY) * 0.065;
+        currentRotX += (finalTargetX - currentRotX) * 0.065;
 
-        if (shoeGroup) {
-          shoeGroup.rotation.y = currentRotY;
-          shoeGroup.rotation.x = currentRotX;
-        }
+        shoeGroup.rotation.y = currentRotY;
+        shoeGroup.rotation.x = currentRotX;
 
         renderer.render(scene, camera);
       };
@@ -276,9 +345,9 @@ function Sneaker3D({
     } catch (e) {
       console.warn("WebGL initialization skipped:", e);
     }
-  }, [imageUrl, compact, interactiveHover]);
+  }, [colorConfig, compact, interactiveHover]);
 
-  return <div ref={mount} className={"shoe3d " + (compact ? "compact" : "")} aria-label="Cursor-responsive real 3D sneaker canvas"></div>;
+  return <div ref={mount} className={"shoe3d " + (compact ? "compact" : "")} aria-label="Pure 3D sculpted sneaker canvas"></div>;
 }
 
 function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
@@ -296,10 +365,10 @@ function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
           <Heart size={18} fill={wished ? "currentColor" : "none"} />
         </button>
 
-        {/* Real 3D Sneaker Canvas inside every card! */}
+        {/* Pure 3D Sculpted Sneaker Canvas floating directly on the page! */}
         <div className="card-3d-wrapper">
           <Sneaker3D
-            imageUrl={p.imageUrl}
+            colorConfig={{ upper: p.colorHex, sole: p.soleHex, accent: p.accentHex, dark: p.darkHex }}
             compact
             interactiveHover
           />
@@ -462,18 +531,18 @@ function App() {
             <div className="orbit orbit1"></div>
             <div className="orbit orbit2"></div>
             <div className="scroll-sneaker">
-              <Sneaker3D imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=80" />
+              <Sneaker3D colorConfig={{ upper: 0xeeeade, sole: 0x121215, accent: 0xc49a45 }} />
             </div>
             <div className="floating-label label-a"><Rotate3D size={17} /><span>360°<small>DRAG TO ROTATE</small></span></div>
-            <div className="floating-label label-b"><Zap size={17} /><span>REAL 3D<small>CURSOR ONLY</small></span></div>
+            <div className="floating-label label-b"><Zap size={17} /><span>PURE 3D<small>NO IMAGES</small></span></div>
           </div>
         </section>
 
         <section className="marquee">
-          <div>ENGINEERED FOR MOTION · REAL 3D FOOTWEAR · ENGINEERED FOR MOTION · REAL 3D FOOTWEAR · </div>
+          <div>ENGINEERED FOR MOTION · PURE 3D FOOTWEAR · ENGINEERED FOR MOTION · PURE 3D FOOTWEAR · </div>
         </section>
 
-        {/* Shop Grid Section with Real 3D Shoes */}
+        {/* Shop Grid Section with Pure 3D Sculpted Shoes (NO CARDS!) */}
         <section id="shop" className="shop-section">
           <div className="section-head">
             <div>
@@ -528,7 +597,7 @@ function App() {
           <div className="feature-visual">
             <div className="spec-ring">S<span>3</span></div>
             <div className="feature-shoe">
-              <Sneaker3D compact imageUrl="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=1000&q=80" />
+              <Sneaker3D compact colorConfig={{ upper: 0x222226, sole: 0x141211, accent: 0xd9825b }} />
             </div>
             <div className="spec-label top">RESPONSIVE<br />FOAM</div>
             <div className="spec-label bottom">LIGHTWEIGHT<br />MESH</div>
@@ -597,7 +666,7 @@ function App() {
           <div className="quick-modal" onClick={e => e.stopPropagation()}>
             <button className="modal-close" onClick={() => setQuickProduct(null)}><X size={18} /></button>
             <div className="modal-art">
-              <Sneaker3D imageUrl={quickProduct.imageUrl} compact />
+              <Sneaker3D colorConfig={{ upper: quickProduct.colorHex, sole: quickProduct.soleHex, accent: quickProduct.accentHex, dark: quickProduct.darkHex }} compact />
             </div>
             <div className="modal-details">
               <span className="tag">{quickProduct.tag}</span>
@@ -648,7 +717,9 @@ function App() {
                 <div className="cart-items">
                   {cart.map((i, idx) => (
                     <div className="cart-item" key={idx}>
-                      <img src={i.imageUrl} alt={i.name} className="cart-item-img" />
+                      <div className="cart-swatch" style={{ background: i.swatches[0] }}>
+                        <div style={{ background: i.swatches[1] }}></div>
+                      </div>
                       <div className="cart-meta">
                         <b>{i.name}</b>
                         <span>UK {i.selectedSize} · ${i.price}</span>
