@@ -402,34 +402,29 @@ a { text-decoration: none; color: inherit; }
 }
 .filter-toggle { display: none; }
 
-/* Real 3D Product Cards Grid */
+/* BORDERLESS REAL 3D SHOES GRID (NO CARD BOXES/CONTAINERS!) */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  gap: 40px 32px;
 }
 .product-card {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 16px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   position: relative;
-  overflow: hidden;
-}
-.product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-  border-color: rgba(196, 154, 69, 0.4);
+  overflow: visible;
+  box-shadow: none;
 }
 .product-art {
-  height: 330px;
-  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,1) 0%, rgba(242, 241, 236, 1) 100%);
-  border-radius: 14px;
+  height: 340px;
+  background: transparent;
+  border-radius: 0;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -439,12 +434,16 @@ a { text-decoration: none; color: inherit; }
   width: 100%;
   height: 100%;
   position: relative;
+  transition: transform 0.35s ease;
+}
+.product-art:hover .card-3d-wrapper {
+  transform: translateY(-6px) scale(1.04);
 }
 
 .tag {
   position: absolute;
-  left: 14px;
-  top: 14px;
+  left: 0;
+  top: 0;
   background: var(--ink);
   color: #fff;
   padding: 6px 12px;
@@ -457,9 +456,9 @@ a { text-decoration: none; color: inherit; }
 }
 .wish-btn {
   position: absolute;
-  right: 14px;
-  top: 14px;
-  border: 0;
+  right: 0;
+  top: 0;
+  border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.9);
   width: 38px;
   height: 38px;
@@ -469,38 +468,38 @@ a { text-decoration: none; color: inherit; }
   z-index: 5;
   transition: transform 0.2s, background 0.2s;
   backdrop-filter: blur(8px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
-.wish-btn:hover { transform: scale(1.1); background: #fff; }
+.wish-btn:hover { transform: scale(1.1); background: #fff; border-color: var(--gold); }
 .wish-btn.active { color: #ff3e50; }
 
 .quick-view-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(14, 14, 17, 0.35);
-  backdrop-filter: blur(3px);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.25s ease;
   z-index: 6;
+  pointer-events: none;
 }
 .product-art:hover .quick-view-overlay {
   opacity: 1;
 }
 .quick-view-btn {
-  background: #fff;
-  color: var(--ink);
+  pointer-events: auto;
+  background: var(--ink);
+  color: #fff;
   border: 0;
   border-radius: 100px;
   padding: 10px 20px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.18);
   transform: translateY(10px);
   transition: transform 0.25s ease;
 }
@@ -509,7 +508,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 .product-info {
-  margin-top: 16px;
+  margin-top: 14px;
 }
 .product-info-header {
   display: flex;
@@ -517,7 +516,7 @@ a { text-decoration: none; color: inherit; }
   align-items: flex-start;
 }
 .product-info h3 {
-  font: 600 17px "Space Grotesk";
+  font: 600 18px "Space Grotesk";
   margin: 4px 0 2px;
   color: var(--ink);
 }
@@ -544,7 +543,7 @@ a { text-decoration: none; color: inherit; }
   margin-top: 2px;
 }
 .price b {
-  font: 700 17px "Space Grotesk";
+  font: 700 18px "Space Grotesk";
   color: var(--ink);
 }
 .price del {
@@ -571,7 +570,7 @@ a { text-decoration: none; color: inherit; }
 }
 .size-pill {
   border: 1px solid var(--line);
-  background: var(--bg);
+  background: #fff;
   border-radius: 8px;
   padding: 5px 10px;
   font-size: 11px;
@@ -952,7 +951,7 @@ footer {
   .hero h1 { font-size: clamp(65px, 16vw, 110px); }
   .hero-visual { min-height: 470px; }
   .scroll-sneaker { height: 480px; }
-  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
   .quick-modal { grid-template-columns: 1fr; }
   .feature { grid-template-columns: 1fr; padding: 80px 5vw; }
   .feature-visual { min-height: 500px; }
