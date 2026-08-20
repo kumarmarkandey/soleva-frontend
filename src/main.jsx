@@ -21,92 +21,109 @@ function Sneaker3D({progress=0, compact=false}) {
   const mount = useRef(null);
   useEffect(() => {
     if (!mount.current) return;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-    camera.position.set(0.15, 0.45, 5.7);
-    const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(mount.current.clientWidth || 500, mount.current.clientHeight || 500);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    mount.current.appendChild(renderer.domElement);
-
-    const shoe = new THREE.Group();
-    const upperMat = new THREE.MeshStandardMaterial({color:0xe9e6df, roughness:.48, metalness:.04});
-    const soleMat = new THREE.MeshStandardMaterial({color:0x111114, roughness:.3});
-    const accentMat = new THREE.MeshStandardMaterial({color:0xc8ff43, roughness:.34, metalness:.05});
-    const darkMat = new THREE.MeshStandardMaterial({color:0x1b1b1f, roughness:.5});
-    const laceMat = new THREE.MeshStandardMaterial({color:0x222226, roughness:.7});
-
-    const upper = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
-    upper.scale.set(1.72,.52,.72);
-    upper.position.set(.15,.22,0);
-    shoe.add(upper);
-
-    const toe = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
-    toe.scale.set(1.15,.46,.70);
-    toe.position.set(1.18,.18,0);
-    shoe.add(toe);
-
-    const heel = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 20), darkMat);
-    heel.scale.set(.48,.58,.7);
-    heel.position.set(-1.25,.24,0);
-    shoe.add(heel);
-
-    const sole = new THREE.Mesh(new THREE.BoxGeometry(3.55,.27,1.34), soleMat);
-    sole.position.set(.05,-.28,0);
-    sole.rotation.z=-.025;
-    shoe.add(sole);
-
-    const mid = new THREE.Mesh(new THREE.BoxGeometry(2.65,.16,1.18), accentMat);
-    mid.position.set(.35,-.12,0);
-    shoe.add(mid);
-
-    for(let i=0;i<5;i++){
-      const lace = new THREE.Mesh(new THREE.BoxGeometry(.62,.035,.06), laceMat);
-      lace.position.set(.05 + i*.28,.66, .62);
-      lace.rotation.z=-.1;
-      shoe.add(lace);
-    }
-
-    const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.15,.08,.11), accentMat);
-    stripe.position.set(-.38,.58,.69);
-    stripe.rotation.z=-.34;
-    shoe.add(stripe);
-
-    const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(.74,.035,10,64,Math.PI*1.25),
-      accentMat
-    );
-    ring.rotation.y=Math.PI/2;
-    ring.rotation.z=.25;
-    ring.position.set(-.72,.34,.57);
-    shoe.add(ring);
-
-    shoe.rotation.x=-.18;
-    shoe.rotation.y=-.28;
-    shoe.rotation.z=.08;
-    scene.add(shoe);
-
-    scene.add(new THREE.HemisphereLight(0xffffff,0x242424,2.2));
-    const key = new THREE.DirectionalLight(0xffffff,3.2);
-    key.position.set(3,5,5); scene.add(key);
-    const fill = new THREE.PointLight(0xc8ff43,7,10);
-    fill.position.set(-3,1,3); scene.add(fill);
-
     let frame;
-    const resize=()=>{
-      const w=mount.current.clientWidth||500, h=mount.current.clientHeight||500;
-      camera.aspect=w/h; camera.updateProjectionMatrix(); renderer.setSize(w,h);
-    };
-    window.addEventListener("resize",resize);
-    const animate=()=>{
-      frame=requestAnimationFrame(animate);
-      shoe.rotation.y += .0045;
-      renderer.render(scene,camera);
-    };
-    animate();
+    let renderer, scene, camera;
+    const currentMount = mount.current;
 
-    return ()=>{cancelAnimationFrame(frame);window.removeEventListener("resize",resize);renderer.dispose();mount.current?.removeChild(renderer.domElement);};
+    try {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+      camera.position.set(0.15, 0.45, 5.7);
+      renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(currentMount.clientWidth || 500, currentMount.clientHeight || 500);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      currentMount.appendChild(renderer.domElement);
+
+      const shoe = new THREE.Group();
+      const upperMat = new THREE.MeshStandardMaterial({color:0xe9e6df, roughness:.48, metalness:.04});
+      const soleMat = new THREE.MeshStandardMaterial({color:0x111114, roughness:.3});
+      const accentMat = new THREE.MeshStandardMaterial({color:0xc8ff43, roughness:.34, metalness:.05});
+      const darkMat = new THREE.MeshStandardMaterial({color:0x1b1b1f, roughness:.5});
+      const laceMat = new THREE.MeshStandardMaterial({color:0x222226, roughness:.7});
+
+      const upper = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
+      upper.scale.set(1.72,.52,.72);
+      upper.position.set(.15,.22,0);
+      shoe.add(upper);
+
+      const toe = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
+      toe.scale.set(1.15,.46,.70);
+      toe.position.set(1.18,.18,0);
+      shoe.add(toe);
+
+      const heel = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 20), darkMat);
+      heel.scale.set(.48,.58,.7);
+      heel.position.set(-1.25,.24,0);
+      shoe.add(heel);
+
+      const sole = new THREE.Mesh(new THREE.BoxGeometry(3.55,.27,1.34), soleMat);
+      sole.position.set(.05,-.28,0);
+      sole.rotation.z=-.025;
+      shoe.add(sole);
+
+      const mid = new THREE.Mesh(new THREE.BoxGeometry(2.65,.16,1.18), accentMat);
+      mid.position.set(.35,-.12,0);
+      shoe.add(mid);
+
+      for(let i=0;i<5;i++){
+        const lace = new THREE.Mesh(new THREE.BoxGeometry(.62,.035,.06), laceMat);
+        lace.position.set(.05 + i*.28,.66, .62);
+        lace.rotation.z=-.1;
+        shoe.add(lace);
+      }
+
+      const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.15,.08,.11), accentMat);
+      stripe.position.set(-.38,.58,.69);
+      stripe.rotation.z=-.34;
+      shoe.add(stripe);
+
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(.74,.035,10,64,Math.PI*1.25),
+        accentMat
+      );
+      ring.rotation.y=Math.PI/2;
+      ring.rotation.z=.25;
+      ring.position.set(-.72,.34,.57);
+      shoe.add(ring);
+
+      shoe.rotation.x=-.18;
+      shoe.rotation.y=-.28;
+      shoe.rotation.z=.08;
+      scene.add(shoe);
+
+      scene.add(new THREE.HemisphereLight(0xffffff,0x242424,2.2));
+      const key = new THREE.DirectionalLight(0xffffff,3.2);
+      key.position.set(3,5,5); scene.add(key);
+      const fill = new THREE.PointLight(0xc8ff43,7,10);
+      fill.position.set(-3,1,3); scene.add(fill);
+
+      const resize=()=>{
+        if (!currentMount) return;
+        const w=currentMount.clientWidth||500, h=currentMount.clientHeight||500;
+        camera.aspect=w/h; camera.updateProjectionMatrix(); renderer.setSize(w,h);
+      };
+      window.addEventListener("resize",resize);
+      const animate=()=>{
+        frame=requestAnimationFrame(animate);
+        shoe.rotation.y += .0045;
+        renderer.render(scene,camera);
+      };
+      animate();
+
+      return ()=>{
+        if (frame) cancelAnimationFrame(frame);
+        window.removeEventListener("resize",resize);
+        if (renderer) {
+          renderer.dispose();
+          if (currentMount && renderer.domElement && currentMount.contains(renderer.domElement)) {
+            currentMount.removeChild(renderer.domElement);
+          }
+        }
+      };
+    } catch (e) {
+      console.warn("WebGL initialization skipped:", e);
+    }
   },[]);
   return <div ref={mount} className={"shoe3d "+(compact?"compact":"")} aria-label="Interactive 3D sneaker"></div>;
 }
