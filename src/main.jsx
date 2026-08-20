@@ -3,106 +3,91 @@ import { createRoot } from "react-dom/client";
 import {
   ArrowRight, Search, ShoppingBag, Heart, Menu, X, ChevronDown,
   Star, Plus, Minus, Trash2, Sparkles, Zap, ShieldCheck, Truck,
-  Instagram, Facebook, Twitter, Rotate3D, SlidersHorizontal, Eye, CheckCircle2
+  Instagram, Facebook, Twitter, Rotate3D, SlidersHorizontal, Eye, CheckCircle2,
+  Maximize2, RefreshCw, Layers
 } from "lucide-react";
 import * as THREE from "three";
 import "./styles.css";
 
-const products = [
+const colorways = [
   {
-    id: 1,
-    name: "Aero Flux 01",
-    category: "Running",
-    price: 149,
-    old: 179,
-    tag: "New Release",
-    colorName: "Champagne Gold / Slate",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
-    swatches: ["#e8e5df", "#c49a45", "#111113"],
-    sizes: [7, 8, 9, 10, 11],
-    rating: 4.9,
-    reviews: 128,
-    description: "Sculpted for maximum energy return and lightweight motion. Features engineered mesh and champagne gold metallic counter stabilization."
-  },
-  {
-    id: 2,
-    name: "Shadow Core Stealth",
-    category: "Street",
-    price: 169,
-    old: 199,
-    tag: "Best Seller",
-    colorName: "Matte Obsidian / Platinum",
-    image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80",
-    swatches: ["#151517", "#dfbd75", "#ffffff"],
-    sizes: [7, 8, 9, 10, 11, 12],
-    rating: 4.8,
-    reviews: 94,
-    description: "Sleek low-profile street silhouette built with water-resistant matte leather and multi-density foam outsoles."
-  },
-  {
-    id: 3,
-    name: "Sovereign X Pro",
-    category: "Running",
+    id: "gold",
+    name: "Champagne Gold",
     price: 189,
-    old: 219,
-    tag: "Trending",
-    colorName: "Onyx / Brushed Amber",
-    image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80",
-    swatches: ["#222226", "#c49a45", "#68686e"],
-    sizes: [8, 9, 10, 11],
-    rating: 4.9,
-    reviews: 210,
-    description: "Elite marathon-grade performance running sneaker equipped with carbon plate transition and adaptive cushioning."
+    oldPrice: 219,
+    upperColor: 0xeeeade,
+    soleColor: 0x121215,
+    accentColor: 0xc49a45,
+    hexUpper: "#eeeade",
+    hexAccent: "#c49a45",
+    description: "Signature Edition featuring full-grain ivory leather, champagne gold metallic counter stabilization, and carbon fiber shank plate."
   },
   {
-    id: 4,
-    name: "Mono Court Heritage",
-    category: "Lifestyle",
-    price: 129,
-    old: 149,
-    tag: "Classic",
-    colorName: "Alabaster / Warm Copper",
-    image: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=800&q=80",
-    swatches: ["#f5f4ef", "#d9825b", "#333333"],
-    sizes: [7, 8, 9, 10, 11],
-    rating: 4.8,
-    reviews: 67,
-    description: "Timeless court silhouette handcrafted from full-grain Italian leather with hand-stitched rubber cupsole."
-  },
-  {
-    id: 5,
-    name: "Obsidian 90 Limited",
-    category: "Street",
+    id: "obsidian",
+    name: "Stealth Obsidian",
     price: 199,
-    old: 229,
-    tag: "Limited Edition",
-    colorName: "Midnight / Carbon Fiber",
-    image: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
-    swatches: ["#1c1a24", "#c084fc", "#111113"],
-    sizes: [8, 9, 10, 11, 12],
-    rating: 5.0,
-    reviews: 312,
-    description: "Numbered limited edition drop. Carbon fiber shank plate with translucent grip pattern and gold foil heel branding."
+    oldPrice: 229,
+    upperColor: 0x16161a,
+    soleColor: 0x0a0a0d,
+    accentColor: 0xdfbd75,
+    hexUpper: "#16161a",
+    hexAccent: "#dfbd75",
+    description: "Water-resistant matte black leather upper with stealth obsidian sole and brushed platinum eyelets."
   },
   {
-    id: 6,
-    name: "Cloud Step Ultra",
-    category: "Lifestyle",
-    price: 139,
-    old: 159,
-    tag: "New",
-    colorName: "Pure White / Electric Blue",
-    image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=800&q=80",
-    swatches: ["#e9f1f7", "#38bdf8", "#111113"],
-    sizes: [7, 8, 9, 10],
-    rating: 4.7,
-    reviews: 53,
-    description: "Ultra-breathable knit lifestyle sneaker designed for all-day comfort, effortless slip-on fit, and weightless stride."
+    id: "platinum",
+    name: "Pure Platinum",
+    price: 179,
+    oldPrice: 199,
+    upperColor: 0xf5f4ef,
+    soleColor: 0xe5e4dd,
+    accentColor: 0x38bdf8,
+    hexUpper: "#f5f4ef",
+    hexAccent: "#38bdf8",
+    description: "Ultra-clean alabaster finish with electric blue mid-sole highlight and lightweight breathable mesh."
+  },
+  {
+    id: "amber",
+    name: "Royal Amber",
+    price: 189,
+    oldPrice: 219,
+    upperColor: 0x221f1d,
+    soleColor: 0x141211,
+    accentColor: 0xd9825b,
+    hexUpper: "#221f1d",
+    hexAccent: "#d9825b",
+    description: "Deep espresso leather with warm copper accents and high-rebound responsive foam technology."
+  },
+  {
+    id: "violet",
+    name: "Cyber Violet",
+    price: 199,
+    oldPrice: 229,
+    upperColor: 0x1c1a24,
+    soleColor: 0x0f0e14,
+    accentColor: 0xc084fc,
+    hexUpper: "#1c1a24",
+    hexAccent: "#c084fc",
+    description: "Limited edition drop with deep violet carbon weave and iridescent counter highlights."
   }
 ];
 
-function Sneaker3D({progress=0, compact=false, imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=80"}) {
+function RealSneaker3D({ progress = 0, colorway = colorways[0], angle = "default", compact = false }) {
   const mount = useRef(null);
+  const materialsRef = useRef({ upper: null, sole: null, accent: null });
+
+  // Update 3D Materials when colorway changes
+  useEffect(() => {
+    if (materialsRef.current.upper) {
+      materialsRef.current.upper.color.setHex(colorway.upperColor);
+    }
+    if (materialsRef.current.sole) {
+      materialsRef.current.sole.color.setHex(colorway.soleColor);
+    }
+    if (materialsRef.current.accent) {
+      materialsRef.current.accent.color.setHex(colorway.accentColor);
+    }
+  }, [colorway]);
 
   useEffect(() => {
     if (!mount.current) return;
@@ -110,10 +95,10 @@ function Sneaker3D({progress=0, compact=false, imageUrl="https://images.unsplash
     let renderer, scene, camera, shoeGroup;
     const currentMount = mount.current;
 
-    let targetRotX = -0.1;
-    let targetRotY = -0.2;
-    let currentRotX = -0.1;
-    let currentRotY = -0.2;
+    let targetRotX = -0.18;
+    let targetRotY = -0.28;
+    let currentRotX = -0.18;
+    let currentRotY = -0.28;
 
     let isDragging = false;
     let startMousePos = { x: 0, y: 0 };
@@ -130,7 +115,7 @@ function Sneaker3D({progress=0, compact=false, imageUrl="https://images.unsplash
         const normX = (e.clientX / window.innerWidth - 0.5) * 2;
         const normY = (e.clientY / window.innerHeight - 0.5) * 2;
         targetRotY = normX * 0.75;
-        targetRotX = normY * 0.35 - 0.1;
+        targetRotX = normY * 0.35 - 0.18;
       }
     };
 
@@ -152,9 +137,9 @@ function Sneaker3D({progress=0, compact=false, imageUrl="https://images.unsplash
     try {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-      camera.position.set(0, 0, 5.2);
+      camera.position.set(0.15, 0.45, 5.7);
 
-      renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(currentMount.clientWidth || 500, currentMount.clientHeight || 500);
       renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -163,57 +148,84 @@ function Sneaker3D({progress=0, compact=false, imageUrl="https://images.unsplash
 
       shoeGroup = new THREE.Group();
 
-      // Texture real high-resolution sneaker photography onto 3D Canvas Mesh
-      const textureLoader = new THREE.TextureLoader();
-      textureLoader.crossOrigin = "anonymous";
-      textureLoader.load(imageUrl, (texture) => {
-        texture.colorSpace = THREE.SRGBColorSpace;
-        
-        // 3D Curved Mesh for realistic depth volume
-        const geometry = new THREE.PlaneGeometry(3.6, 2.7, 32, 32);
-        const pos = geometry.attributes.position;
-        for (let i = 0; i < pos.count; i++) {
-          const u = (pos.getX(i) + 1.8) / 3.6;
-          const v = (pos.getY(i) + 1.35) / 2.7;
-          const depthZ = -Math.pow(u - 0.5, 2) * 0.45 - Math.pow(v - 0.5, 2) * 0.25;
-          pos.setZ(i, depthZ);
-        }
-        geometry.computeVertexNormals();
-
-        const material = new THREE.MeshStandardMaterial({
-          map: texture,
-          transparent: true,
-          side: THREE.DoubleSide,
-          roughness: 0.35,
-          metalness: 0.15,
-        });
-
-        const shoeMesh = new THREE.Mesh(geometry, material);
-        shoeGroup.add(shoeMesh);
-
-        // 3D Soft Shadow Base Plane
-        const shadowGeo = new THREE.PlaneGeometry(3.8, 1.2);
-        const shadowMat = new THREE.MeshBasicMaterial({
-          color: 0x000000,
-          transparent: true,
-          opacity: 0.22,
-          side: THREE.DoubleSide
-        });
-        const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
-        shadowMesh.rotation.x = Math.PI / 2;
-        shadowMesh.position.set(0, -1.3, 0);
-        shoeGroup.add(shadowMesh);
+      // Dynamic Materials
+      const upperMat = new THREE.MeshStandardMaterial({
+        color: colorway.upperColor,
+        roughness: 0.4,
+        metalness: 0.08
       });
+      const soleMat = new THREE.MeshStandardMaterial({
+        color: colorway.soleColor,
+        roughness: 0.25
+      });
+      const accentMat = new THREE.MeshStandardMaterial({
+        color: colorway.accentColor,
+        roughness: 0.28,
+        metalness: 0.45
+      });
+      const darkMat = new THREE.MeshStandardMaterial({ color: 0x1c1c20, roughness: 0.4 });
+      const laceMat = new THREE.MeshStandardMaterial({ color: 0x27272c, roughness: 0.6 });
 
+      materialsRef.current = { upper: upperMat, sole: soleMat, accent: accentMat };
+
+      // 3D Shoe Sculpted Geometries
+      const upper = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
+      upper.scale.set(1.72, 0.52, 0.72);
+      upper.position.set(0.15, 0.22, 0);
+      shoeGroup.add(upper);
+
+      const toe = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
+      toe.scale.set(1.15, 0.46, 0.70);
+      toe.position.set(1.18, 0.18, 0);
+      shoeGroup.add(toe);
+
+      const heel = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 20), darkMat);
+      heel.scale.set(0.48, 0.58, 0.7);
+      heel.position.set(-1.25, 0.24, 0);
+      shoeGroup.add(heel);
+
+      const sole = new THREE.Mesh(new THREE.BoxGeometry(3.55, 0.27, 1.34), soleMat);
+      sole.position.set(0.05, -0.28, 0);
+      sole.rotation.z = -0.025;
+      shoeGroup.add(sole);
+
+      const mid = new THREE.Mesh(new THREE.BoxGeometry(2.65, 0.16, 1.18), accentMat);
+      mid.position.set(0.35, -0.12, 0);
+      shoeGroup.add(mid);
+
+      for (let i = 0; i < 5; i++) {
+        const lace = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.035, 0.06), laceMat);
+        lace.position.set(0.05 + i * 0.28, 0.66, 0.62);
+        lace.rotation.z = -0.1;
+        shoeGroup.add(lace);
+      }
+
+      const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.08, 0.11), accentMat);
+      stripe.position.set(-0.38, 0.58, 0.69);
+      stripe.rotation.z = -0.34;
+      shoeGroup.add(stripe);
+
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(0.74, 0.035, 10, 64, Math.PI * 1.25),
+        accentMat
+      );
+      ring.rotation.y = Math.PI / 2;
+      ring.rotation.z = 0.25;
+      ring.position.set(-0.72, 0.34, 0.57);
+      shoeGroup.add(ring);
+
+      shoeGroup.rotation.x = -0.18;
+      shoeGroup.rotation.y = -0.28;
+      shoeGroup.rotation.z = 0.08;
       scene.add(shoeGroup);
 
-      // Studio Lighting
-      scene.add(new THREE.HemisphereLight(0xffffff, 0x1f1f24, 2.8));
+      // Studio Lighting setup
+      scene.add(new THREE.HemisphereLight(0xffffff, 0x1f1f24, 2.5));
       const key = new THREE.DirectionalLight(0xfff9ef, 3.5);
       key.position.set(3, 5, 5);
       scene.add(key);
 
-      const fill = new THREE.PointLight(0xc49a45, 7, 12);
+      const fill = new THREE.PointLight(colorway.accentColor, 8, 12);
       fill.position.set(-3, 1, 3);
       scene.add(fill);
 
@@ -231,12 +243,20 @@ function Sneaker3D({progress=0, compact=false, imageUrl="https://images.unsplash
         frame = requestAnimationFrame(animate);
         time += 0.012;
 
+        let angleBaseY = -0.28;
+        let angleBaseX = -0.18;
+
+        if (angle === "front") { angleBaseY = 0; angleBaseX = 0; }
+        if (angle === "side") { angleBaseY = -Math.PI / 2; angleBaseX = 0; }
+        if (angle === "heel") { angleBaseY = Math.PI; angleBaseX = 0; }
+        if (angle === "top") { angleBaseY = 0; angleBaseX = -Math.PI / 3; }
+
         const scrollAngle = progress * 0.0018;
         const idleRotY = Math.sin(time) * 0.06;
         const idleRotX = Math.cos(time * 0.7) * 0.04;
 
-        const finalTargetY = targetRotY + dragRotOffset.y + idleRotY + scrollAngle;
-        const finalTargetX = targetRotX + dragRotOffset.x + idleRotX;
+        const finalTargetY = angleBaseY + targetRotY + dragRotOffset.y + idleRotY + scrollAngle;
+        const finalTargetX = angleBaseX + targetRotX + dragRotOffset.x + idleRotX;
 
         currentRotY += (finalTargetY - currentRotY) * 0.065;
         currentRotX += (finalTargetX - currentRotX) * 0.065;
@@ -266,95 +286,27 @@ function Sneaker3D({progress=0, compact=false, imageUrl="https://images.unsplash
     } catch (e) {
       console.warn("WebGL initialization skipped:", e);
     }
-  }, [progress, imageUrl]);
+  }, [progress, angle]);
 
-  return <div ref={mount} className={"shoe3d "+(compact?"compact":"")} aria-label="Interactive real 3D sneaker — move cursor or drag to rotate"></div>;
+  return <div ref={mount} className={"shoe3d " + (compact ? "compact" : "")} aria-label="Interactive 3D sneaker canvas"></div>;
 }
 
-function ProductCard({p, onAdd, onWish, wished, onQuickView}) {
-  const [selectedSize, setSelectedSize] = useState(p.sizes[1] || p.sizes[0]);
-
-  return (
-    <article className="product-card">
-      <div className="product-art" onClick={() => onQuickView(p)}>
-        <span className="tag">{p.tag}</span>
-        <button
-          className={"wish-btn " + (wished ? "active" : "")}
-          onClick={(e) => { e.stopPropagation(); onWish(p.id); }}
-          aria-label="Wishlist"
-        >
-          <Heart size={18} fill={wished ? "currentColor" : "none"} />
-        </button>
-
-        <img src={p.image} alt={p.name} className="real-sneaker-img" loading="lazy" />
-
-        <div className="quick-view-overlay">
-          <button className="quick-view-btn">
-            <Eye size={15} /> Quick View
-          </button>
-        </div>
-      </div>
-
-      <div className="product-info">
-        <div className="product-info-header">
-          <div>
-            <span className="muted">{p.category}</span>
-            <h3>{p.name}</h3>
-            <span className="color-name">{p.colorName}</span>
-          </div>
-          <div className="price">
-            <b>${p.price}</b>
-            <del>${p.old}</del>
-          </div>
-        </div>
-
-        <div className="swatch-list">
-          {p.swatches.map((color, idx) => (
-            <div key={idx} className="swatch-dot" style={{ background: color }}></div>
-          ))}
-        </div>
-
-        <div className="rating">
-          <Star size={14} fill="currentColor" /> {p.rating}
-          <span className="rating-count">({p.reviews} reviews)</span>
-        </div>
-
-        <div className="size-selector">
-          {p.sizes.map((s) => (
-            <button
-              key={s}
-              className={"size-pill " + (selectedSize === s ? "active" : "")}
-              onClick={() => setSelectedSize(s)}
-            >
-              UK {s}
-            </button>
-          ))}
-        </div>
-
-        <button className="add-btn" onClick={() => onAdd(p, selectedSize)}>
-          Add to bag <ArrowRight size={16} />
-        </button>
-      </div>
-    </article>
-  );
-}
-
-function App(){
+function App() {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("All");
-  const [sort, setSort] = useState("featured");
   const [menu, setMenu] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-  const [shopOpen, setShopOpen] = useState(false);
   const [scroll, setScroll] = useState(0);
-  const [quickProduct, setQuickProduct] = useState(null);
+
+  // 3D Customizer State
+  const [selectedColorway, setSelectedColorway] = useState(colorways[0]);
+  const [selectedSize, setSelectedSize] = useState(9);
+  const [selectedAngle, setSelectedAngle] = useState("default");
   const [toastMsg, setToastMsg] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScroll(window.scrollY);
-    window.addEventListener("scroll", onScroll, {passive:true});
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -363,37 +315,19 @@ function App(){
     setTimeout(() => setToastMsg(""), 3200);
   };
 
-  const filtered = useMemo(() => {
-    let arr = products.filter(p => (category === "All" || p.category === category) && p.name.toLowerCase().includes(query.toLowerCase()));
-    if(sort === "price-low") arr.sort((a,b) => a.price - b.price);
-    if(sort === "price-high") arr.sort((a,b) => b.price - a.price);
-    if(sort === "rating") arr.sort((a,b) => b.rating - a.rating);
-    return arr;
-  }, [category, query, sort]);
-
-  const add = (p, size) => {
-    const sizeToUse = size || p.sizes[0];
+  const addToCart = () => {
     setCart(c => {
-      const x = c.find(i => i.id === p.id && i.selectedSize === sizeToUse);
+      const x = c.find(i => i.id === selectedColorway.id && i.selectedSize === selectedSize);
       return x
-        ? c.map(i => i.id === p.id && i.selectedSize === sizeToUse ? { ...i, qty: i.qty + 1 } : i)
-        : [...c, { ...p, selectedSize: sizeToUse, qty: 1 }];
+        ? c.map(i => i.id === selectedColorway.id && i.selectedSize === selectedSize ? { ...i, qty: i.qty + 1 } : i)
+        : [...c, { ...selectedColorway, selectedSize, qty: 1 }];
     });
-    triggerToast(`Added ${p.name} (UK ${sizeToUse}) to bag!`);
+    triggerToast(`Added Soleva 3D (${selectedColorway.name} · UK ${selectedSize}) to bag!`);
   };
 
-  const toggleWish = (id) => {
-    const p = products.find(x => x.id === id);
-    setWishlist(w => {
-      const exists = w.includes(id);
-      if (!exists && p) triggerToast(`Saved ${p.name} to wishlist!`);
-      return exists ? w.filter(x => x !== id) : [...w, id];
-    });
-  };
-
-  const change = (id, size, d) => setCart(c => c.map(i => (i.id === id && i.selectedSize === size) ? { ...i, qty: i.qty + d } : i).filter(i => i.qty > 0));
-  const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
-  const count = cart.reduce((s,i) => s + i.qty, 0);
+  const changeQty = (id, size, d) => setCart(c => c.map(i => (i.id === id && i.selectedSize === size) ? { ...i, qty: i.qty + d } : i).filter(i => i.qty > 0));
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const count = cart.reduce((s, i) => s + i.qty, 0);
 
   return (
     <div className="app">
@@ -415,15 +349,11 @@ function App(){
         <a className="logo" href="#home">SOLEVA<span>®</span></a>
         <nav className={menu ? "nav-links open" : "nav-links"}>
           <a href="#home" onClick={() => setMenu(false)}>Home</a>
-          <a href="#shop" onClick={() => setMenu(false)}>Shop</a>
+          <a href="#showcase" onClick={() => setMenu(false)}>3D Studio</a>
           <a href="#story" onClick={() => setMenu(false)}>Our story</a>
           <a href="#journal" onClick={() => setMenu(false)}>Journal</a>
         </nav>
         <div className="nav-actions">
-          <label className="search-box">
-            <Search size={18} />
-            <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search sneakers" />
-          </label>
           <button onClick={() => setCartOpen(true)} className="icon-btn bag" aria-label="Open cart">
             <ShoppingBag />
             <b>{count}</b>
@@ -432,13 +362,14 @@ function App(){
       </header>
 
       <main>
+        {/* Hero Section */}
         <section id="home" className="hero">
           <div className="hero-copy">
-            <div className="eyebrow"><Sparkles size={15} /> SPRING / SUMMER 2026</div>
+            <div className="eyebrow"><Sparkles size={15} /> REAL 3D FOOTWEAR SHOWCASE</div>
             <h1>MOVE<br /><em>DIFFERENT.</em></h1>
-            <p>Engineered sneakers for people who don't stand still. Precision comfort, sculptural design and everyday energy.</p>
+            <p>Engineered sneakers for people who don't stand still. Precision comfort, sculptural 3D design and everyday energy.</p>
             <div className="hero-buttons">
-              <a href="#shop" className="primary">Explore collection <ArrowRight /></a>
+              <a href="#showcase" className="primary">Launch 3D Customizer <ArrowRight /></a>
               <a href="#story" className="text-link">Why Soleva <ArrowRight /></a>
             </div>
             <div className="hero-stats">
@@ -451,56 +382,109 @@ function App(){
             <div className="orbit orbit1"></div>
             <div className="orbit orbit2"></div>
             <div className="scroll-sneaker" style={{ transform: `translate3d(${Math.min(scroll * .08, 70)}px, ${Math.min(scroll * .11, 95)}px, 0) rotate(${Math.min(scroll * .07, 30)}deg)` }}>
-              <Sneaker3D progress={scroll} imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=80" />
+              <RealSneaker3D progress={scroll} colorway={selectedColorway} angle={selectedAngle} />
             </div>
             <div className="floating-label label-a"><Rotate3D size={17} /><span>360°<small>DRAG TO ROTATE</small></span></div>
-            <div className="floating-label label-b"><Zap size={17} /><span>REAL SNEAKER<small>INTERACTIVE</small></span></div>
+            <div className="floating-label label-b"><Zap size={17} /><span>REAL 3D<small>CANVAS</small></span></div>
           </div>
         </section>
 
         <section className="marquee">
-          <div>ENGINEERED FOR MOTION · DESIGNED FOR NOW · ENGINEERED FOR MOTION · DESIGNED FOR NOW · </div>
+          <div>ENGINEERED FOR MOTION · REAL 3D FOOTWEAR · ENGINEERED FOR MOTION · REAL 3D FOOTWEAR · </div>
         </section>
 
-        <section id="shop" className="shop-section">
-          <div className="section-head">
-            <div>
-              <span className="eyebrow">THE COLLECTION</span>
-              <h2>Find your <em>pair.</em></h2>
-            </div>
-            <button className="filter-toggle" onClick={() => setShopOpen(!shopOpen)}>
-              <SlidersHorizontal size={18} /> Filters
-            </button>
-          </div>
+        {/* 3D Showcase & Customizer Studio */}
+        <section id="showcase" className="showcase-section">
+          <div className="showcase-container">
+            {/* 3D Stage Card */}
+            <div className="stage-card">
+              <div className="stage-top-bar">
+                <span className="stage-badge">3D INTERACTIVE STUDIO</span>
+                <div className="angle-controls">
+                  <button className={"angle-btn " + (selectedAngle === "default" ? "active" : "")} onClick={() => setSelectedAngle("default")}>Preset</button>
+                  <button className={"angle-btn " + (selectedAngle === "front" ? "active" : "")} onClick={() => setSelectedAngle("front")}>Front</button>
+                  <button className={"angle-btn " + (selectedAngle === "side" ? "active" : "")} onClick={() => setSelectedAngle("side")}>Side</button>
+                  <button className={"angle-btn " + (selectedAngle === "heel" ? "active" : "")} onClick={() => setSelectedAngle("heel")}>Heel</button>
+                  <button className={"angle-btn " + (selectedAngle === "top" ? "active" : "")} onClick={() => setSelectedAngle("top")}>Top</button>
+                </div>
+              </div>
 
-          <div className={"shop-controls " + (shopOpen ? "show" : "")}>
-            <div className="chips">
-              {["All", "Running", "Street", "Lifestyle"].map(c => (
-                <button className={category === c ? "selected" : ""} onClick={() => setCategory(c)} key={c}>{c}</button>
-              ))}
-            </div>
-            <select value={sort} onChange={e => setSort(e.target.value)}>
-              <option value="featured">Sort: Featured</option>
-              <option value="price-low">Price: Low to high</option>
-              <option value="price-high">Price: High to low</option>
-              <option value="rating">Top rated</option>
-            </select>
-          </div>
+              <div className="stage-3d-wrapper">
+                <RealSneaker3D progress={scroll} colorway={selectedColorway} angle={selectedAngle} />
+              </div>
 
-          <div className="product-grid">
-            {filtered.map(p => (
-              <ProductCard
-                key={p.id}
-                p={p}
-                onAdd={add}
-                onWish={toggleWish}
-                wished={wishlist.includes(p.id)}
-                onQuickView={(prod) => setQuickProduct(prod)}
-              />
-            ))}
+              <div className="stage-bottom-bar">
+                <div className="drag-hint"><Rotate3D size={15} /> Move cursor or drag 360° to inspect</div>
+                <div>100% REAL-TIME 3D SHADER</div>
+              </div>
+            </div>
+
+            {/* Customizer Right Panel */}
+            <div className="customizer-panel">
+              <div className="customizer-header">
+                <span className="eyebrow"><Sparkles size={14} /> SOLEVA 3D SILHOUETTE</span>
+                <h2>{selectedColorway.name}</h2>
+                <div className="customizer-price">
+                  <b>${selectedColorway.price}</b>
+                  <del>${selectedColorway.oldPrice}</del>
+                </div>
+              </div>
+
+              <p style={{ color: "#666", fontSize: "14px", lineHeight: "1.6", margin: "0" }}>
+                {selectedColorway.description}
+              </p>
+
+              {/* Colorway Selection */}
+              <div className="option-group">
+                <span className="option-title">Select Colorway ({colorways.length} Available)</span>
+                <div className="colorway-grid">
+                  {colorways.map(cw => (
+                    <button
+                      key={cw.id}
+                      className={"colorway-btn " + (selectedColorway.id === cw.id ? "active" : "")}
+                      onClick={() => setSelectedColorway(cw)}
+                    >
+                      <div className="colorway-swatch" style={{ background: cw.hexAccent }}></div>
+                      <span>{cw.name.split(" ")[0]}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Size Selector */}
+              <div className="option-group">
+                <span className="option-title">Select Size (UK / US)</span>
+                <div className="sizes-grid">
+                  {[7, 8, 9, 10, 11, 12].map(s => (
+                    <button
+                      key={s}
+                      className={"size-btn " + (selectedSize === s ? "active" : "")}
+                      onClick={() => setSelectedSize(s)}
+                    >
+                      UK {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Specs Accordion */}
+              <div className="feature-accordion">
+                <div className="accordion-item"><ShieldCheck /> <span>100% Full-Grain Leather & Breathable Mesh</span></div>
+                <div className="accordion-item"><Zap /> <span>Tri-Density Responsive Foam Platform</span></div>
+                <div className="accordion-item"><Truck /> <span>Fast Dispatch in 24 Hours · Free Returns</span></div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="customizer-actions">
+                <button className="primary" style={{ width: "100%", justifyContent: "center", padding: "16px" }} onClick={addToCart}>
+                  Add to bag (${selectedColorway.price}) <ArrowRight size={18} />
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
+        {/* Feature Section */}
         <section id="story" className="feature">
           <div className="feature-copy">
             <span className="eyebrow">THE SOLEVA SYSTEM</span>
@@ -515,13 +499,14 @@ function App(){
           <div className="feature-visual">
             <div className="spec-ring">S<span>3</span></div>
             <div className="feature-shoe">
-              <Sneaker3D compact progress={scroll} imageUrl="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=1000&q=80" />
+              <RealSneaker3D compact progress={scroll} colorway={selectedColorway} angle={selectedAngle} />
             </div>
             <div className="spec-label top">RESPONSIVE<br />FOAM</div>
             <div className="spec-label bottom">LIGHTWEIGHT<br />MESH</div>
           </div>
         </section>
 
+        {/* Journal Section */}
         <section id="journal" className="journal">
           <div className="section-head">
             <div><span className="eyebrow">FROM THE JOURNAL</span><h2>More than <em>shoes.</em></h2></div>
@@ -566,7 +551,7 @@ function App(){
             <p>Premium sneakers for people in motion.</p>
             <div className="socials"><Instagram /><Facebook /><Twitter /></div>
           </div>
-          <div><b>SHOP</b><a href="#shop">All sneakers</a><a href="#shop">Running</a><a href="#shop">Street</a></div>
+          <div><b>SHOP</b><a href="#showcase">3D Customizer</a><a href="#showcase">Colorways</a><a href="#story">Our Story</a></div>
           <div><b>HELP</b><a href="#story">Shipping</a><a href="#story">Returns</a><a href="#story">Contact</a></div>
           <div>
             <b>STAY IN THE LOOP</b>
@@ -576,41 +561,6 @@ function App(){
         </div>
         <div className="footer-bottom">© 2026 SOLEVA. Built for motion. <span>Privacy · Terms · Accessibility</span></div>
       </footer>
-
-      {/* Quick View Modal */}
-      {quickProduct && (
-        <div className="modal-backdrop" onClick={() => setQuickProduct(null)}>
-          <div className="quick-modal" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setQuickProduct(null)}><X size={18} /></button>
-            <div className="modal-art">
-              <img src={quickProduct.image} alt={quickProduct.name} />
-            </div>
-            <div className="modal-details">
-              <span className="tag">{quickProduct.tag}</span>
-              <h2>{quickProduct.name}</h2>
-              <div className="price" style={{ marginBottom: "16px" }}>
-                <b>${quickProduct.price}</b>
-                <del>${quickProduct.old}</del>
-              </div>
-              <p>{quickProduct.description}</p>
-              <div className="specs-list">
-                <div><ShieldCheck size={16} /> <span>100% Genuine Italian Leather & Engineered Mesh</span></div>
-                <div><Zap size={16} /> <span>Tri-Density Reactive Foam Cushioning</span></div>
-                <div><Truck size={16} /> <span>Free Express Shipping & 30-Day Returns</span></div>
-              </div>
-              <button
-                className="primary"
-                onClick={() => {
-                  add(quickProduct);
-                  setQuickProduct(null);
-                }}
-              >
-                Add to bag (${quickProduct.price}) <ArrowRight size={16} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Cart Drawer */}
       {cartOpen && (
@@ -624,9 +574,9 @@ function App(){
               <div className="empty">
                 <ShoppingBag size={42} />
                 <h3>Your bag is empty.</h3>
-                <p>Add a pair and start moving.</p>
-                <button className="primary" onClick={() => { setCartOpen(false); document.querySelector("#shop")?.scrollIntoView({ behavior: "smooth" }); }}>
-                  Shop sneakers
+                <p>Customize a pair and start moving.</p>
+                <button className="primary" onClick={() => { setCartOpen(false); document.querySelector("#showcase")?.scrollIntoView({ behavior: "smooth" }); }}>
+                  Launch 3D Studio
                 </button>
               </div>
             ) : (
@@ -634,14 +584,16 @@ function App(){
                 <div className="cart-items">
                   {cart.map((i, idx) => (
                     <div className="cart-item" key={idx}>
-                      <img src={i.image} alt={i.name} className="cart-item-img" />
+                      <div className="cart-swatch" style={{ background: i.hexUpper }}>
+                        <div style={{ background: i.hexAccent }}></div>
+                      </div>
                       <div className="cart-meta">
                         <b>{i.name}</b>
                         <span>UK {i.selectedSize} · ${i.price}</span>
                         <div className="qty">
-                          <button onClick={() => change(i.id, i.selectedSize, -1)}><Minus size={14} /></button>
+                          <button onClick={() => changeQty(i.id, i.selectedSize, -1)}><Minus size={14} /></button>
                           <span>{i.qty}</span>
-                          <button onClick={() => change(i.id, i.selectedSize, 1)}><Plus size={14} /></button>
+                          <button onClick={() => changeQty(i.id, i.selectedSize, 1)}><Plus size={14} /></button>
                         </div>
                       </div>
                       <button className="trash" onClick={() => setCart(c => c.filter(x => !(x.id === i.id && x.selectedSize === i.selectedSize)))}>
