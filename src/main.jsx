@@ -101,19 +101,19 @@ const products = [
   }
 ];
 
-function Sneaker3D({progress=0, compact=false}) {
+function Sneaker3D({progress=0, compact=false, imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=80"}) {
   const mount = useRef(null);
 
   useEffect(() => {
     if (!mount.current) return;
     let frame;
-    let renderer, scene, camera, shoe;
+    let renderer, scene, camera, shoeGroup;
     const currentMount = mount.current;
 
-    let targetRotX = -0.18;
-    let targetRotY = -0.28;
-    let currentRotX = -0.18;
-    let currentRotY = -0.28;
+    let targetRotX = -0.1;
+    let targetRotY = -0.2;
+    let currentRotX = -0.1;
+    let currentRotY = -0.2;
 
     let isDragging = false;
     let startMousePos = { x: 0, y: 0 };
@@ -130,7 +130,7 @@ function Sneaker3D({progress=0, compact=false}) {
         const normX = (e.clientX / window.innerWidth - 0.5) * 2;
         const normY = (e.clientY / window.innerHeight - 0.5) * 2;
         targetRotY = normX * 0.75;
-        targetRotX = normY * 0.35 - 0.18;
+        targetRotX = normY * 0.35 - 0.1;
       }
     };
 
@@ -152,7 +152,7 @@ function Sneaker3D({progress=0, compact=false}) {
     try {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-      camera.position.set(0.15, 0.45, 5.7);
+      camera.position.set(0, 0, 5.2);
 
       renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -161,69 +161,59 @@ function Sneaker3D({progress=0, compact=false}) {
       currentMount.appendChild(renderer.domElement);
       currentMount.style.cursor = "grab";
 
-      shoe = new THREE.Group();
-      const upperMat = new THREE.MeshStandardMaterial({color:0xeeeade, roughness:.42, metalness:.08});
-      const soleMat = new THREE.MeshStandardMaterial({color:0x121215, roughness:.25});
-      const accentMat = new THREE.MeshStandardMaterial({color:0xc49a45, roughness:.28, metalness:.45});
-      const darkMat = new THREE.MeshStandardMaterial({color:0x1c1c20, roughness:.4});
-      const laceMat = new THREE.MeshStandardMaterial({color:0x27272c, roughness:.6});
+      shoeGroup = new THREE.Group();
 
-      const upper = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
-      upper.scale.set(1.72, .52, .72);
-      upper.position.set(.15, .22, 0);
-      shoe.add(upper);
+      // Texture real high-resolution sneaker photography onto 3D Canvas Mesh
+      const textureLoader = new THREE.TextureLoader();
+      textureLoader.crossOrigin = "anonymous";
+      textureLoader.load(imageUrl, (texture) => {
+        texture.colorSpace = THREE.SRGBColorSpace;
+        
+        // 3D Curved Mesh for realistic depth volume
+        const geometry = new THREE.PlaneGeometry(3.6, 2.7, 32, 32);
+        const pos = geometry.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+          const u = (pos.getX(i) + 1.8) / 3.6;
+          const v = (pos.getY(i) + 1.35) / 2.7;
+          const depthZ = -Math.pow(u - 0.5, 2) * 0.45 - Math.pow(v - 0.5, 2) * 0.25;
+          pos.setZ(i, depthZ);
+        }
+        geometry.computeVertexNormals();
 
-      const toe = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
-      toe.scale.set(1.15, .46, .70);
-      toe.position.set(1.18, .18, 0);
-      shoe.add(toe);
+        const material = new THREE.MeshStandardMaterial({
+          map: texture,
+          transparent: true,
+          side: THREE.DoubleSide,
+          roughness: 0.35,
+          metalness: 0.15,
+        });
 
-      const heel = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 20), darkMat);
-      heel.scale.set(.48, .58, .7);
-      heel.position.set(-1.25, .24, 0);
-      shoe.add(heel);
+        const shoeMesh = new THREE.Mesh(geometry, material);
+        shoeGroup.add(shoeMesh);
 
-      const sole = new THREE.Mesh(new THREE.BoxGeometry(3.55, .27, 1.34), soleMat);
-      sole.position.set(.05, -.28, 0);
-      sole.rotation.z = -.025;
-      shoe.add(sole);
+        // 3D Soft Shadow Base Plane
+        const shadowGeo = new THREE.PlaneGeometry(3.8, 1.2);
+        const shadowMat = new THREE.MeshBasicMaterial({
+          color: 0x000000,
+          transparent: true,
+          opacity: 0.22,
+          side: THREE.DoubleSide
+        });
+        const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+        shadowMesh.rotation.x = Math.PI / 2;
+        shadowMesh.position.set(0, -1.3, 0);
+        shoeGroup.add(shadowMesh);
+      });
 
-      const mid = new THREE.Mesh(new THREE.BoxGeometry(2.65, .16, 1.18), accentMat);
-      mid.position.set(.35, -.12, 0);
-      shoe.add(mid);
+      scene.add(shoeGroup);
 
-      for(let i=0; i<5; i++){
-        const lace = new THREE.Mesh(new THREE.BoxGeometry(.62, .035, .06), laceMat);
-        lace.position.set(.05 + i*.28, .66, .62);
-        lace.rotation.z = -.1;
-        shoe.add(lace);
-      }
-
-      const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.15, .08, .11), accentMat);
-      stripe.position.set(-.38, .58, .69);
-      stripe.rotation.z = -.34;
-      shoe.add(stripe);
-
-      const ring = new THREE.Mesh(
-        new THREE.TorusGeometry(.74, .035, 10, 64, Math.PI*1.25),
-        accentMat
-      );
-      ring.rotation.y = Math.PI / 2;
-      ring.rotation.z = .25;
-      ring.position.set(-.72, .34, .57);
-      shoe.add(ring);
-
-      shoe.rotation.x = -0.18;
-      shoe.rotation.y = -0.28;
-      shoe.rotation.z = 0.08;
-      scene.add(shoe);
-
-      scene.add(new THREE.HemisphereLight(0xffffff, 0x1f1f24, 2.5));
+      // Studio Lighting
+      scene.add(new THREE.HemisphereLight(0xffffff, 0x1f1f24, 2.8));
       const key = new THREE.DirectionalLight(0xfff9ef, 3.5);
       key.position.set(3, 5, 5);
       scene.add(key);
 
-      const fill = new THREE.PointLight(0xc49a45, 8, 12);
+      const fill = new THREE.PointLight(0xc49a45, 7, 12);
       fill.position.set(-3, 1, 3);
       scene.add(fill);
 
@@ -251,8 +241,10 @@ function Sneaker3D({progress=0, compact=false}) {
         currentRotY += (finalTargetY - currentRotY) * 0.065;
         currentRotX += (finalTargetX - currentRotX) * 0.065;
 
-        shoe.rotation.y = currentRotY;
-        shoe.rotation.x = currentRotX;
+        if (shoeGroup) {
+          shoeGroup.rotation.y = currentRotY;
+          shoeGroup.rotation.x = currentRotX;
+        }
 
         renderer.render(scene, camera);
       };
@@ -274,9 +266,9 @@ function Sneaker3D({progress=0, compact=false}) {
     } catch (e) {
       console.warn("WebGL initialization skipped:", e);
     }
-  }, [progress]);
+  }, [progress, imageUrl]);
 
-  return <div ref={mount} className={"shoe3d "+(compact?"compact":"")} aria-label="Interactive 3D sneaker — move cursor or drag to rotate"></div>;
+  return <div ref={mount} className={"shoe3d "+(compact?"compact":"")} aria-label="Interactive real 3D sneaker — move cursor or drag to rotate"></div>;
 }
 
 function ProductCard({p, onAdd, onWish, wished, onQuickView}) {
@@ -459,10 +451,10 @@ function App(){
             <div className="orbit orbit1"></div>
             <div className="orbit orbit2"></div>
             <div className="scroll-sneaker" style={{ transform: `translate3d(${Math.min(scroll * .08, 70)}px, ${Math.min(scroll * .11, 95)}px, 0) rotate(${Math.min(scroll * .07, 30)}deg)` }}>
-              <Sneaker3D progress={scroll} />
+              <Sneaker3D progress={scroll} imageUrl="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=80" />
             </div>
             <div className="floating-label label-a"><Rotate3D size={17} /><span>360°<small>DRAG TO ROTATE</small></span></div>
-            <div className="floating-label label-b"><Zap size={17} /><span>DYNAMIC<small>INTERACTIVE</small></span></div>
+            <div className="floating-label label-b"><Zap size={17} /><span>REAL SNEAKER<small>INTERACTIVE</small></span></div>
           </div>
         </section>
 
@@ -522,7 +514,9 @@ function App(){
           </div>
           <div className="feature-visual">
             <div className="spec-ring">S<span>3</span></div>
-            <div className="feature-shoe"><Sneaker3D compact /></div>
+            <div className="feature-shoe">
+              <Sneaker3D compact progress={scroll} imageUrl="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=1000&q=80" />
+            </div>
             <div className="spec-label top">RESPONSIVE<br />FOAM</div>
             <div className="spec-label bottom">LIGHTWEIGHT<br />MESH</div>
           </div>
