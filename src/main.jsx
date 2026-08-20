@@ -9,111 +9,177 @@ import * as THREE from "three";
 import "./styles.css";
 
 const products = [
-  {id:1,name:"Aero Flux 01",category:"Running",price:149,old:179,tag:"New",color:"#e8e5df",accent:"#111",sizes:[7,8,9,10,11],rating:4.9},
-  {id:2,name:"Shadow Core",category:"Street",price:169,old:199,tag:"Best Seller",color:"#151517",accent:"#d9d9d9",sizes:[7,8,9,10,11,12],rating:4.8},
-  {id:3,name:"Volt Runner X",category:"Running",price:139,old:159,tag:"Hot",color:"#c8ff43",accent:"#101010",sizes:[8,9,10,11],rating:4.7},
-  {id:4,name:"Mono Court",category:"Lifestyle",price:129,old:149,tag:"Classic",color:"#f1f1ee",accent:"#ff5538",sizes:[7,8,9,10,11],rating:4.8},
-  {id:5,name:"Obsidian 90",category:"Street",price:189,old:219,tag:"Limited",color:"#232326",accent:"#9f7aea",sizes:[8,9,10,11,12],rating:5},
-  {id:6,name:"Cloud Step",category:"Lifestyle",price:119,old:139,tag:"New",color:"#dfe9f7",accent:"#4d7cff",sizes:[7,8,9,10],rating:4.6},
+  {id:1,name:"Aero Flux 01",category:"Running",price:149,old:179,tag:"New",color:"#e8e5df",accent:"#c5a059",sizes:[7,8,9,10,11],rating:4.9},
+  {id:2,name:"Shadow Core",category:"Street",price:169,old:199,tag:"Best Seller",color:"#151517",accent:"#dfbd75",sizes:[7,8,9,10,11,12],rating:4.8},
+  {id:3,name:"Sovereign X",category:"Running",price:189,old:219,tag:"Hot",color:"#222226",accent:"#d4af37",sizes:[8,9,10,11],rating:4.9},
+  {id:4,name:"Mono Court",category:"Lifestyle",price:129,old:149,tag:"Classic",color:"#f5f4ef",accent:"#d9825b",sizes:[7,8,9,10,11],rating:4.8},
+  {id:5,name:"Obsidian 90",category:"Street",price:199,old:229,tag:"Limited",color:"#1c1a24",accent:"#c084fc",sizes:[8,9,10,11,12],rating:5.0},
+  {id:6,name:"Cloud Step",category:"Lifestyle",price:139,old:159,tag:"New",color:"#e9f1f7",accent:"#38bdf8",sizes:[7,8,9,10],rating:4.7},
 ];
 
 function Sneaker3D({progress=0, compact=false}) {
   const mount = useRef(null);
+
   useEffect(() => {
     if (!mount.current) return;
     let frame;
-    let renderer, scene, camera;
+    let renderer, scene, camera, shoe;
     const currentMount = mount.current;
+
+    let targetRotX = -0.18;
+    let targetRotY = -0.28;
+    let currentRotX = -0.18;
+    let currentRotY = -0.28;
+
+    let isDragging = false;
+    let startMousePos = { x: 0, y: 0 };
+    let dragRotOffset = { x: 0, y: 0 };
+
+    const handlePointerMove = (e) => {
+      if (isDragging) {
+        const deltaX = (e.clientX - startMousePos.x) * 0.008;
+        const deltaY = (e.clientY - startMousePos.y) * 0.008;
+        dragRotOffset.y += deltaX;
+        dragRotOffset.x += deltaY;
+        startMousePos = { x: e.clientX, y: e.clientY };
+      } else {
+        const normX = (e.clientX / window.innerWidth - 0.5) * 2;
+        const normY = (e.clientY / window.innerHeight - 0.5) * 2;
+        targetRotY = normX * 0.75;
+        targetRotX = normY * 0.35 - 0.18;
+      }
+    };
+
+    const handlePointerDown = (e) => {
+      isDragging = true;
+      startMousePos = { x: e.clientX, y: e.clientY };
+      if (currentMount) currentMount.style.cursor = "grabbing";
+    };
+
+    const handlePointerUp = () => {
+      isDragging = false;
+      if (currentMount) currentMount.style.cursor = "grab";
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    currentMount.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("pointerup", handlePointerUp);
 
     try {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
       camera.position.set(0.15, 0.45, 5.7);
+
       renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(currentMount.clientWidth || 500, currentMount.clientHeight || 500);
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       currentMount.appendChild(renderer.domElement);
+      currentMount.style.cursor = "grab";
 
-      const shoe = new THREE.Group();
-      const upperMat = new THREE.MeshStandardMaterial({color:0xe9e6df, roughness:.48, metalness:.04});
-      const soleMat = new THREE.MeshStandardMaterial({color:0x111114, roughness:.3});
-      const accentMat = new THREE.MeshStandardMaterial({color:0xc8ff43, roughness:.34, metalness:.05});
-      const darkMat = new THREE.MeshStandardMaterial({color:0x1b1b1f, roughness:.5});
-      const laceMat = new THREE.MeshStandardMaterial({color:0x222226, roughness:.7});
+      shoe = new THREE.Group();
+      const upperMat = new THREE.MeshStandardMaterial({color:0xeeeade, roughness:.42, metalness:.08});
+      const soleMat = new THREE.MeshStandardMaterial({color:0x121215, roughness:.25});
+      const accentMat = new THREE.MeshStandardMaterial({color:0xd4af37, roughness:.28, metalness:.45}); // Classy Gold Metal
+      const darkMat = new THREE.MeshStandardMaterial({color:0x1c1c20, roughness:.4});
+      const laceMat = new THREE.MeshStandardMaterial({color:0x27272c, roughness:.6});
 
       const upper = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
-      upper.scale.set(1.72,.52,.72);
-      upper.position.set(.15,.22,0);
+      upper.scale.set(1.72, .52, .72);
+      upper.position.set(.15, .22, 0);
       shoe.add(upper);
 
       const toe = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), upperMat);
-      toe.scale.set(1.15,.46,.70);
-      toe.position.set(1.18,.18,0);
+      toe.scale.set(1.15, .46, .70);
+      toe.position.set(1.18, .18, 0);
       shoe.add(toe);
 
       const heel = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 20), darkMat);
-      heel.scale.set(.48,.58,.7);
-      heel.position.set(-1.25,.24,0);
+      heel.scale.set(.48, .58, .7);
+      heel.position.set(-1.25, .24, 0);
       shoe.add(heel);
 
-      const sole = new THREE.Mesh(new THREE.BoxGeometry(3.55,.27,1.34), soleMat);
-      sole.position.set(.05,-.28,0);
-      sole.rotation.z=-.025;
+      const sole = new THREE.Mesh(new THREE.BoxGeometry(3.55, .27, 1.34), soleMat);
+      sole.position.set(.05, -.28, 0);
+      sole.rotation.z = -.025;
       shoe.add(sole);
 
-      const mid = new THREE.Mesh(new THREE.BoxGeometry(2.65,.16,1.18), accentMat);
-      mid.position.set(.35,-.12,0);
+      const mid = new THREE.Mesh(new THREE.BoxGeometry(2.65, .16, 1.18), accentMat);
+      mid.position.set(.35, -.12, 0);
       shoe.add(mid);
 
-      for(let i=0;i<5;i++){
-        const lace = new THREE.Mesh(new THREE.BoxGeometry(.62,.035,.06), laceMat);
-        lace.position.set(.05 + i*.28,.66, .62);
-        lace.rotation.z=-.1;
+      for(let i=0; i<5; i++){
+        const lace = new THREE.Mesh(new THREE.BoxGeometry(.62, .035, .06), laceMat);
+        lace.position.set(.05 + i*.28, .66, .62);
+        lace.rotation.z = -.1;
         shoe.add(lace);
       }
 
-      const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.15,.08,.11), accentMat);
-      stripe.position.set(-.38,.58,.69);
-      stripe.rotation.z=-.34;
+      const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.15, .08, .11), accentMat);
+      stripe.position.set(-.38, .58, .69);
+      stripe.rotation.z = -.34;
       shoe.add(stripe);
 
       const ring = new THREE.Mesh(
-        new THREE.TorusGeometry(.74,.035,10,64,Math.PI*1.25),
+        new THREE.TorusGeometry(.74, .035, 10, 64, Math.PI*1.25),
         accentMat
       );
-      ring.rotation.y=Math.PI/2;
-      ring.rotation.z=.25;
-      ring.position.set(-.72,.34,.57);
+      ring.rotation.y = Math.PI / 2;
+      ring.rotation.z = .25;
+      ring.position.set(-.72, .34, .57);
       shoe.add(ring);
 
-      shoe.rotation.x=-.18;
-      shoe.rotation.y=-.28;
-      shoe.rotation.z=.08;
+      shoe.rotation.x = -0.18;
+      shoe.rotation.y = -0.28;
+      shoe.rotation.z = 0.08;
       scene.add(shoe);
 
-      scene.add(new THREE.HemisphereLight(0xffffff,0x242424,2.2));
-      const key = new THREE.DirectionalLight(0xffffff,3.2);
-      key.position.set(3,5,5); scene.add(key);
-      const fill = new THREE.PointLight(0xc8ff43,7,10);
-      fill.position.set(-3,1,3); scene.add(fill);
+      scene.add(new THREE.HemisphereLight(0xffffff, 0x1f1f24, 2.5));
+      const key = new THREE.DirectionalLight(0xfff9ef, 3.5);
+      key.position.set(3, 5, 5);
+      scene.add(key);
 
-      const resize=()=>{
+      const fill = new THREE.PointLight(0xd4af37, 8, 12);
+      fill.position.set(-3, 1, 3);
+      scene.add(fill);
+
+      const resize = () => {
         if (!currentMount) return;
-        const w=currentMount.clientWidth||500, h=currentMount.clientHeight||500;
-        camera.aspect=w/h; camera.updateProjectionMatrix(); renderer.setSize(w,h);
+        const w = currentMount.clientWidth || 500, h = currentMount.clientHeight || 500;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
       };
-      window.addEventListener("resize",resize);
-      const animate=()=>{
-        frame=requestAnimationFrame(animate);
-        shoe.rotation.y += .0045;
-        renderer.render(scene,camera);
+      window.addEventListener("resize", resize);
+
+      let time = 0;
+      const animate = () => {
+        frame = requestAnimationFrame(animate);
+        time += 0.012;
+
+        const scrollAngle = progress * 0.0018;
+        const idleRotY = Math.sin(time) * 0.06;
+        const idleRotX = Math.cos(time * 0.7) * 0.04;
+
+        const finalTargetY = targetRotY + dragRotOffset.y + idleRotY + scrollAngle;
+        const finalTargetX = targetRotX + dragRotOffset.x + idleRotX;
+
+        currentRotY += (finalTargetY - currentRotY) * 0.065;
+        currentRotX += (finalTargetX - currentRotX) * 0.065;
+
+        shoe.rotation.y = currentRotY;
+        shoe.rotation.x = currentRotX;
+
+        renderer.render(scene, camera);
       };
       animate();
 
-      return ()=>{
+      return () => {
         if (frame) cancelAnimationFrame(frame);
-        window.removeEventListener("resize",resize);
+        window.removeEventListener("pointermove", handlePointerMove);
+        currentMount.removeEventListener("pointerdown", handlePointerDown);
+        window.removeEventListener("pointerup", handlePointerUp);
+        window.removeEventListener("resize", resize);
         if (renderer) {
           renderer.dispose();
           if (currentMount && renderer.domElement && currentMount.contains(renderer.domElement)) {
@@ -124,11 +190,12 @@ function Sneaker3D({progress=0, compact=false}) {
     } catch (e) {
       console.warn("WebGL initialization skipped:", e);
     }
-  },[]);
-  return <div ref={mount} className={"shoe3d "+(compact?"compact":"")} aria-label="Interactive 3D sneaker"></div>;
+  }, [progress]);
+
+  return <div ref={mount} className={"shoe3d "+(compact?"compact":"")} aria-label="Interactive 3D sneaker — move cursor or drag to rotate"></div>;
 }
 
-function ProductCard({p,onAdd,onWish,wished}) {
+function ProductCard({p, onAdd, onWish, wished}) {
   return <article className="product-card">
     <div className="product-art" style={{"--shoe":p.color,"--accent":p.accent}}>
       <span className="tag">{p.tag}</span>
@@ -145,34 +212,34 @@ function ProductCard({p,onAdd,onWish,wished}) {
 }
 
 function App(){
-  const [cart,setCart]=useState([]);
-  const [wishlist,setWishlist]=useState([]);
-  const [query,setQuery]=useState("");
-  const [category,setCategory]=useState("All");
-  const [sort,setSort]=useState("featured");
-  const [menu,setMenu]=useState(false);
-  const [cartOpen,setCartOpen]=useState(false);
-  const [shopOpen,setShopOpen]=useState(false);
-  const [scroll,setScroll]=useState(0);
+  const [cart, setCart] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All");
+  const [sort, setSort] = useState("featured");
+  const [menu, setMenu] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
+  const [scroll, setScroll] = useState(0);
 
   useEffect(()=>{
-    const onScroll=()=>setScroll(window.scrollY);
-    window.addEventListener("scroll",onScroll,{passive:true});
-    return()=>window.removeEventListener("scroll",onScroll);
+    const onScroll = () => setScroll(window.scrollY);
+    window.addEventListener("scroll", onScroll, {passive:true});
+    return () => window.removeEventListener("scroll", onScroll);
   },[]);
 
-  const filtered=useMemo(()=>{
-    let arr=products.filter(p=>(category==="All"||p.category===category)&&p.name.toLowerCase().includes(query.toLowerCase()));
+  const filtered = useMemo(()=>{
+    let arr = products.filter(p=>(category==="All"||p.category===category)&&p.name.toLowerCase().includes(query.toLowerCase()));
     if(sort==="price-low") arr.sort((a,b)=>a.price-b.price);
     if(sort==="price-high") arr.sort((a,b)=>b.price-a.price);
     if(sort==="rating") arr.sort((a,b)=>b.rating-a.rating);
     return arr;
   },[category,query,sort]);
 
-  const add=(p)=>setCart(c=>{const x=c.find(i=>i.id===p.id);return x?c.map(i=>i.id===p.id?{...i,qty:i.qty+1}:i):[...c,{...p,qty:1}]});
-  const change=(id,d)=>setCart(c=>c.map(i=>i.id===id?{...i,qty:i.qty+d}:i).filter(i=>i.qty>0));
-  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  const count=cart.reduce((s,i)=>s+i.qty,0);
+  const add = (p) => setCart(c => { const x = c.find(i=>i.id===p.id); return x ? c.map(i=>i.id===p.id?{...i,qty:i.qty+1}:i) : [...c,{...p,qty:1}]; });
+  const change = (id,d) => setCart(c => c.map(i=>i.id===id?{...i,qty:i.qty+d}:i).filter(i=>i.qty>0));
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const count = cart.reduce((s,i)=>s+i.qty,0);
 
   return <div className="app">
     <div className="announcement">FREE EXPRESS SHIPPING ON ORDERS OVER $100 <span>·</span> EASY 30-DAY RETURNS</div>
@@ -205,8 +272,8 @@ function App(){
           <div className="scroll-sneaker" style={{transform:`translate3d(${Math.min(scroll*.08,70)}px,${Math.min(scroll*.11,95)}px,0) rotate(${Math.min(scroll*.07,30)}deg)`}}>
             <Sneaker3D progress={scroll}/>
           </div>
-          <div className="floating-label label-a"><Rotate3D size={17}/><span>360°<small>VIEW</small></span></div>
-          <div className="floating-label label-b"><Zap size={17}/><span>ENERGY<small>RETURN</small></span></div>
+          <div className="floating-label label-a"><Rotate3D size={17}/><span>360°<small>DRAG TO ROTATE</small></span></div>
+          <div className="floating-label label-b"><Zap size={17}/><span>DYNAMIC<small>INTERACTIVE</small></span></div>
         </div>
       </section>
 
