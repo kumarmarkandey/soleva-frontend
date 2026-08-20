@@ -1,0 +1,25 @@
+{
+  "name": "soleva-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "homepage": "https://kumarmarkandey.github.io/soleva-frontend",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.0.2",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "three": "^0.179.1",
+    "vite": "^7.1.3"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
