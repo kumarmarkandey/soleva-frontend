@@ -15,93 +15,93 @@ export function formatINR(val) {
 const products = [
   {
     id: 1,
-    name: "Campus Oxyfit Cyber Glow",
-    category: "High-Top Cyber",
-    price: 13999,
-    old: 16999,
-    tag: "India Edition",
-    colorName: "Stealth Black / Cyber Green Glow",
-    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80",
-    swatches: ["#10b981", "#121214", "#ffffff"],
+    name: "PUMA Slipstream Mid Leather",
+    category: "High-Top Heritage",
+    price: 10999,
+    old: 12999,
+    tag: "PUMA Heritage",
+    colorName: "PUMA White / PUMA Black / PUMA Red",
+    image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80",
+    swatches: ["#ff2a55", "#121214", "#ffffff"],
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 5.0,
     reviews: 412,
-    description: "Campus signature high-top performance sneaker featuring genuine leather overlays, air mesh ventilation, and high-impact rubber sole."
+    description: "Iconic 1987 PUMA high-top basketball sneaker re-issued with full leather upper, padded collar, Formstrip lateral branding, and rubber cupsole."
   },
   {
     id: 2,
-    name: "Red Tape Urban Glide X",
-    category: "High-Top Street",
-    price: 14499,
-    old: 17999,
-    tag: "Best Seller",
-    colorName: "Matte Carbon / White / Crimson Red",
-    image: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
-    swatches: ["#ff2a55", "#18181c", "#ffffff"],
+    name: "PUMA Velocity NITRO™ 3",
+    category: "NITRO™ Running",
+    price: 11999,
+    old: 13999,
+    tag: "NITRO™ Tech",
+    colorName: "Electric Blue Lemonade / PUMA Black",
+    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80",
+    swatches: ["#10b981", "#121214", "#ffffff"],
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 4.9,
     reviews: 328,
-    description: "Red Tape urban street high-top engineered with premium matte carbon leather, cushioned ankle padding, and grip outsole."
+    description: "PUMA's premier daily running shoe equipped with NITROFOAM™ responsive cushioning, PUMAGRIP durable rubber traction, and engineered mesh upper."
   },
   {
     id: 3,
-    name: "HRX Surge Nitro Tech",
-    category: "Performance Runner",
-    price: 15999,
-    old: 18999,
-    tag: "HRX Fitness",
-    colorName: "Midnight Navy / White / Voltage Amber",
-    image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80",
-    swatches: ["#ffb700", "#0f172a", "#ffffff"],
-    sizes: [8, 9, 10, 11, 12],
+    name: "PUMA Suede Classic XXI",
+    category: "Heritage Lifestyle",
+    price: 7999,
+    old: 9999,
+    tag: "PUMA Classic",
+    colorName: "PUMA Black / PUMA White",
+    image: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
+    swatches: ["#121214", "#ffffff", "#888888"],
+    sizes: [7, 8, 9, 10, 11, 12],
     rating: 4.9,
-    reviews: 265,
-    description: "Hrithik Roshan's HRX athletic runner built with Nitro foam energy return, breathable mesh upper, and high-traction sole."
+    reviews: 580,
+    description: "The timeless PUMA Suede Classic featuring full suede upper, synthetic lining, iconic lateral Formstrip, and comfortable rubber midsole."
   },
   {
     id: 4,
-    name: "Bata Power Apex Volt",
-    category: "Court Athletic",
-    price: 12999,
-    old: 15999,
-    tag: "Power Series",
-    colorName: "Obsidian Black / White / Emerald Green",
+    name: "PUMA Palermo Leather",
+    category: "Terrace Court",
+    price: 8999,
+    old: 10999,
+    tag: "Terrace Special",
+    colorName: "Alpine Snow / PUMA Gold",
     image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80",
     swatches: ["#10b981", "#111827", "#ffffff"],
     sizes: [7, 8, 9, 10, 11],
     rating: 4.8,
-    reviews: 198,
-    description: "Bata Power court athletic sneaker with reinforced rubber toe cap, high-rebound heel cushioning, and court grip plate."
+    reviews: 210,
+    description: "Re-issued terrace court sneaker straight from the archives with signature gum rubber outsole, foil print PUMA logo, and leather overlays."
   },
   {
     id: 5,
-    name: "Woodland Apex Trail Tracker",
-    category: "Rugged Outdoor",
-    price: 16499,
-    old: 19999,
-    tag: "Outdoor Tough",
-    colorName: "Espresso Brown / Off-White / Amber",
-    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80",
-    swatches: ["#f59e0b", "#271a15", "#f5f5f0"],
+    name: "PUMA RS-X Triple",
+    category: "Futuristic Streetwear",
+    price: 9999,
+    old: 11999,
+    tag: "RS-X Edition",
+    colorName: "Vapor Gray / PUMA Red",
+    image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80",
+    swatches: ["#ffb700", "#0f172a", "#ffffff"],
     sizes: [8, 9, 10, 11, 12],
     rating: 4.9,
-    reviews: 176,
-    description: "Woodland rugged outdoor high-top sneaker crafted from full-grain espresso leather with all-terrain rubber tread outsole."
+    reviews: 345,
+    description: "Extremist chunky streetwear silhouette powered by PUMA Running System technology, molded TPU eyelets, and multi-texture mesh upper."
   },
   {
     id: 6,
-    name: "Neeman's Re-Velocity Eco High",
-    category: "Sustainable Lifestyle",
-    price: 11999,
-    old: 14999,
-    tag: "Eco-Friendly",
-    colorName: "Pure White / Cyber Violet",
+    name: "PUMA Deviate NITRO™ 2",
+    category: "Marathon Elite",
+    price: 14999,
+    old: 16999,
+    tag: "Marathon Elite",
+    colorName: "Sun Stream / Sunset Glow",
     image: "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?auto=format&fit=crop&w=800&q=80",
     swatches: ["#a855f7", "#ffffff", "#f1f5f9"],
     sizes: [7, 8, 9, 10, 11],
-    rating: 4.8,
-    reviews: 215,
-    description: "Neeman's eco-conscious sustainable high-top knit sneaker made from 100% recycled ocean plastics with ultra-soft foam sole."
+    rating: 5.0,
+    reviews: 290,
+    description: "PUMA's maximum performance carbon-plated marathon shoe featuring dual NITROFOAM™ Elite stack, PWRPLATE carbon fiber plate, and PUMAGRIP outsole."
   }
 ];
 
@@ -460,7 +460,7 @@ function WishlistDrawer({ wishlist, products, onClose, onMoveToCart, onRemoveWis
           <div className="empty">
             <Heart size={44} style={{ color: "var(--muted)", opacity: 0.5 }} />
             <h3>Your wishlist is empty.</h3>
-            <p>Save your favorite real sneakers to review or buy later.</p>
+            <p>Save your favorite PUMA sneakers to review or buy later.</p>
             <button className="primary" onClick={onClose}>Explore Collection</button>
           </div>
         ) : (
@@ -610,12 +610,12 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
 
         <div className="studio-controls">
           <div className="studio-title">
-            <h2>Design Your <em>Sneaker.</em></h2>
-            <p>Select your base silhouette, accent color palette, and custom fit size.</p>
+            <h2>Design Your <em>PUMA Pair.</em></h2>
+            <p>Select your base PUMA silhouette, accent color palette, and custom fit size.</p>
           </div>
 
           <div>
-            <span className="control-label">SELECT SNEAKER SILHOUETTE</span>
+            <span className="control-label">SELECT PUMA SILHOUETTE</span>
             <div className="preset-chips">
               {products.map(p => (
                 <button
@@ -631,7 +631,7 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
 
           <div className="part-tabs">
             {[
-              { id: "swoosh", label: "Branding & Glow" },
+              { id: "swoosh", label: "Formstrip & Glow" },
               { id: "upper", label: "Upper Base" },
               { id: "sole", label: "Sole & Outsole" }
             ].map(t => (
@@ -749,7 +749,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
     } else if (step === 3) {
       if (validateStep3()) {
         const simulatedOrder = {
-          id: "SLV-" + Math.floor(100000 + Math.random() * 900000),
+          id: "PMA-" + Math.floor(100000 + Math.random() * 900000),
           date: new Date().toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" }),
           items: [...cart],
           total: grandTotal,
@@ -1038,7 +1038,6 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
   );
 }
 
-/* Interactive 360° Quick View Modal Component */
 function QuickViewModal({ product, onClose, onAddToCart }) {
   if (!product) return null;
 
@@ -1048,11 +1047,11 @@ function QuickViewModal({ product, onClose, onAddToCart }) {
   const dragRef = useRef(null);
 
   const angles = [
-    { label: "Side 90°", degree: "90°", transform: "rotateY(0deg) rotate(0deg) scale(1)", desc: "Side Profile & Branding" },
+    { label: "Side 90°", degree: "90°", transform: "rotateY(0deg) rotate(0deg) scale(1)", desc: "Side Profile & Formstrip" },
     { label: "3/4 View 45°", degree: "45°", transform: "rotateY(-25deg) rotate(2deg) scale(1.04)", desc: "Dynamic 3/4 Perspective" },
     { label: "Front 0°", degree: "0°", transform: "rotateY(-60deg) rotate(5deg) scale(1.08)", desc: "Toe Cap & Lacing Structure" },
-    { label: "Heel 180°", degree: "180°", transform: "rotateY(45deg) rotate(-4deg) scale(1.04)", desc: "Heel Counter & Ankle Collar" },
-    { label: "Outsole 270°", degree: "270°", transform: "rotate(45deg) scale(0.95)", desc: "High-Traction Outsole Tread" }
+    { label: "Heel 180°", degree: "180°", transform: "rotateY(45deg) rotate(-4deg) scale(1.04)", desc: "Heel Counter & PUMA Cat" },
+    { label: "Outsole 270°", degree: "270°", transform: "rotate(45deg) scale(0.95)", desc: "High-Traction PUMAGRIP Outsole" }
   ];
 
   useEffect(() => {
@@ -1174,8 +1173,8 @@ function QuickViewModal({ product, onClose, onAddToCart }) {
           </div>
 
           <div className="specs-list" style={{ marginTop: "16px" }}>
-            <div><ShieldCheck size={16} /> <span>Genuine Leather & Cushioned High-Top Collar</span></div>
-            <div><Zap size={16} /> <span>Interactive 360° Inspection & High-Rebound Sole</span></div>
+            <div><ShieldCheck size={16} /> <span>100% Authentic PUMA India Product</span></div>
+            <div><Zap size={16} /> <span>NITROFOAM™ & PUMAGRIP Rubber Technology</span></div>
             <div><Truck size={16} /> <span>Free Express Shipping across India</span></div>
           </div>
 
@@ -1207,10 +1206,10 @@ function App() {
   });
   const [orderHistory, setOrderHistory] = useState([
     {
-      id: "SLV-894215",
+      id: "PMA-894215",
       date: "Aug 18, 2026",
       items: [{ ...products[0], selectedSize: 9, qty: 1 }],
-      total: 13999
+      total: 10999
     }
   ]);
   const [query, setQuery] = useState("");
@@ -1233,7 +1232,7 @@ function App() {
   };
 
   const filtered = useMemo(() => {
-    let arr = products.filter(p => (category === "All" || p.category.includes(category) || category === "High-Top") && p.name.toLowerCase().includes(query.toLowerCase()));
+    let arr = products.filter(p => (category === "All" || p.category.includes(category) || category === "High-Top" || category === "Running") && p.name.toLowerCase().includes(query.toLowerCase()));
     if (sort === "price-low") arr.sort((a, b) => a.price - b.price);
     if (sort === "price-high") arr.sort((a, b) => b.price - a.price);
     if (sort === "rating") arr.sort((a, b) => b.rating - a.rating);
@@ -1322,7 +1321,7 @@ function App() {
         <div className="nav-actions">
           <label className="search-box">
             <Search size={18} />
-            <input value={query} onChange={e => { setQuery(e.target.value); if (activePage !== "shop") navigateTo("shop"); }} placeholder="Search sneakers" />
+            <input value={query} onChange={e => { setQuery(e.target.value); if (activePage !== "shop") navigateTo("shop"); }} placeholder="Search PUMA sneakers" />
           </label>
           <button onClick={() => setProfileOpen(true)} className="icon-btn profile-nav-btn" aria-label="Open profile">
             <User size={20} />
@@ -1345,9 +1344,9 @@ function App() {
           <div className="page-view home-page-view">
             <section className="hero">
               <div className="hero-copy">
-                <div className="eyebrow"><Sparkles size={15} /> SPRING / SUMMER 2026</div>
-                <h1>MOVE<br /><em>DIFFERENT.</em></h1>
-                <p>Engineered authentic high-top sneakers from Campus, Red Tape, HRX, Bata Power, Woodland, and Neeman's. Precision comfort and everyday energy.</p>
+                <div className="eyebrow"><Sparkles size={15} /> PUMA INDIA 2026 EDITION</div>
+                <h1>FOREVER<br /><em>FASTER.</em></h1>
+                <p>Engineered official PUMA India sneakers featuring NITROFOAM™ responsive cushioning, PWRPLATE carbon tech, and iconic Suede & Slipstream silhouettes.</p>
                 <div className="hero-buttons">
                   <button className="primary" onClick={() => navigateTo("shop")}>Explore collection <ArrowRight /></button>
                   <button className="secondary-studio-btn" onClick={() => setCustomizerOpen(true)}>
@@ -1355,8 +1354,8 @@ function App() {
                   </button>
                 </div>
                 <div className="hero-stats">
-                  <div><strong>01</strong><span>Signature<br />silhouette</span></div>
-                  <div><strong>PRO</strong><span>Adaptive<br />cushioning</span></div>
+                  <div><strong>01</strong><span>Signature<br />Formstrip</span></div>
+                  <div><strong>NITRO</strong><span>Adaptive<br />cushioning</span></div>
                   <div><strong>30</strong><span>Day free<br />returns</span></div>
                 </div>
               </div>
@@ -1365,27 +1364,27 @@ function App() {
                 <div className="orbit orbit2"></div>
                 <div className="scroll-sneaker">
                   <img
-                    src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=1200&q=80"
-                    alt="Red Tape Urban Glide X High-Top"
+                    src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=1200&q=80"
+                    alt="PUMA Slipstream Mid Leather"
                     className="hero-real-shoe-img"
                   />
                 </div>
-                <div className="floating-label label-a"><Sparkles size={17} /><span>AUTHENTIC<small>REAL PHOTOGRAPHY</small></span></div>
-                <div className="floating-label label-b"><Zap size={17} /><span>SIDE PROFILE<small>LEATHER HIGH-TOP</small></span></div>
+                <div className="floating-label label-a"><Sparkles size={17} /><span>PUMA INDIA<small>OFFICIAL CATALOG</small></span></div>
+                <div className="floating-label label-b"><Zap size={17} /><span>SLIPSTREAM MID<small>HERITAGE LEATHER</small></span></div>
               </div>
             </section>
 
             <section className="marquee">
-              <div>REAL INDIAN BRAND SNEAKERS · CAMPUS · RED TAPE · HRX · BATA POWER · WOODLAND · NEEMAN'S · </div>
+              <div>OFFICIAL PUMA INDIA SNEAKERS · SLIPSTREAM MID · VELOCITY NITRO™ 3 · SUEDE CLASSIC XXI · PALERMO LEATHER · RS-X TRIPLE · DEVIATE NITRO™ 2 · </div>
             </section>
 
             <section className="shop-section">
               <div className="section-head">
                 <div>
-                  <span className="eyebrow">THE COLLECTION</span>
+                  <span className="eyebrow">PUMA COLLECTION</span>
                   <h2>Featured <em>Drops.</em></h2>
                 </div>
-                <button className="text-link-btn" onClick={() => navigateTo("shop")}>View all catalog <ArrowRight size={16} /></button>
+                <button className="text-link-btn" onClick={() => navigateTo("shop")}>View all PUMA catalog <ArrowRight size={16} /></button>
               </div>
 
               <div className="product-grid">
@@ -1408,15 +1407,15 @@ function App() {
         {activePage === "shop" && (
           <div className="page-view shop-page-view">
             <div className="page-banner">
-              <span className="eyebrow">FULL CATALOG</span>
-              <h1>INDIAN SNEAKER <em>COLLECTION</em></h1>
-              <p>Explore 100% authentic high-top releases from Campus, Red Tape, HRX, Bata Power, Woodland, and Neeman's.</p>
+              <span className="eyebrow">PUMA INDIA STORE</span>
+              <h1>PUMA SNEAKER <em>COLLECTION</em></h1>
+              <p>Explore 100% authentic PUMA India releases including Slipstream Mid, Velocity NITRO™ 3, Suede Classic XXI, Palermo Leather, RS-X Triple, and Deviate NITRO™ 2.</p>
             </div>
 
             <section className="shop-section" style={{ paddingTop: 0 }}>
               <div className="shop-controls show">
                 <div className="chips">
-                  {["All", "High-Top", "Running", "Street", "Lifestyle"].map(c => (
+                  {["All", "Heritage", "NITRO™ Running", "Lifestyle", "Terrace"].map(c => (
                     <button className={category === c ? "selected" : ""} onClick={() => setCategory(c)} key={c}>{c}</button>
                   ))}
                 </div>
@@ -1448,33 +1447,33 @@ function App() {
         {activePage === "story" && (
           <div className="page-view story-page-view">
             <div className="page-banner">
-              <span className="eyebrow">THE SOLEVA PHILOSOPHY</span>
-              <h1>CRAFTED FOR <em>MOTION.</em></h1>
-              <p>Combining precision engineering with authentic Indian craftsmanship for next-level ergonomic comfort.</p>
+              <span className="eyebrow">THE PUMA HERITAGE</span>
+              <h1>FOREVER <em>FASTER.</em></h1>
+              <p>Combining German innovation with athletic performance to empower runners and street culture since 1948.</p>
             </div>
 
             <section className="feature">
               <div className="feature-copy">
-                <span className="eyebrow">THE THREE-LAYER SYSTEM</span>
+                <span className="eyebrow">ADVANCED NITRO™ TECHNOLOGY</span>
                 <h2>Comfort that <em>keeps up.</em></h2>
-                <p>Every Soleva is built around a responsive three-layer platform: soft landing, stable stride, energetic lift. The result is a sneaker that feels ready before you are.</p>
+                <p>PUMA NITROFOAM™ delivers maximum energy return in an ultra-lightweight package, while PUMAGRIP rubber ensures maximum traction across every surface.</p>
                 <div className="feature-points">
-                  <div><ShieldCheck /><span><b>All-day support</b>Contoured heel lock + ergonomic collar</span></div>
-                  <div><Zap /><span><b>Energy return</b>High-density Nitro foam beneath every step</span></div>
-                  <div><Truck /><span><b>Fast, free shipping</b>Express dispatch across India</span></div>
+                  <div><ShieldCheck /><span><b>NITROFOAM™ Cushioning</b>Infused with nitrogen for lightweight responsiveness</span></div>
+                  <div><Zap /><span><b>PWRPLATE Carbon Fiber</b>Engineered plate stabilizes energy transfer for peak performance</span></div>
+                  <div><Truck /><span><b>Fast, Free Shipping</b>Direct dispatch across India</span></div>
                 </div>
               </div>
               <div className="feature-visual">
-                <div className="spec-ring">S<span>3</span></div>
+                <div className="spec-ring">P<span>M</span></div>
                 <div className="feature-shoe">
                   <img
-                    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80"
-                    alt="Campus Oxyfit Cyber Glow"
+                    src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80"
+                    alt="PUMA Velocity NITRO 3"
                     className="feature-real-img"
                   />
                 </div>
-                <div className="spec-label top">RESPONSIVE<br />FOAM</div>
-                <div className="spec-label bottom">LIGHTWEIGHT<br />MESH</div>
+                <div className="spec-label top">NITROFOAM™<br />CUSHION</div>
+                <div className="spec-label bottom">PUMAGRIP<br />RUBBER</div>
               </div>
             </section>
           </div>
@@ -1484,9 +1483,9 @@ function App() {
         {activePage === "journal" && (
           <div className="page-view journal-page-view">
             <div className="page-banner">
-              <span className="eyebrow">THE SOLEVA JOURNAL</span>
+              <span className="eyebrow">THE PUMA JOURNAL</span>
               <h1>STORIES & <em>DESIGN.</em></h1>
-              <p>Deep dives into sneaker sculpting, athletic recovery, and sustainable manufacturing.</p>
+              <p>Deep dives into NITRO™ foam technology, terrace football culture, and carbon-plated performance.</p>
             </div>
 
             <section className="journal" style={{ paddingTop: 0 }}>
@@ -1513,13 +1512,13 @@ function App() {
         <div className="footer-top">
           <div>
             <a className="logo" onClick={() => navigateTo("home")} style={{ cursor: "pointer" }}>SOLEVA<span>®</span></a>
-            <p>Premium sneakers for people in motion.</p>
+            <p>Official PUMA India sneakers for people in motion.</p>
             <div className="socials"><Instagram /><Facebook /><Twitter /></div>
           </div>
           <div>
             <b>NAVIGATION</b>
             <a onClick={() => navigateTo("home")}>Home</a>
-            <a onClick={() => navigateTo("shop")}>Shop Catalog</a>
+            <a onClick={() => navigateTo("shop")}>PUMA Catalog</a>
             <a onClick={() => navigateTo("story")}>Our Story</a>
             <a onClick={() => navigateTo("journal")}>Journal</a>
           </div>
@@ -1531,11 +1530,11 @@ function App() {
           </div>
           <div>
             <b>STAY IN THE LOOP</b>
-            <p>New drops, early access and stories.</p>
+            <p>New PUMA drops, early access and stories.</p>
             <div className="subscribe"><input placeholder="Your email" /><button>→</button></div>
           </div>
         </div>
-        <div className="footer-bottom">© 2026 SOLEVA. Built for motion. <span>Privacy · Terms · Accessibility</span></div>
+        <div className="footer-bottom">© 2026 SOLEVA × PUMA INDIA. Forever Faster. <span>Privacy · Terms · Accessibility</span></div>
       </footer>
 
       {/* Quick View Modal */}
@@ -1562,9 +1561,9 @@ function App() {
               <div className="empty">
                 <ShoppingBag size={42} />
                 <h3>Your bag is empty.</h3>
-                <p>Add a pair and start moving.</p>
+                <p>Add a pair of PUMAs and start moving.</p>
                 <button className="primary" onClick={() => { setCartOpen(false); navigateTo("shop"); }}>
-                  Shop sneakers
+                  Shop PUMA sneakers
                 </button>
               </div>
             ) : (
