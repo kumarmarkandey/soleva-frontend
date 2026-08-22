@@ -30,7 +30,7 @@ const products = [
   },
   {
     id: 2,
-    name: "PUMA Velocity NITRO™ 3",
+    name: "NIKE NITRO™ 3",
     category: "NITRO™ Running",
     price: 11999,
     old: 13999,
@@ -41,7 +41,7 @@ const products = [
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 4.9,
     reviews: 328,
-    description: "PUMA's premier daily running shoe equipped with NITROFOAM™ responsive cushioning, PUMAGRIP durable rubber traction, and engineered mesh upper."
+    description: "Nike premier daily running shoe equipped with NITROFOAM™ responsive cushioning, NIKE GRIP durable rubber traction, and engineered mesh upper."
   },
   {
     id: 3,
@@ -51,7 +51,7 @@ const products = [
     old: 9999,
     tag: "PUMA Classic",
     colorName: "PUMA Black / PUMA White",
-    image: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
+    image: "https://www.bing.com/images/search?view=detailV2&ccid=VVEipEsU&id=641B14FD7AE9C556E651CD44574A4A1A7D0061FE&thid=OIP.VVEipEsUaJ4uOo9WFWLB9gHaHa&mediaurl=https%3a%2f%2fimages.puma.com%2fimage%2fupload%2ff_auto%2cq_auto%2cb_rgb%3afafafa%2cw_2000%2ch_2000%2fglobal%2f374915%2f01%2fsv01%2ffnd%2fPNA%2ffmt%2fpng%2fSuede-Classic-XXI-Sneakers&exph=2000&expw=2000&q=PUMA+Suede+Classic+XXI&FORM=IRPRST&ck=E322A7157B328B714DFB181EDB0CCA4F&selectedIndex=1&itb=0",
     swatches: ["#121214", "#ffffff", "#888888"],
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 4.9,
@@ -500,7 +500,7 @@ function hexToHueRotate(hex) {
   if (!hex) return "none";
   if (hex === "#121214" || hex === "#000000") return "grayscale(0.95) brightness(0.6) contrast(1.4)";
   if (hex === "#ffffff") return "brightness(1.25) contrast(1.1)";
-  
+
   let r = parseInt(hex.slice(1, 3) || "00", 16) / 255;
   let g = parseInt(hex.slice(3, 5) || "00", 16) / 255;
   let b = parseInt(hex.slice(5, 7) || "00", 16) / 255;
@@ -574,12 +574,12 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
     <div className="studio-modal-backdrop" onClick={onClose}>
       <div className="studio-container" onClick={e => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label="Close studio"><X size={20} /></button>
-        
+
         <div className="studio-viewport">
           <div className="studio-header-badge">
             <Sparkles size={14} /> LIVE DESIGN STUDIO
           </div>
-          
+
           <div className="studio-real-art">
             <div className="studio-img-tint-container">
               <img
@@ -1065,7 +1065,7 @@ function QuickViewModal({ product, onClose, onAddToCart }) {
   const handleDragScrub = (e) => {
     const isTouch = e.touches && e.touches.length > 0;
     const startX = isTouch ? e.touches[0].clientX : e.clientX;
-    
+
     const handleMove = (moveEvt) => {
       const currentX = moveEvt.touches && moveEvt.touches.length > 0 ? moveEvt.touches[0].clientX : moveEvt.clientX;
       const diff = currentX - startX;
@@ -1096,7 +1096,7 @@ function QuickViewModal({ product, onClose, onAddToCart }) {
     <div className="modal-backdrop" onClick={onClose}>
       <div className="quick-modal quick-360-modal" onClick={e => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose}><X size={18} /></button>
-        
+
         <div
           className="modal-art quick-360-art"
           ref={dragRef}
@@ -1154,7 +1154,7 @@ function QuickViewModal({ product, onClose, onAddToCart }) {
             <b>{formatINR(product.price)}</b>
             <del>{formatINR(product.old)}</del>
           </div>
-          
+
           <p>{product.description}</p>
 
           <div className="quick-size-section" style={{ marginTop: "16px" }}>
