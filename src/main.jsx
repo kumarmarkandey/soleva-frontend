@@ -4,7 +4,7 @@ import {
   ArrowRight, Search, ShoppingBag, Heart, Menu, X, ChevronDown,
   Star, Plus, Minus, Trash2, Sparkles, Zap, ShieldCheck, Truck,
   Instagram, Facebook, Twitter, Rotate3D, SlidersHorizontal, Eye, CheckCircle2,
-  CreditCard, Check, PackageCheck, Sliders, Palette
+  CreditCard, Check, PackageCheck, Sliders, Palette, User, LogOut, Lock, Mail, MapPin, Calendar, Clock
 } from "lucide-react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -152,6 +152,33 @@ const products = [
     rating: 4.8,
     reviews: 215,
     description: "Neeman's eco-conscious sustainable high-top knit sneaker made from recycled ocean plastic with glowing Cyber Violet side swoosh."
+  }
+];
+
+const journalArticles = [
+  {
+    id: 1,
+    category: "DESIGN",
+    title: "Why the future of sneakers is sculptural.",
+    date: "Aug 20, 2026",
+    img: "https://images.unsplash.com/photo-1512374382149-233c42b6a83b?auto=format&fit=crop&w=800&q=80",
+    content: "Modern sneaker design is moving away from flat patterns toward dynamic 3D sculpting. By utilizing parametric 3D CAD modeling and lightweight polymer soles, high-top silhouettes achieve unprecedented ergonomic lock-in and striking aesthetic presence."
+  },
+  {
+    id: 2,
+    category: "MOVE",
+    title: "The 5-minute reset for your everyday stride.",
+    date: "Aug 15, 2026",
+    img: "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?auto=format&fit=crop&w=800&q=80",
+    content: "Foot health dictates posture and performance. Incorporating active arch flexes, heel grounding, and targeted foam support reduces impact stress during long urban commutes and high-intensity workouts."
+  },
+  {
+    id: 3,
+    category: "MATERIALS",
+    title: "Inside our recycled performance mesh.",
+    date: "Aug 10, 2026",
+    img: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=800&q=80",
+    content: "Sustainability doesn't mean compromising velocity. Our 100% recycled polymer uppers deliver superior breathability, dynamic tensile stretch, and 40% reduced carbon footprint compared to traditional synthetics."
   }
 ];
 
@@ -513,6 +540,254 @@ function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
         </button>
       </div>
     </article>
+  );
+}
+
+/* User Authentication & Profile Modal Component */
+function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHistory = [] }) {
+  const [authTab, setAuthTab] = useState("login");
+  const [profileTab, setProfileTab] = useState("orders");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPass, setLoginPass] = useState("");
+  const [signupName, setSignupName] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPass, setSignupPass] = useState("");
+  const [authErr, setAuthErr] = useState("");
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    if (!loginEmail || !loginPass) {
+      setAuthErr("Please fill in email and password.");
+      return;
+    }
+    onLogin({
+      name: loginEmail.split("@")[0].toUpperCase() || "Rahul Sharma",
+      email: loginEmail,
+      memberTier: "Soleva VIP Member",
+      address: "Flat 402, Skyline Residency, MG Road, Mumbai 400001"
+    });
+  };
+
+  const handleSignupSubmit = (e) => {
+    e.preventDefault();
+    if (!signupName || !signupEmail || !signupPass) {
+      setAuthErr("All fields are required.");
+      return;
+    }
+    onSignup({
+      name: signupName,
+      email: signupEmail,
+      memberTier: "Soleva Insider",
+      address: "Select default address in profile"
+    });
+  };
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="auth-modal" onClick={e => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Close modal"><X size={18} /></button>
+
+        {user ? (
+          /* LOGGED IN USER PROFILE DASHBOARD */
+          <div className="profile-dashboard">
+            <div className="profile-header-card">
+              <div className="avatar-circle">{user.name.slice(0, 2).toUpperCase()}</div>
+              <div>
+                <h2>{user.name}</h2>
+                <span className="user-email"><Mail size={13} /> {user.email}</span>
+                <span className="member-badge"><Sparkles size={12} /> {user.memberTier}</span>
+              </div>
+              <button className="logout-btn" onClick={onLogout} title="Sign Out">
+                <LogOut size={16} /> Logout
+              </button>
+            </div>
+
+            {/* Dashboard Sub-Tabs */}
+            <div className="profile-subtabs">
+              <button
+                className={"subtab-btn " + (profileTab === "orders" ? "active" : "")}
+                onClick={() => setProfileTab("orders")}
+              >
+                <PackageCheck size={16} /> My Orders ({orderHistory.length})
+              </button>
+              <button
+                className={"subtab-btn " + (profileTab === "address" ? "active" : "")}
+                onClick={() => setProfileTab("address")}
+              >
+                <MapPin size={16} /> Saved Address
+              </button>
+            </div>
+
+            {profileTab === "orders" ? (
+              <div className="orders-container">
+                {orderHistory.length === 0 ? (
+                  <div className="empty-orders">
+                    <ShoppingBag size={36} />
+                    <h4>No past orders yet.</h4>
+                    <p>Your purchased sneakers will appear here with live tracking.</p>
+                  </div>
+                ) : (
+                  <div className="order-cards-list">
+                    {orderHistory.map(ord => (
+                      <div className="order-card-row" key={ord.id}>
+                        <div className="order-head-info">
+                          <div>
+                            <b>Order {ord.id}</b>
+                            <span className="order-date"><Calendar size={12} /> {ord.date}</span>
+                          </div>
+                          <span className="status-badge delivered"><CheckCircle2 size={13} /> Delivered</span>
+                        </div>
+                        <div className="order-items-preview">
+                          {ord.items.map((it, idx) => (
+                            <div className="order-item-mini" key={idx}>
+                              <div className="mini-3d-box">
+                                <JordanHigh3D colorConfig={it.colorConfig} compact />
+                              </div>
+                              <div className="mini-meta">
+                                <b>{it.name}</b>
+                                <span>UK {it.selectedSize} × {it.qty}</span>
+                              </div>
+                              <b>{formatINR(it.price * it.qty)}</b>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="order-total-bar">
+                          <span>Total Paid:</span>
+                          <b>{formatINR(ord.total)}</b>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="address-container">
+                <h4>Primary Shipping Address</h4>
+                <div className="address-box">
+                  <MapPin size={18} />
+                  <div>
+                    <b>{user.name}</b>
+                    <p>{user.address}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          /* AUTH LOGIN / SIGNUP TABS */
+          <div className="auth-form-container">
+            <div className="auth-tab-bar">
+              <button
+                className={"auth-tab " + (authTab === "login" ? "active" : "")}
+                onClick={() => { setAuthTab("login"); setAuthErr(""); }}
+              >
+                Sign In
+              </button>
+              <button
+                className={"auth-tab " + (authTab === "signup" ? "active" : "")}
+                onClick={() => { setAuthTab("signup"); setAuthErr(""); }}
+              >
+                Create Account
+              </button>
+            </div>
+
+            {authErr && <div className="auth-err-banner">{authErr}</div>}
+
+            {authTab === "login" ? (
+              <form onSubmit={handleLoginSubmit} className="auth-form">
+                <h2>Welcome <em>Back</em></h2>
+                <p>Sign in to track orders, manage wishlist, and launch 3D Studio.</p>
+
+                <div className="form-group">
+                  <label>Email Address</label>
+                  <input
+                    type="email"
+                    placeholder="rahul@example.com"
+                    value={loginEmail}
+                    onChange={e => setLoginEmail(e.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    value={loginPass}
+                    onChange={e => setLoginPass(e.target.value)}
+                  />
+                </div>
+
+                <button type="submit" className="primary full-btn" style={{ marginTop: "12px" }}>
+                  Sign In <ArrowRight size={16} />
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleSignupSubmit} className="auth-form">
+                <h2>Join <em>Soleva</em></h2>
+                <p>Create an account to get early drop access and save 3D custom builds.</p>
+
+                <div className="form-group">
+                  <label>Full Name</label>
+                  <input
+                    type="text"
+                    placeholder="Rahul Sharma"
+                    value={signupName}
+                    onChange={e => setSignupName(e.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Email Address</label>
+                  <input
+                    type="email"
+                    placeholder="rahul@example.com"
+                    value={signupEmail}
+                    onChange={e => setSignupEmail(e.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Create Password</label>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    value={signupPass}
+                    onChange={e => setSignupPass(e.target.value)}
+                  />
+                </div>
+
+                <button type="submit" className="primary full-btn" style={{ marginTop: "12px" }}>
+                  Create Account <ArrowRight size={16} />
+                </button>
+              </form>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* Journal Article Modal Component */
+function JournalModal({ article, onClose }) {
+  if (!article) return null;
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="journal-article-modal" onClick={e => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}><X size={18} /></button>
+        <div className="article-hero-img">
+          <img src={article.img} alt={article.title} />
+          <span className="article-cat-tag">{article.category}</span>
+        </div>
+        <div className="article-body-content">
+          <span className="article-date"><Calendar size={13} /> {article.date}</span>
+          <h2>{article.title}</h2>
+          <p>{article.content}</p>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -1074,7 +1349,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
             <button
               className="primary full-btn"
               onClick={() => {
-                onOrderComplete();
+                onOrderComplete(orderSummary);
                 onClose();
               }}
             >
@@ -1088,8 +1363,23 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
 }
 
 function App() {
+  const [activePage, setActivePage] = useState("home");
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [user, setUser] = useState({
+    name: "Rahul Sharma",
+    email: "rahul@example.com",
+    memberTier: "Soleva VIP Member",
+    address: "Flat 402, Skyline Residency, MG Road, Mumbai 400001"
+  });
+  const [orderHistory, setOrderHistory] = useState([
+    {
+      id: "SLV-894215",
+      date: "Aug 18, 2026",
+      items: [{ ...products[0], selectedSize: 9, qty: 1 }],
+      total: 13999
+    }
+  ]);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [sort, setSort] = useState("featured");
@@ -1098,8 +1388,10 @@ function App() {
   const [wishlistOpen, setWishlistOpen] = useState(false);
   const [customizerOpen, setCustomizerOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
   const [quickProduct, setQuickProduct] = useState(null);
+  const [readingArticle, setReadingArticle] = useState(null);
   const [toastMsg, setToastMsg] = useState("");
 
   const triggerToast = (msg) => {
@@ -1153,9 +1445,18 @@ function App() {
     setCartOpen(true);
   };
 
-  const handleOrderComplete = () => {
+  const handleOrderComplete = (newOrder) => {
+    if (newOrder) {
+      setOrderHistory(prev => [newOrder, ...prev]);
+    }
     setCart([]);
-    triggerToast("Order placed successfully! Thank you.");
+    triggerToast("Order placed successfully! Checked into Profile.");
+  };
+
+  const navigateTo = (pageName) => {
+    setActivePage(pageName);
+    setMenu(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -1175,21 +1476,25 @@ function App() {
         <button className="mobile-menu" onClick={() => setMenu(!menu)}>
           {menu ? <X /> : <Menu />}
         </button>
-        <a className="logo" href="#home">SOLEVA<span>®</span></a>
+        <a className="logo" onClick={() => navigateTo("home")} style={{ cursor: "pointer" }}>SOLEVA<span>®</span></a>
         <nav className={menu ? "nav-links open" : "nav-links"}>
-          <a href="#home" onClick={() => setMenu(false)}>Home</a>
-          <a href="#shop" onClick={() => setMenu(false)}>Shop</a>
+          <a className={activePage === "home" ? "active-link" : ""} onClick={() => navigateTo("home")}>Home</a>
+          <a className={activePage === "shop" ? "active-link" : ""} onClick={() => navigateTo("shop")}>Shop</a>
           <button className="nav-btn-link" onClick={() => { setCustomizerOpen(true); setMenu(false); }}>
             <Sparkles size={14} /> 3D Studio
           </button>
-          <a href="#story" onClick={() => setMenu(false)}>Our story</a>
-          <a href="#journal" onClick={() => setMenu(false)}>Journal</a>
+          <a className={activePage === "story" ? "active-link" : ""} onClick={() => navigateTo("story")}>Our story</a>
+          <a className={activePage === "journal" ? "active-link" : ""} onClick={() => navigateTo("journal")}>Journal</a>
         </nav>
         <div className="nav-actions">
           <label className="search-box">
             <Search size={18} />
-            <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search sneakers" />
+            <input value={query} onChange={e => { setQuery(e.target.value); if (activePage !== "shop") navigateTo("shop"); }} placeholder="Search sneakers" />
           </label>
+          <button onClick={() => setProfileOpen(true)} className="icon-btn profile-nav-btn" aria-label="Open profile">
+            <User size={20} />
+            {user && <span className="profile-active-dot"></span>}
+          </button>
           <button onClick={() => setWishlistOpen(true)} className="icon-btn wish-nav-btn" aria-label="Open wishlist">
             <Heart size={20} />
             {wishlist.length > 0 && <b>{wishlist.length}</b>}
@@ -1201,149 +1506,188 @@ function App() {
         </div>
       </header>
 
-      <main>
-        {/* Hero Section */}
-        <section id="home" className="hero">
-          <div className="hero-copy">
-            <div className="eyebrow"><Sparkles size={15} /> SPRING / SUMMER 2026</div>
-            <h1>MOVE<br /><em>DIFFERENT.</em></h1>
-            <p>Engineered high-top sneakers modeled directly from 3D blueprints. Precision comfort, glowing neon cyan accents, and everyday energy.</p>
-            <div className="hero-buttons">
-              <a href="#shop" className="primary">Explore collection <ArrowRight /></a>
-              <button className="secondary-studio-btn" onClick={() => setCustomizerOpen(true)}>
-                <Palette size={16} /> Open 3D Studio
-              </button>
-            </div>
-            <div className="hero-stats">
-              <div><strong>01</strong><span>Signature<br />silhouette</span></div>
-              <div><strong>3D</strong><span>Adaptive<br />cushioning</span></div>
-              <div><strong>30</strong><span>Day free<br />returns</span></div>
-            </div>
-          </div>
-          <div className="hero-visual">
-            <div className="orbit orbit1"></div>
-            <div className="orbit orbit2"></div>
-            <div className="scroll-sneaker">
-              <JordanHigh3D colorConfig={products[0].colorConfig} />
-            </div>
-            <div className="floating-label label-a"><Rotate3D size={17} /><span>360°<small>DRAG TO ROTATE</small></span></div>
-            <div className="floating-label label-b"><Zap size={17} /><span>SIDE PROFILE<small>3D VIEW</small></span></div>
-          </div>
-        </section>
-
-        <section className="marquee">
-          <div>REAL INDIAN BRAND SNEAKERS · CAMPUS · RED TAPE · HRX · BATA POWER · WOODLAND · NEEMAN'S · </div>
-        </section>
-
-        {/* Shop Grid Section */}
-        <section id="shop" className="shop-section">
-          <div className="section-head">
-            <div>
-              <span className="eyebrow">THE INDIAN SNEAKER COLLECTION</span>
-              <h2>Find your <em>pair.</em></h2>
-            </div>
-            <button className="filter-toggle" onClick={() => setShopOpen(!shopOpen)}>
-              <SlidersHorizontal size={18} /> Filters
-            </button>
-          </div>
-
-          <div className={"shop-controls " + (shopOpen ? "show" : "")}>
-            <div className="chips">
-              {["All", "High-Top", "Running", "Street", "Lifestyle"].map(c => (
-                <button className={category === c ? "selected" : ""} onClick={() => setCategory(c)} key={c}>{c}</button>
-              ))}
-            </div>
-            <select value={sort} onChange={e => setSort(e.target.value)}>
-              <option value="featured">Sort: Featured</option>
-              <option value="price-low">Price: Low to high</option>
-              <option value="price-high">Price: High to low</option>
-              <option value="rating">Top rated</option>
-            </select>
-          </div>
-
-          <div className="product-grid">
-            {filtered.map(p => (
-              <ProductCard
-                key={p.id}
-                p={p}
-                onAdd={add}
-                onWish={toggleWish}
-                wished={wishlist.includes(p.id)}
-                onQuickView={(prod) => setQuickProduct(prod)}
-              />
-            ))}
-          </div>
-        </section>
-
-        {/* Feature Section */}
-        <section id="story" className="feature">
-          <div className="feature-copy">
-            <span className="eyebrow">THE SOLEVA SYSTEM</span>
-            <h2>Comfort that <em>keeps up.</em></h2>
-            <p>Every Soleva is built around a responsive three-layer platform: soft landing, stable stride, energetic lift. The result is a sneaker that feels ready before you are.</p>
-            <div className="feature-points">
-              <div><ShieldCheck /><span><b>All-day support</b>Contoured heel + locked-in fit</span></div>
-              <div><Zap /><span><b>Energy return</b>Spring foam under every step</span></div>
-              <div><Truck /><span><b>Fast, free shipping</b>Dispatch in 24 hours</span></div>
-            </div>
-          </div>
-          <div className="feature-visual">
-            <div className="spec-ring">S<span>3</span></div>
-            <div className="feature-shoe">
-              <JordanHigh3D compact colorConfig={products[1].colorConfig} />
-            </div>
-            <div className="spec-label top">RESPONSIVE<br />FOAM</div>
-            <div className="spec-label bottom">LIGHTWEIGHT<br />MESH</div>
-          </div>
-        </section>
-
-        {/* Journal Section */}
-        <section id="journal" className="journal">
-          <div className="section-head">
-            <div><span className="eyebrow">FROM THE JOURNAL</span><h2>More than <em>shoes.</em></h2></div>
-            <a className="text-link" href="#journal">Read all <ArrowRight /></a>
-          </div>
-          <div className="journal-grid">
-            <article className="journal-card">
-              <div className="journal-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1512374382149-233c42b6a83b?auto=format&fit=crop&w=800&q=80" alt="Sneaker design process" />
+      <main className="page-transition-container">
+        {/* HOME PAGE VIEW */}
+        {activePage === "home" && (
+          <div className="page-view home-page-view">
+            <section className="hero">
+              <div className="hero-copy">
+                <div className="eyebrow"><Sparkles size={15} /> SPRING / SUMMER 2026</div>
+                <h1>MOVE<br /><em>DIFFERENT.</em></h1>
+                <p>Engineered Indian high-top sneakers modeled directly from 3D blueprints. Precision comfort, glowing neon cyan accents, and everyday energy.</p>
+                <div className="hero-buttons">
+                  <button className="primary" onClick={() => navigateTo("shop")}>Explore collection <ArrowRight /></button>
+                  <button className="secondary-studio-btn" onClick={() => setCustomizerOpen(true)}>
+                    <Palette size={16} /> Open 3D Studio
+                  </button>
+                </div>
+                <div className="hero-stats">
+                  <div><strong>01</strong><span>Signature<br />silhouette</span></div>
+                  <div><strong>3D</strong><span>Adaptive<br />cushioning</span></div>
+                  <div><strong>30</strong><span>Day free<br />returns</span></div>
+                </div>
               </div>
-              <div className="journal-body">
-                <span>DESIGN</span>
-                <h3>Why the future of sneakers is sculptural.</h3>
+              <div className="hero-visual">
+                <div className="orbit orbit1"></div>
+                <div className="orbit orbit2"></div>
+                <div className="scroll-sneaker">
+                  <JordanHigh3D colorConfig={products[0].colorConfig} />
+                </div>
+                <div className="floating-label label-a"><Rotate3D size={17} /><span>360°<small>DRAG TO ROTATE</small></span></div>
+                <div className="floating-label label-b"><Zap size={17} /><span>SIDE PROFILE<small>3D VIEW</small></span></div>
               </div>
-            </article>
-            <article className="journal-card">
-              <div className="journal-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?auto=format&fit=crop&w=800&q=80" alt="Running exercise" />
+            </section>
+
+            <section className="marquee">
+              <div>REAL INDIAN BRAND SNEAKERS · CAMPUS · RED TAPE · HRX · BATA POWER · WOODLAND · NEEMAN'S · </div>
+            </section>
+
+            <section className="shop-section">
+              <div className="section-head">
+                <div>
+                  <span className="eyebrow">THE COLLECTION</span>
+                  <h2>Featured <em>Drops.</em></h2>
+                </div>
+                <button className="text-link-btn" onClick={() => navigateTo("shop")}>View all catalog <ArrowRight size={16} /></button>
               </div>
-              <div className="journal-body">
-                <span>MOVE</span>
-                <h3>The 5-minute reset for your everyday stride.</h3>
+
+              <div className="product-grid">
+                {products.slice(0, 3).map(p => (
+                  <ProductCard
+                    key={p.id}
+                    p={p}
+                    onAdd={add}
+                    onWish={toggleWish}
+                    wished={wishlist.includes(p.id)}
+                    onQuickView={(prod) => setQuickProduct(prod)}
+                  />
+                ))}
               </div>
-            </article>
-            <article className="journal-card">
-              <div className="journal-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=800&q=80" alt="Recycled materials" />
-              </div>
-              <div className="journal-body">
-                <span>MATERIALS</span>
-                <h3>Inside our recycled performance mesh.</h3>
-              </div>
-            </article>
+            </section>
           </div>
-        </section>
+        )}
+
+        {/* DEDICATED SHOP PAGE VIEW */}
+        {activePage === "shop" && (
+          <div className="page-view shop-page-view">
+            <div className="page-banner">
+              <span className="eyebrow">FULL CATALOG</span>
+              <h1>INDIAN SNEAKER <em>COLLECTION</em></h1>
+              <p>Explore 100% authentic high-top releases from Campus, Red Tape, HRX, Bata Power, Woodland, and Neeman's.</p>
+            </div>
+
+            <section className="shop-section" style={{ paddingTop: 0 }}>
+              <div className="shop-controls show">
+                <div className="chips">
+                  {["All", "High-Top", "Running", "Street", "Lifestyle"].map(c => (
+                    <button className={category === c ? "selected" : ""} onClick={() => setCategory(c)} key={c}>{c}</button>
+                  ))}
+                </div>
+                <select value={sort} onChange={e => setSort(e.target.value)}>
+                  <option value="featured">Sort: Featured</option>
+                  <option value="price-low">Price: Low to high</option>
+                  <option value="price-high">Price: High to low</option>
+                  <option value="rating">Top rated</option>
+                </select>
+              </div>
+
+              <div className="product-grid">
+                {filtered.map(p => (
+                  <ProductCard
+                    key={p.id}
+                    p={p}
+                    onAdd={add}
+                    onWish={toggleWish}
+                    wished={wishlist.includes(p.id)}
+                    onQuickView={(prod) => setQuickProduct(prod)}
+                  />
+                ))}
+              </div>
+            </section>
+          </div>
+        )}
+
+        {/* DEDICATED OUR STORY PAGE VIEW */}
+        {activePage === "story" && (
+          <div className="page-view story-page-view">
+            <div className="page-banner">
+              <span className="eyebrow">THE SOLEVA PHILOSOPHY</span>
+              <h1>CRAFTED FOR <em>MOTION.</em></h1>
+              <p>Combining 3D digital precision with Indian craftsmanship for next-level ergonomic comfort.</p>
+            </div>
+
+            <section className="feature">
+              <div className="feature-copy">
+                <span className="eyebrow">THE THREE-LAYER SYSTEM</span>
+                <h2>Comfort that <em>keeps up.</em></h2>
+                <p>Every Soleva is built around a responsive three-layer platform: soft landing, stable stride, energetic lift. The result is a sneaker that feels ready before you are.</p>
+                <div className="feature-points">
+                  <div><ShieldCheck /><span><b>All-day support</b>Contoured heel lock + ergonomic collar</span></div>
+                  <div><Zap /><span><b>Energy return</b>High-density Nitro foam beneath every step</span></div>
+                  <div><Truck /><span><b>Fast, free shipping</b>Express dispatch across India</span></div>
+                </div>
+              </div>
+              <div className="feature-visual">
+                <div className="spec-ring">S<span>3</span></div>
+                <div className="feature-shoe">
+                  <JordanHigh3D compact colorConfig={products[1].colorConfig} />
+                </div>
+                <div className="spec-label top">RESPONSIVE<br />FOAM</div>
+                <div className="spec-label bottom">LIGHTWEIGHT<br />MESH</div>
+              </div>
+            </section>
+          </div>
+        )}
+
+        {/* DEDICATED JOURNAL PAGE VIEW */}
+        {activePage === "journal" && (
+          <div className="page-view journal-page-view">
+            <div className="page-banner">
+              <span className="eyebrow">THE SOLEVA JOURNAL</span>
+              <h1>STORIES & <em>DESIGN.</em></h1>
+              <p>Deep dives into 3D sneaker sculpting, athletic recovery, and sustainable manufacturing.</p>
+            </div>
+
+            <section className="journal" style={{ paddingTop: 0 }}>
+              <div className="journal-grid">
+                {journalArticles.map(art => (
+                  <article className="journal-card" key={art.id} onClick={() => setReadingArticle(art)} style={{ cursor: "pointer" }}>
+                    <div className="journal-img-wrapper">
+                      <img src={art.img} alt={art.title} />
+                    </div>
+                    <div className="journal-body">
+                      <span>{art.category}</span>
+                      <h3>{art.title}</h3>
+                      <p style={{ fontSize: "12px", color: "var(--muted)", marginTop: "6px" }}>{art.content.slice(0, 90)}...</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          </div>
+        )}
       </main>
 
       <footer>
         <div className="footer-top">
           <div>
-            <a className="logo" href="#home">SOLEVA<span>®</span></a>
+            <a className="logo" onClick={() => navigateTo("home")} style={{ cursor: "pointer" }}>SOLEVA<span>®</span></a>
             <p>Premium sneakers for people in motion.</p>
             <div className="socials"><Instagram /><Facebook /><Twitter /></div>
           </div>
-          <div><b>SHOP</b><a href="#shop">All sneakers</a><a href="#shop">High-Top</a><a href="#shop">Street</a></div>
-          <div><b>HELP</b><a href="#story">Shipping</a><a href="#story">Returns</a><a href="#story">Contact</a></div>
+          <div>
+            <b>NAVIGATION</b>
+            <a onClick={() => navigateTo("home")}>Home</a>
+            <a onClick={() => navigateTo("shop")}>Shop Catalog</a>
+            <a onClick={() => navigateTo("story")}>Our Story</a>
+            <a onClick={() => navigateTo("journal")}>Journal</a>
+          </div>
+          <div>
+            <b>ACCOUNT & HELP</b>
+            <a onClick={() => setProfileOpen(true)}>My Account</a>
+            <a onClick={() => setWishlistOpen(true)}>Wishlist</a>
+            <a onClick={() => setCartOpen(true)}>Cart Drawer</a>
+          </div>
           <div>
             <b>STAY IN THE LOOP</b>
             <p>New drops, early access and stories.</p>
@@ -1388,7 +1732,10 @@ function App() {
         </div>
       )}
 
-      {/* Cart Drawer with Synced Live 3D Shoe Thumbnails */}
+      {/* Journal Article Reading Modal */}
+      <JournalModal article={readingArticle} onClose={() => setReadingArticle(null)} />
+
+      {/* Cart Drawer */}
       {cartOpen && (
         <div className="drawer-backdrop" onClick={() => setCartOpen(false)}>
           <aside className="cart-drawer" onClick={e => e.stopPropagation()}>
@@ -1401,7 +1748,7 @@ function App() {
                 <ShoppingBag size={42} />
                 <h3>Your bag is empty.</h3>
                 <p>Add a pair and start moving.</p>
-                <button className="primary" onClick={() => { setCartOpen(false); document.querySelector("#shop")?.scrollIntoView({ behavior: "smooth" }); }}>
+                <button className="primary" onClick={() => { setCartOpen(false); navigateTo("shop"); }}>
                   Shop sneakers
                 </button>
               </div>
@@ -1456,6 +1803,18 @@ function App() {
           onMoveToCart={moveWishToCart}
           onRemoveWish={toggleWish}
           onMoveAllToCart={moveAllWishToCart}
+        />
+      )}
+
+      {/* User Authentication & Profile Modal */}
+      {profileOpen && (
+        <AuthProfileModal
+          user={user}
+          onLogin={(u) => { setUser(u); triggerToast(`Welcome back, ${u.name}!`); }}
+          onSignup={(u) => { setUser(u); triggerToast(`Account created! Welcome ${u.name}!`); }}
+          onLogout={() => { setUser(null); triggerToast("Signed out."); }}
+          onClose={() => setProfileOpen(false)}
+          orderHistory={orderHistory}
         />
       )}
 
