@@ -20,9 +20,9 @@ const products = [
     price: 13999,
     old: 16999,
     tag: "India Edition",
-    colorName: "Stealth Black / Red / Cyber Glow",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
-    swatches: ["#ff2a55", "#121214", "#ffffff"],
+    colorName: "Stealth Black / Cyber Green Glow",
+    image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80",
+    swatches: ["#10b981", "#121214", "#ffffff"],
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 5.0,
     reviews: 412,
@@ -36,7 +36,7 @@ const products = [
     old: 17999,
     tag: "Best Seller",
     colorName: "Matte Carbon / White / Crimson Red",
-    image: "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
     swatches: ["#ff2a55", "#18181c", "#ffffff"],
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 4.9,
@@ -51,7 +51,7 @@ const products = [
     old: 18999,
     tag: "HRX Fitness",
     colorName: "Midnight Navy / White / Voltage Amber",
-    image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80",
     swatches: ["#ffb700", "#0f172a", "#ffffff"],
     sizes: [8, 9, 10, 11, 12],
     rating: 4.9,
@@ -66,7 +66,7 @@ const products = [
     old: 15999,
     tag: "Power Series",
     colorName: "Obsidian Black / White / Emerald Green",
-    image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80",
     swatches: ["#10b981", "#111827", "#ffffff"],
     sizes: [7, 8, 9, 10, 11],
     rating: 4.8,
@@ -81,7 +81,7 @@ const products = [
     old: 19999,
     tag: "Outdoor Tough",
     colorName: "Espresso Brown / Off-White / Amber",
-    image: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80",
     swatches: ["#f59e0b", "#271a15", "#f5f5f0"],
     sizes: [8, 9, 10, 11, 12],
     rating: 4.9,
@@ -96,7 +96,7 @@ const products = [
     old: 14999,
     tag: "Eco-Friendly",
     colorName: "Pure White / Cyber Violet",
-    image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?auto=format&fit=crop&w=800&q=80",
     swatches: ["#a855f7", "#ffffff", "#f1f5f9"],
     sizes: [7, 8, 9, 10, 11],
     rating: 4.8,
@@ -1365,7 +1365,7 @@ function App() {
                 <div className="orbit orbit2"></div>
                 <div className="scroll-sneaker">
                   <img
-                    src="https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1200&q=80"
+                    src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=1200&q=80"
                     alt="Red Tape Urban Glide X High-Top"
                     className="hero-real-shoe-img"
                   />
