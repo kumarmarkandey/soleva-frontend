@@ -75,13 +75,13 @@ const products = [
   },
   {
     id: 5,
-    name: "PUMA RS-X Triple",
+    name: "adidas casual",
     category: "Futuristic Streetwear",
     price: 9999,
     old: 11999,
     tag: "RS-X Edition",
     colorName: "Vapor Gray / PUMA Red",
-    image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80",
+    image: "https://img.tatacliq.com/images/i19//1348Wx2000H/MP000000023552608_1348Wx2000H_202409060344251.jpeg",
     swatches: ["#ffb700", "#0f172a", "#ffffff"],
     sizes: [8, 9, 10, 11, 12],
     rating: 4.9,
@@ -90,13 +90,13 @@ const products = [
   },
   {
     id: 6,
-    name: "PUMA Deviate NITRO™ 2",
+    name: "men ubz legacy",
     category: "Marathon Elite",
     price: 14999,
     old: 16999,
     tag: "Marathon Elite",
     colorName: "Sun Stream / Sunset Glow",
-    image: "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?auto=format&fit=crop&w=800&q=80",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHa6VIzuL9x9n915n9cqLZm704SSyHx36VEuCbG30YDA&s",
     swatches: ["#a855f7", "#ffffff", "#f1f5f9"],
     sizes: [7, 8, 9, 10, 11],
     rating: 5.0,
@@ -351,7 +351,7 @@ function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHis
             {authTab === "login" ? (
               <form onSubmit={handleLoginSubmit} className="auth-form">
                 <h2>Welcome <em>Back</em></h2>
-                <p>Sign in to track orders, manage wishlist, and launch Studio.</p>
+                <p>Sign in to track orders and manage wishlist.</p>
 
                 <div className="form-group">
                   <label>Email Address</label>
@@ -380,7 +380,7 @@ function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHis
             ) : (
               <form onSubmit={handleSignupSubmit} className="auth-form">
                 <h2>Join <em>Soleva</em></h2>
-                <p>Create an account to get early drop access and save custom builds.</p>
+                <p>Create an account to get early drop access.</p>
 
                 <div className="form-group">
                   <label>Full Name</label>
@@ -460,7 +460,7 @@ function WishlistDrawer({ wishlist, products, onClose, onMoveToCart, onRemoveWis
           <div className="empty">
             <Heart size={44} style={{ color: "var(--muted)", opacity: 0.5 }} />
             <h3>Your wishlist is empty.</h3>
-            <p>Save your favorite PUMA sneakers to review or buy later.</p>
+            <p>Save your favorite sneakers to review or buy later.</p>
             <button className="primary" onClick={onClose}>Explore Collection</button>
           </div>
         ) : (
@@ -492,211 +492,6 @@ function WishlistDrawer({ wishlist, products, onClose, onMoveToCart, onRemoveWis
           </>
         )}
       </aside>
-    </div>
-  );
-}
-
-function hexToHueRotate(hex) {
-  if (!hex) return "none";
-  if (hex === "#121214" || hex === "#000000") return "grayscale(0.95) brightness(0.6) contrast(1.4)";
-  if (hex === "#ffffff") return "brightness(1.25) contrast(1.1)";
-
-  let r = parseInt(hex.slice(1, 3) || "00", 16) / 255;
-  let g = parseInt(hex.slice(3, 5) || "00", 16) / 255;
-  let b = parseInt(hex.slice(5, 7) || "00", 16) / 255;
-
-  let max = Math.max(r, g, b), min = Math.min(r, g, b);
-  let h = 0;
-  if (max !== min) {
-    let d = max - min;
-    if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
-    else if (max === g) h = (b - r) / d + 2;
-    else if (max === b) h = (r - g) / d + 4;
-    h /= 6;
-  }
-  const deg = Math.round(h * 360);
-  return `hue-rotate(${deg}deg) saturate(2.4) contrast(1.1)`;
-}
-
-function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
-  const [activeTab, setActiveTab] = useState("swoosh");
-  const [partColors, setPartColors] = useState({
-    swoosh: "#00f0ff",
-    upper: "#ffffff",
-    sole: "#ffffff",
-    laces: "#00f0ff"
-  });
-  const [selectedSize, setSelectedSize] = useState(9);
-  const [selectedProduct, setSelectedProduct] = useState(products[0]);
-
-  const currentColor = partColors[activeTab] || "#00f0ff";
-
-  const colorThemes = [
-    { name: "Neon Cyber Cyan", color: "#00f0ff" },
-    { name: "Crimson Red Blaze", color: "#ff2a55" },
-    { name: "Voltage Amber Gold", color: "#ffb700" },
-    { name: "Ultraviolet Purple", color: "#a855f7" },
-    { name: "Emerald Court Green", color: "#10b981" },
-    { name: "Ice Blue Glow", color: "#38bdf8" },
-    { name: "Stealth Midnight Black", color: "#121214" },
-    { name: "Pure Titanium White", color: "#ffffff" }
-  ];
-
-  const updateColor = (hex) => {
-    setPartColors(prev => ({
-      ...prev,
-      [activeTab]: hex,
-      ...(activeTab === "swoosh" ? { laces: hex } : {})
-    }));
-  };
-
-  const handleSave = () => {
-    const customProduct = {
-      id: "custom-" + Date.now(),
-      name: selectedProduct.name + " (Studio Edition)",
-      category: "Bespoke Edition",
-      price: 17999,
-      old: 20999,
-      tag: "Studio Build",
-      colorName: `Custom ${activeTab.toUpperCase()} (${currentColor.toUpperCase()})`,
-      image: selectedProduct.image,
-      swatches: [partColors.swoosh, partColors.upper, partColors.sole],
-      sizes: [7, 8, 9, 10, 11, 12],
-      rating: 5.0,
-      reviews: 1,
-      description: `Custom ${selectedProduct.name} personalized inside the SOLEVA Design Studio.`
-    };
-    onAddCustomSneaker(customProduct, selectedSize);
-    onClose();
-  };
-
-  return (
-    <div className="studio-modal-backdrop" onClick={onClose}>
-      <div className="studio-container" onClick={e => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} aria-label="Close studio"><X size={20} /></button>
-
-        <div className="studio-viewport">
-          <div className="studio-header-badge">
-            <Sparkles size={14} /> LIVE DESIGN STUDIO
-          </div>
-
-          <div className="studio-real-art">
-            <div className="studio-img-tint-container">
-              <img
-                src={selectedProduct.image}
-                alt={selectedProduct.name}
-                className="studio-main-real-img"
-                style={{
-                  filter: hexToHueRotate(partColors.swoosh),
-                  transition: "filter 0.3s cubic-bezier(0.16, 1, 0.3, 1)"
-                }}
-              />
-              <div
-                className="studio-tint-layer"
-                style={{
-                  backgroundColor: partColors.swoosh,
-                  mixBlendMode: partColors.swoosh === "#121214" ? "multiply" : "color",
-                  opacity: partColors.swoosh === "#121214" ? 0.8 : 0.5
-                }}
-              />
-            </div>
-            <div className="studio-theme-glow" style={{ boxShadow: `0 0 100px 30px ${partColors.swoosh}` }}></div>
-          </div>
-
-          <div className="studio-drag-hint">
-            <Palette size={16} /> LIVE COLOR RECOLORING: <b style={{ color: partColors.swoosh, marginLeft: "4px" }}>{partColors.swoosh.toUpperCase()}</b>
-          </div>
-        </div>
-
-        <div className="studio-controls">
-          <div className="studio-title">
-            <h2>Design Your <em>PUMA Pair.</em></h2>
-            <p>Select your base PUMA silhouette, accent color palette, and custom fit size.</p>
-          </div>
-
-          <div>
-            <span className="control-label">SELECT PUMA SILHOUETTE</span>
-            <div className="preset-chips">
-              {products.map(p => (
-                <button
-                  key={p.id}
-                  className={"preset-chip " + (selectedProduct.id === p.id ? "selected-chip" : "")}
-                  onClick={() => setSelectedProduct(p)}
-                >
-                  {p.name}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="part-tabs">
-            {[
-              { id: "swoosh", label: "Formstrip & Glow" },
-              { id: "upper", label: "Upper Base" },
-              { id: "sole", label: "Sole & Outsole" }
-            ].map(t => (
-              <button
-                key={t.id}
-                className={"part-tab " + (activeTab === t.id ? "active" : "")}
-                onClick={() => setActiveTab(t.id)}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="color-picker-box">
-            <div className="picker-header">
-              <span>ACTIVE PART: <b>{activeTab.toUpperCase()}</b></span>
-              <div className="hex-input-group">
-                <input
-                  type="color"
-                  value={currentColor}
-                  onChange={e => updateColor(e.target.value)}
-                  className="native-color-picker"
-                />
-                <input
-                  type="text"
-                  value={currentColor}
-                  onChange={e => updateColor(e.target.value)}
-                  className="hex-text-input"
-                />
-              </div>
-            </div>
-
-            <div className="swatch-grid">
-              {colorThemes.map(t => (
-                <button
-                  key={t.color}
-                  className={"swatch-btn " + (currentColor === t.color ? "selected" : "")}
-                  style={{ background: t.color }}
-                  onClick={() => updateColor(t.color)}
-                  title={t.name}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="studio-size-picker">
-            <span className="control-label">SELECT YOUR UK SIZE</span>
-            <div className="size-selector">
-              {[7, 8, 9, 10, 11, 12].map(s => (
-                <button
-                  key={s}
-                  className={"size-pill " + (selectedSize === s ? "active" : "")}
-                  onClick={() => setSelectedSize(s)}
-                >
-                  UK {s}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <button className="primary studio-add-btn" onClick={handleSave}>
-            Add Custom Pair to Bag ({formatINR(17999)}) <ArrowRight size={16} />
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
@@ -749,7 +544,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
     } else if (step === 3) {
       if (validateStep3()) {
         const simulatedOrder = {
-          id: "PMA-" + Math.floor(100000 + Math.random() * 900000),
+          id: "SLV-" + Math.floor(100000 + Math.random() * 900000),
           date: new Date().toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" }),
           items: [...cart],
           total: grandTotal,
@@ -1050,8 +845,8 @@ function QuickViewModal({ product, onClose, onAddToCart }) {
     { label: "Side 90°", degree: "90°", transform: "rotateY(0deg) rotate(0deg) scale(1)", desc: "Side Profile & Formstrip" },
     { label: "3/4 View 45°", degree: "45°", transform: "rotateY(-25deg) rotate(2deg) scale(1.04)", desc: "Dynamic 3/4 Perspective" },
     { label: "Front 0°", degree: "0°", transform: "rotateY(-60deg) rotate(5deg) scale(1.08)", desc: "Toe Cap & Lacing Structure" },
-    { label: "Heel 180°", degree: "180°", transform: "rotateY(45deg) rotate(-4deg) scale(1.04)", desc: "Heel Counter & PUMA Cat" },
-    { label: "Outsole 270°", degree: "270°", transform: "rotate(45deg) scale(0.95)", desc: "High-Traction PUMAGRIP Outsole" }
+    { label: "Heel 180°", degree: "180°", transform: "rotateY(45deg) rotate(-4deg) scale(1.04)", desc: "Heel Counter & Cat Logo" },
+    { label: "Outsole 270°", degree: "270°", transform: "rotate(45deg) scale(0.95)", desc: "High-Traction Outsole" }
   ];
 
   useEffect(() => {
@@ -1065,7 +860,7 @@ function QuickViewModal({ product, onClose, onAddToCart }) {
   const handleDragScrub = (e) => {
     const isTouch = e.touches && e.touches.length > 0;
     const startX = isTouch ? e.touches[0].clientX : e.clientX;
-
+    
     const handleMove = (moveEvt) => {
       const currentX = moveEvt.touches && moveEvt.touches.length > 0 ? moveEvt.touches[0].clientX : moveEvt.clientX;
       const diff = currentX - startX;
@@ -1096,7 +891,7 @@ function QuickViewModal({ product, onClose, onAddToCart }) {
     <div className="modal-backdrop" onClick={onClose}>
       <div className="quick-modal quick-360-modal" onClick={e => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose}><X size={18} /></button>
-
+        
         <div
           className="modal-art quick-360-art"
           ref={dragRef}
@@ -1154,7 +949,7 @@ function QuickViewModal({ product, onClose, onAddToCart }) {
             <b>{formatINR(product.price)}</b>
             <del>{formatINR(product.old)}</del>
           </div>
-
+          
           <p>{product.description}</p>
 
           <div className="quick-size-section" style={{ marginTop: "16px" }}>
@@ -1173,8 +968,8 @@ function QuickViewModal({ product, onClose, onAddToCart }) {
           </div>
 
           <div className="specs-list" style={{ marginTop: "16px" }}>
-            <div><ShieldCheck size={16} /> <span>100% Authentic PUMA India Product</span></div>
-            <div><Zap size={16} /> <span>NITROFOAM™ & PUMAGRIP Rubber Technology</span></div>
+            <div><ShieldCheck size={16} /> <span>100% Authentic Product</span></div>
+            <div><Zap size={16} /> <span>Interactive 360° Inspection & High-Rebound Sole</span></div>
             <div><Truck size={16} /> <span>Free Express Shipping across India</span></div>
           </div>
 
@@ -1206,7 +1001,7 @@ function App() {
   });
   const [orderHistory, setOrderHistory] = useState([
     {
-      id: "PMA-894215",
+      id: "SLV-894215",
       date: "Aug 18, 2026",
       items: [{ ...products[0], selectedSize: 9, qty: 1 }],
       total: 10999
@@ -1218,10 +1013,8 @@ function App() {
   const [menu, setMenu] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [wishlistOpen, setWishlistOpen] = useState(false);
-  const [customizerOpen, setCustomizerOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [shopOpen, setShopOpen] = useState(false);
   const [quickProduct, setQuickProduct] = useState(null);
   const [readingArticle, setReadingArticle] = useState(null);
   const [toastMsg, setToastMsg] = useState("");
@@ -1312,16 +1105,13 @@ function App() {
         <nav className={menu ? "nav-links open" : "nav-links"}>
           <a className={activePage === "home" ? "active-link" : ""} onClick={() => navigateTo("home")}>Home</a>
           <a className={activePage === "shop" ? "active-link" : ""} onClick={() => navigateTo("shop")}>Shop</a>
-          <button className="nav-btn-link" onClick={() => { setCustomizerOpen(true); setMenu(false); }}>
-            <Sparkles size={14} /> Design Studio
-          </button>
           <a className={activePage === "story" ? "active-link" : ""} onClick={() => navigateTo("story")}>Our story</a>
           <a className={activePage === "journal" ? "active-link" : ""} onClick={() => navigateTo("journal")}>Journal</a>
         </nav>
         <div className="nav-actions">
           <label className="search-box">
             <Search size={18} />
-            <input value={query} onChange={e => { setQuery(e.target.value); if (activePage !== "shop") navigateTo("shop"); }} placeholder="Search PUMA sneakers" />
+            <input value={query} onChange={e => { setQuery(e.target.value); if (activePage !== "shop") navigateTo("shop"); }} placeholder="Search sneakers" />
           </label>
           <button onClick={() => setProfileOpen(true)} className="icon-btn profile-nav-btn" aria-label="Open profile">
             <User size={20} />
@@ -1344,18 +1134,15 @@ function App() {
           <div className="page-view home-page-view">
             <section className="hero">
               <div className="hero-copy">
-                <div className="eyebrow"><Sparkles size={15} /> PUMA INDIA 2026 EDITION</div>
-                <h1>FOREVER<br /><em>FASTER.</em></h1>
-                <p>Engineered official PUMA India sneakers featuring NITROFOAM™ responsive cushioning, PWRPLATE carbon tech, and iconic Suede & Slipstream silhouettes.</p>
+                <div className="eyebrow"><Sparkles size={15} /> SPRING / SUMMER 2026 EDITION</div>
+                <h1>MOVE<br /><em>DIFFERENT.</em></h1>
+                <p>Engineered authentic sneakers featuring responsive cushioning, athletic performance, and iconic streetwear silhouettes.</p>
                 <div className="hero-buttons">
                   <button className="primary" onClick={() => navigateTo("shop")}>Explore collection <ArrowRight /></button>
-                  <button className="secondary-studio-btn" onClick={() => setCustomizerOpen(true)}>
-                    <Palette size={16} /> Open Studio
-                  </button>
                 </div>
                 <div className="hero-stats">
-                  <div><strong>01</strong><span>Signature<br />Formstrip</span></div>
-                  <div><strong>NITRO</strong><span>Adaptive<br />cushioning</span></div>
+                  <div><strong>01</strong><span>Signature<br />design</span></div>
+                  <div><strong>PRO</strong><span>Adaptive<br />cushioning</span></div>
                   <div><strong>30</strong><span>Day free<br />returns</span></div>
                 </div>
               </div>
@@ -1369,22 +1156,22 @@ function App() {
                     className="hero-real-shoe-img"
                   />
                 </div>
-                <div className="floating-label label-a"><Sparkles size={17} /><span>PUMA INDIA<small>OFFICIAL CATALOG</small></span></div>
-                <div className="floating-label label-b"><Zap size={17} /><span>SLIPSTREAM MID<small>HERITAGE LEATHER</small></span></div>
+                <div className="floating-label label-a"><Sparkles size={17} /><span>AUTHENTIC<small>REAL PHOTOGRAPHY</small></span></div>
+                <div className="floating-label label-b"><Zap size={17} /><span>HERITAGE<small>LEATHER HIGH-TOP</small></span></div>
               </div>
             </section>
 
             <section className="marquee">
-              <div>OFFICIAL PUMA INDIA SNEAKERS · SLIPSTREAM MID · VELOCITY NITRO™ 3 · SUEDE CLASSIC XXI · PALERMO LEATHER · RS-X TRIPLE · DEVIATE NITRO™ 2 · </div>
+              <div>AUTHENTIC SNEAKER COLLECTION · SLIPSTREAM MID · VELOCITY NITRO™ 3 · SUEDE CLASSIC XXI · PALERMO LEATHER · ADIDAS CASUAL · MEN UBZ LEGACY · </div>
             </section>
 
             <section className="shop-section">
               <div className="section-head">
                 <div>
-                  <span className="eyebrow">PUMA COLLECTION</span>
+                  <span className="eyebrow">THE COLLECTION</span>
                   <h2>Featured <em>Drops.</em></h2>
                 </div>
-                <button className="text-link-btn" onClick={() => navigateTo("shop")}>View all PUMA catalog <ArrowRight size={16} /></button>
+                <button className="text-link-btn" onClick={() => navigateTo("shop")}>View all catalog <ArrowRight size={16} /></button>
               </div>
 
               <div className="product-grid">
@@ -1407,15 +1194,15 @@ function App() {
         {activePage === "shop" && (
           <div className="page-view shop-page-view">
             <div className="page-banner">
-              <span className="eyebrow">PUMA INDIA STORE</span>
-              <h1>PUMA SNEAKER <em>COLLECTION</em></h1>
-              <p>Explore 100% authentic PUMA India releases including Slipstream Mid, Velocity NITRO™ 3, Suede Classic XXI, Palermo Leather, RS-X Triple, and Deviate NITRO™ 2.</p>
+              <span className="eyebrow">FULL STORE CATALOG</span>
+              <h1>SNEAKER <em>COLLECTION</em></h1>
+              <p>Explore 100% authentic releases including Slipstream Mid, Velocity NITRO™ 3, Suede Classic XXI, Palermo Leather, adidas casual, and men ubz legacy.</p>
             </div>
 
             <section className="shop-section" style={{ paddingTop: 0 }}>
               <div className="shop-controls show">
                 <div className="chips">
-                  {["All", "Heritage", "NITRO™ Running", "Lifestyle", "Terrace"].map(c => (
+                  {["All", "Heritage", "Running", "Lifestyle", "Terrace"].map(c => (
                     <button className={category === c ? "selected" : ""} onClick={() => setCategory(c)} key={c}>{c}</button>
                   ))}
                 </div>
@@ -1447,33 +1234,33 @@ function App() {
         {activePage === "story" && (
           <div className="page-view story-page-view">
             <div className="page-banner">
-              <span className="eyebrow">THE PUMA HERITAGE</span>
-              <h1>FOREVER <em>FASTER.</em></h1>
-              <p>Combining German innovation with athletic performance to empower runners and street culture since 1948.</p>
+              <span className="eyebrow">THE SOLEVA HERITAGE</span>
+              <h1>CRAFTED FOR <em>MOTION.</em></h1>
+              <p>Combining precision engineering with athletic performance to empower movement and street culture.</p>
             </div>
 
             <section className="feature">
               <div className="feature-copy">
-                <span className="eyebrow">ADVANCED NITRO™ TECHNOLOGY</span>
+                <span className="eyebrow">ADVANCED CUSHIONING TECHNOLOGY</span>
                 <h2>Comfort that <em>keeps up.</em></h2>
-                <p>PUMA NITROFOAM™ delivers maximum energy return in an ultra-lightweight package, while PUMAGRIP rubber ensures maximum traction across every surface.</p>
+                <p>Delivering maximum energy return in an ultra-lightweight package with high-traction rubber soles for maximum grip across every surface.</p>
                 <div className="feature-points">
-                  <div><ShieldCheck /><span><b>NITROFOAM™ Cushioning</b>Infused with nitrogen for lightweight responsiveness</span></div>
-                  <div><Zap /><span><b>PWRPLATE Carbon Fiber</b>Engineered plate stabilizes energy transfer for peak performance</span></div>
+                  <div><ShieldCheck /><span><b>Responsive Cushioning</b>Infused for lightweight energy return</span></div>
+                  <div><Zap /><span><b>Engineered Platform</b>Stabilizes energy transfer for peak performance</span></div>
                   <div><Truck /><span><b>Fast, Free Shipping</b>Direct dispatch across India</span></div>
                 </div>
               </div>
               <div className="feature-visual">
-                <div className="spec-ring">P<span>M</span></div>
+                <div className="spec-ring">S<span>L</span></div>
                 <div className="feature-shoe">
                   <img
                     src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80"
-                    alt="PUMA Velocity NITRO 3"
+                    alt="Velocity NITRO 3"
                     className="feature-real-img"
                   />
                 </div>
-                <div className="spec-label top">NITROFOAM™<br />CUSHION</div>
-                <div className="spec-label bottom">PUMAGRIP<br />RUBBER</div>
+                <div className="spec-label top">FOAM<br />CUSHION</div>
+                <div className="spec-label bottom">RUBBER<br />GRIP</div>
               </div>
             </section>
           </div>
@@ -1483,9 +1270,9 @@ function App() {
         {activePage === "journal" && (
           <div className="page-view journal-page-view">
             <div className="page-banner">
-              <span className="eyebrow">THE PUMA JOURNAL</span>
+              <span className="eyebrow">THE SOLEVA JOURNAL</span>
               <h1>STORIES & <em>DESIGN.</em></h1>
-              <p>Deep dives into NITRO™ foam technology, terrace football culture, and carbon-plated performance.</p>
+              <p>Deep dives into foam technology, terrace football culture, and high-performance design.</p>
             </div>
 
             <section className="journal" style={{ paddingTop: 0 }}>
@@ -1512,13 +1299,13 @@ function App() {
         <div className="footer-top">
           <div>
             <a className="logo" onClick={() => navigateTo("home")} style={{ cursor: "pointer" }}>SOLEVA<span>®</span></a>
-            <p>Official PUMA India sneakers for people in motion.</p>
+            <p>Premium sneakers for people in motion.</p>
             <div className="socials"><Instagram /><Facebook /><Twitter /></div>
           </div>
           <div>
             <b>NAVIGATION</b>
             <a onClick={() => navigateTo("home")}>Home</a>
-            <a onClick={() => navigateTo("shop")}>PUMA Catalog</a>
+            <a onClick={() => navigateTo("shop")}>Shop Catalog</a>
             <a onClick={() => navigateTo("story")}>Our Story</a>
             <a onClick={() => navigateTo("journal")}>Journal</a>
           </div>
@@ -1530,11 +1317,11 @@ function App() {
           </div>
           <div>
             <b>STAY IN THE LOOP</b>
-            <p>New PUMA drops, early access and stories.</p>
+            <p>New drops, early access and stories.</p>
             <div className="subscribe"><input placeholder="Your email" /><button>→</button></div>
           </div>
         </div>
-        <div className="footer-bottom">© 2026 SOLEVA × PUMA INDIA. Forever Faster. <span>Privacy · Terms · Accessibility</span></div>
+        <div className="footer-bottom">© 2026 SOLEVA. Built for motion. <span>Privacy · Terms · Accessibility</span></div>
       </footer>
 
       {/* Quick View Modal */}
@@ -1561,9 +1348,9 @@ function App() {
               <div className="empty">
                 <ShoppingBag size={42} />
                 <h3>Your bag is empty.</h3>
-                <p>Add a pair of PUMAs and start moving.</p>
+                <p>Add a pair of sneakers and start moving.</p>
                 <button className="primary" onClick={() => { setCartOpen(false); navigateTo("shop"); }}>
-                  Shop PUMA sneakers
+                  Shop sneakers
                 </button>
               </div>
             ) : (
@@ -1629,17 +1416,6 @@ function App() {
           onLogout={() => { setUser(null); triggerToast("Signed out."); }}
           onClose={() => setProfileOpen(false)}
           orderHistory={orderHistory}
-        />
-      )}
-
-      {/* Studio Customizer Modal */}
-      {customizerOpen && (
-        <Studio3DCustomizer
-          onClose={() => setCustomizerOpen(false)}
-          onAddCustomSneaker={(customProd, size) => {
-            add(customProd, size);
-            setCartOpen(true);
-          }}
         />
       )}
 
