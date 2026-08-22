@@ -19,6 +19,7 @@ const products = [
     id: 1,
     name: "Campus Oxyfit Cyber Glow",
     category: "High-Top Cyber",
+    modelType: "high-top",
     price: 13999,
     old: 16999,
     tag: "India Edition",
@@ -36,12 +37,13 @@ const products = [
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 5.0,
     reviews: 412,
-    description: "Campus premium high-top performance sneaker with responsive air mesh, pulsing Neon Cyan side branding, and icy translucent outsole."
+    description: "Campus signature high-top silhouette with full-grain leather, pulsing Neon Cyan side branding, and icy translucent blue outsole."
   },
   {
     id: 2,
     name: "Red Tape Urban Glide X",
     category: "High-Top Street",
+    modelType: "low-top",
     price: 14499,
     old: 17999,
     tag: "Best Seller",
@@ -59,12 +61,13 @@ const products = [
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 4.9,
     reviews: 328,
-    description: "Red Tape street-style high-top profile engineered with genuine matte leather overlays, glowing Crimson lateral stripe, and impact-absorbing sole."
+    description: "Red Tape low-cut urban street runner featuring a sleek low ankle profile, glowing Crimson lateral stripe, and lightweight flexible sole."
   },
   {
     id: 3,
     name: "HRX Surge Nitro Tech",
     category: "Performance High-Top",
+    modelType: "chunky-runner",
     price: 15999,
     old: 18999,
     tag: "HRX Fitness",
@@ -82,12 +85,13 @@ const products = [
     sizes: [8, 9, 10, 11, 12],
     rating: 4.9,
     reviews: 265,
-    description: "Hrithik Roshan's HRX high-performance training sneaker featuring Nitro foam cushioning, glowing Amber Gold side cage, and high-traction court outsole."
+    description: "Hrithik Roshan's HRX training shoe with an exaggerated chunky dual-density Nitro foam midsole, curved rocker toe, and Amber Gold glow."
   },
   {
     id: 4,
     name: "Bata Power Apex Volt",
     category: "Court Athletic",
+    modelType: "retro-court",
     price: 12999,
     old: 15999,
     tag: "Power Series",
@@ -105,12 +109,13 @@ const products = [
     sizes: [7, 8, 9, 10, 11],
     rating: 4.8,
     reviews: 198,
-    description: "Bata Power court-ready athletic high-top with high-rebound heel counter, vibrant Emerald Green glow, and reinforced toe guard."
+    description: "Bata Power court athletic sneaker with flat rubber outsole, protective toe cap bumper overlay, and vibrant Emerald Green glow."
   },
   {
     id: 5,
     name: "Woodland Apex Trail Tracker",
     category: "Rugged High-Top",
+    modelType: "rugged-boot",
     price: 16499,
     old: 19999,
     tag: "Outdoor Tough",
@@ -128,12 +133,13 @@ const products = [
     sizes: [8, 9, 10, 11, 12],
     rating: 4.9,
     reviews: 176,
-    description: "Woodland heavy-duty outdoor high-top crafted from full-grain espresso leather with tactical glowing amber accents and all-terrain tread."
+    description: "Woodland rugged outdoor high-top trail boot featuring extended ankle collar height, heavy-duty lugged tread blocks, and espresso leather."
   },
   {
     id: 6,
     name: "Neeman's Re-Velocity Eco High",
     category: "Sustainable Lifestyle",
+    modelType: "eco-knit",
     price: 11999,
     old: 14999,
     tag: "Eco-Friendly",
@@ -151,7 +157,7 @@ const products = [
     sizes: [7, 8, 9, 10, 11],
     rating: 4.8,
     reviews: 215,
-    description: "Neeman's eco-conscious sustainable high-top knit sneaker made from recycled ocean plastic with glowing Cyber Violet side swoosh."
+    description: "Neeman's eco-knit slip-on sneaker featuring a seamless sock-like tapered collar, rounded soft cushion heel cup, and Cyber Violet glow."
   }
 ];
 
@@ -213,6 +219,7 @@ function parseThreeColor(val) {
 
 function JordanHigh3D({
   colorConfig = products[0].colorConfig,
+  modelType = colorConfig.modelType || "high-top",
   compact = false,
   interactiveHover = false
 }) {
@@ -326,7 +333,7 @@ function JordanHigh3D({
       shadowMesh.position.set(0, -1.05, 0);
       shoeGroup.add(shadowMesh);
 
-      // Async GLTF Loading
+      // Async GLTF Loading + Dynamic Model Silhouette Transformations
       loadShoeGLTF()
         .then((gltf) => {
           if (!isMounted) return;
@@ -339,7 +346,7 @@ function JordanHigh3D({
           const soleC = parseThreeColor(colorConfig.sole);
           const lacesC = parseThreeColor(colorConfig.laces || colorConfig.swoosh);
 
-          // Customize materials with colorConfig
+          // Customize materials with colorConfig & apply distinct geometry deformations per modelType
           clonedScene.traverse((child) => {
             if (child.isMesh) {
               if (Array.isArray(child.material)) {
@@ -373,8 +380,77 @@ function JordanHigh3D({
                   }
                 }
               });
+
+              // Apply distinct 3D Geometry deformations for different shoe models
+              const meshName = (child.name || "").toLowerCase();
+              if (modelType === "low-top") {
+                if (meshName.includes("collar") || meshName.includes("upper") || meshName.includes("ankle")) {
+                  child.scale.y = 0.65;
+                  child.position.y -= 0.1;
+                }
+              } else if (modelType === "rugged-boot") {
+                if (meshName.includes("collar") || meshName.includes("ankle")) {
+                  child.scale.y = 1.35;
+                  child.position.y += 0.12;
+                }
+              } else if (modelType === "eco-knit") {
+                if (meshName.includes("collar") || meshName.includes("lace")) {
+                  child.scale.set(0.88, 0.72, 0.88);
+                }
+              }
             }
           });
+
+          // Attach procedural 3D accent meshes to create distinct shoe silhouettes
+          const accentGroup = new THREE.Group();
+
+          if (modelType === "chunky-runner") {
+            // Sculpted Chunky Dual-Density Midsole Cushion Stack
+            const chunkySoleGeo = new THREE.BoxGeometry(2.4, 0.42, 1.0);
+            const chunkySoleMat = new THREE.MeshStandardMaterial({
+              color: soleC,
+              roughness: 0.3,
+              metalness: 0.1
+            });
+            const chunkySole = new THREE.Mesh(chunkySoleGeo, chunkySoleMat);
+            chunkySole.position.set(0, -0.32, 0);
+            accentGroup.add(chunkySole);
+
+            // Curved Rocker Toe Spring
+            clonedScene.rotation.z = -0.08;
+            clonedScene.position.y += 0.1;
+          } else if (modelType === "rugged-boot") {
+            // Rugged Offroad Tread Block Outsole
+            const treadGeo = new THREE.BoxGeometry(2.5, 0.18, 1.1);
+            const treadMat = new THREE.MeshStandardMaterial({
+              color: 0x1a1a1c,
+              roughness: 0.9
+            });
+            const tread = new THREE.Mesh(treadGeo, treadMat);
+            tread.position.set(0, -0.42, 0);
+            accentGroup.add(tread);
+          } else if (modelType === "retro-court") {
+            // Flat Retro Court Toe Bumper Cap
+            const capGeo = new THREE.CylinderGeometry(0.5, 0.52, 0.35, 16);
+            const capMat = new THREE.MeshStandardMaterial({
+              color: overlayC,
+              roughness: 0.4
+            });
+            const cap = new THREE.Mesh(capGeo, capMat);
+            cap.rotation.z = Math.PI / 2;
+            cap.position.set(0.9, -0.22, 0);
+            accentGroup.add(cap);
+          } else if (modelType === "eco-knit") {
+            // Smooth Rounded Cushion Heel Cup Pod
+            const heelPodGeo = new THREE.SphereGeometry(0.38, 16, 16);
+            const heelPodMat = new THREE.MeshStandardMaterial({
+              color: swooshC,
+              roughness: 0.2
+            });
+            const heelPod = new THREE.Mesh(heelPodGeo, heelPodMat);
+            heelPod.position.set(-0.85, -0.15, 0);
+            accentGroup.add(heelPod);
+          }
 
           // Compute Bounding Box to center & scale real shoe
           const box = new THREE.Box3().setFromObject(clonedScene);
@@ -385,6 +461,7 @@ function JordanHigh3D({
 
           const modelContainer = new THREE.Group();
           modelContainer.add(clonedScene);
+          modelContainer.add(accentGroup);
 
           const maxDim = Math.max(size.x, size.y, size.z) || 1;
           const scale = (compact ? 2.5 : 2.9) / maxDim;
@@ -457,7 +534,7 @@ function JordanHigh3D({
     } catch (e) {
       console.warn("WebGL initialization skipped:", e);
     }
-  }, [colorConfig, compact, interactiveHover]);
+  }, [colorConfig, modelType, compact, interactiveHover]);
 
   return (
     <div
@@ -487,6 +564,7 @@ function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
         <div className="card-3d-wrapper">
           <JordanHigh3D
             colorConfig={p.colorConfig}
+            modelType={p.modelType}
             compact
             interactiveHover
           />
@@ -641,7 +719,7 @@ function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHis
                           {ord.items.map((it, idx) => (
                             <div className="order-item-mini" key={idx}>
                               <div className="mini-3d-box">
-                                <JordanHigh3D colorConfig={it.colorConfig} compact />
+                                <JordanHigh3D colorConfig={it.colorConfig} modelType={it.modelType} compact />
                               </div>
                               <div className="mini-meta">
                                 <b>{it.name}</b>
@@ -816,7 +894,7 @@ function WishlistDrawer({ wishlist, products, onClose, onMoveToCart, onRemoveWis
               {wishProducts.map(p => (
                 <div className="cart-item" key={p.id}>
                   <div className="cart-item-3d-thumb">
-                    <JordanHigh3D colorConfig={p.colorConfig} compact />
+                    <JordanHigh3D colorConfig={p.colorConfig} modelType={p.modelType} compact />
                   </div>
                   <div className="cart-meta">
                     <b>{p.name}</b>
@@ -885,6 +963,7 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
       id: "custom-" + Date.now(),
       name: "Custom 3D Studio Sneaker",
       category: "Bespoke 3D Edition",
+      modelType: "high-top",
       price: 17999,
       old: 20999,
       tag: "Custom 3D Build",
@@ -1321,7 +1400,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
                 {orderSummary.items.map((i, idx) => (
                   <div className="summary-item-row" key={idx}>
                     <div className="summary-item-3d">
-                      <JordanHigh3D colorConfig={i.colorConfig} compact />
+                      <JordanHigh3D colorConfig={i.colorConfig} modelType={i.modelType} compact />
                     </div>
                     <div className="summary-item-info">
                       <b>{i.name}</b>
@@ -1531,7 +1610,7 @@ function App() {
                 <div className="orbit orbit1"></div>
                 <div className="orbit orbit2"></div>
                 <div className="scroll-sneaker">
-                  <JordanHigh3D colorConfig={products[0].colorConfig} />
+                  <JordanHigh3D colorConfig={products[0].colorConfig} modelType={products[0].modelType} />
                 </div>
                 <div className="floating-label label-a"><Rotate3D size={17} /><span>360°<small>DRAG TO ROTATE</small></span></div>
                 <div className="floating-label label-b"><Zap size={17} /><span>SIDE PROFILE<small>3D VIEW</small></span></div>
@@ -1630,7 +1709,7 @@ function App() {
               <div className="feature-visual">
                 <div className="spec-ring">S<span>3</span></div>
                 <div className="feature-shoe">
-                  <JordanHigh3D compact colorConfig={products[1].colorConfig} />
+                  <JordanHigh3D compact colorConfig={products[1].colorConfig} modelType={products[1].modelType} />
                 </div>
                 <div className="spec-label top">RESPONSIVE<br />FOAM</div>
                 <div className="spec-label bottom">LIGHTWEIGHT<br />MESH</div>
@@ -1703,7 +1782,7 @@ function App() {
           <div className="quick-modal" onClick={e => e.stopPropagation()}>
             <button className="modal-close" onClick={() => setQuickProduct(null)}><X size={18} /></button>
             <div className="modal-art">
-              <JordanHigh3D colorConfig={quickProduct.colorConfig} compact />
+              <JordanHigh3D colorConfig={quickProduct.colorConfig} modelType={quickProduct.modelType} compact />
             </div>
             <div className="modal-details">
               <span className="tag">{quickProduct.tag}</span>
@@ -1758,7 +1837,7 @@ function App() {
                   {cart.map((i, idx) => (
                     <div className="cart-item" key={idx}>
                       <div className="cart-item-3d-thumb">
-                        <JordanHigh3D colorConfig={i.colorConfig} compact />
+                        <JordanHigh3D colorConfig={i.colorConfig} modelType={i.modelType} compact />
                       </div>
                       <div className="cart-meta">
                         <b>{i.name}</b>
