@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowRight, Search, ShoppingBag, Heart, Menu, X, ChevronDown,
@@ -6,8 +6,6 @@ import {
   Instagram, Facebook, Twitter, Rotate3D, SlidersHorizontal, Eye, CheckCircle2,
   CreditCard, Check, PackageCheck, Sliders, Palette, User, LogOut, Lock, Mail, MapPin, Calendar, Clock
 } from "lucide-react";
-import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import "./styles.css";
 
 export function formatINR(val) {
@@ -19,145 +17,91 @@ const products = [
     id: 1,
     name: "Campus Oxyfit Cyber Glow",
     category: "High-Top Cyber",
-    modelType: "high-top",
     price: 13999,
     old: 16999,
     tag: "India Edition",
-    colorName: "Stealth Black / White / Neon Cyan Glow",
-    colorConfig: {
-      upper: 0xffffff,
-      overlay: 0x121214,
-      swoosh: 0x00f0ff,
-      emissive: 0x00d8ff,
-      sole: 0xffffff,
-      outsole: 0x00d8ff,
-      laces: 0x00f0ff
-    },
-    swatches: ["#00f0ff", "#121214", "#ffffff"],
+    colorName: "Stealth Black / Red / Cyber Glow",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+    swatches: ["#ff2a55", "#121214", "#ffffff"],
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 5.0,
     reviews: 412,
-    description: "Campus signature high-top silhouette with full-grain leather, pulsing Neon Cyan side branding, and icy translucent blue outsole."
+    description: "Campus signature high-top performance sneaker featuring genuine leather overlays, air mesh ventilation, and high-impact rubber sole."
   },
   {
     id: 2,
     name: "Red Tape Urban Glide X",
     category: "High-Top Street",
-    modelType: "low-top",
     price: 14499,
     old: 17999,
     tag: "Best Seller",
-    colorName: "Matte Carbon / White / Crimson Red Glow",
-    colorConfig: {
-      upper: 0xffffff,
-      overlay: 0x18181c,
-      swoosh: 0xff2a55,
-      emissive: 0xff0033,
-      sole: 0xffffff,
-      outsole: 0xff2a55,
-      laces: 0xff2a55
-    },
+    colorName: "Matte Carbon / White / Crimson Red",
+    image: "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80",
     swatches: ["#ff2a55", "#18181c", "#ffffff"],
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 4.9,
     reviews: 328,
-    description: "Red Tape low-cut urban street runner featuring a sleek low ankle profile, glowing Crimson lateral stripe, and lightweight flexible sole."
+    description: "Red Tape urban street high-top engineered with premium matte carbon leather, cushioned ankle padding, and grip outsole."
   },
   {
     id: 3,
     name: "HRX Surge Nitro Tech",
-    category: "Performance High-Top",
-    modelType: "chunky-runner",
+    category: "Performance Runner",
     price: 15999,
     old: 18999,
     tag: "HRX Fitness",
-    colorName: "Midnight Navy / White / Voltage Gold Glow",
-    colorConfig: {
-      upper: 0xffffff,
-      overlay: 0x0f172a,
-      swoosh: 0xffb700,
-      emissive: 0xff8800,
-      sole: 0xffffff,
-      outsole: 0xffb700,
-      laces: 0xffb700
-    },
+    colorName: "Midnight Navy / White / Voltage Amber",
+    image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80",
     swatches: ["#ffb700", "#0f172a", "#ffffff"],
     sizes: [8, 9, 10, 11, 12],
     rating: 4.9,
     reviews: 265,
-    description: "Hrithik Roshan's HRX training shoe with an exaggerated chunky dual-density Nitro foam midsole, curved rocker toe, and Amber Gold glow."
+    description: "Hrithik Roshan's HRX athletic runner built with Nitro foam energy return, breathable mesh upper, and high-traction sole."
   },
   {
     id: 4,
     name: "Bata Power Apex Volt",
     category: "Court Athletic",
-    modelType: "retro-court",
     price: 12999,
     old: 15999,
     tag: "Power Series",
-    colorName: "Obsidian Black / White / Emerald Green Glow",
-    colorConfig: {
-      upper: 0xffffff,
-      overlay: 0x111827,
-      swoosh: 0x10b981,
-      emissive: 0x059669,
-      sole: 0xffffff,
-      outsole: 0x10b981,
-      laces: 0x10b981
-    },
+    colorName: "Obsidian Black / White / Emerald Green",
+    image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=800&q=80",
     swatches: ["#10b981", "#111827", "#ffffff"],
     sizes: [7, 8, 9, 10, 11],
     rating: 4.8,
     reviews: 198,
-    description: "Bata Power court athletic sneaker with flat rubber outsole, protective toe cap bumper overlay, and vibrant Emerald Green glow."
+    description: "Bata Power court athletic sneaker with reinforced rubber toe cap, high-rebound heel cushioning, and court grip plate."
   },
   {
     id: 5,
     name: "Woodland Apex Trail Tracker",
-    category: "Rugged High-Top",
-    modelType: "rugged-boot",
+    category: "Rugged Outdoor",
     price: 16499,
     old: 19999,
     tag: "Outdoor Tough",
-    colorName: "Espresso Brown / Off-White / Tactical Amber Glow",
-    colorConfig: {
-      upper: 0xf5f5f0,
-      overlay: 0x271a15,
-      swoosh: 0xf59e0b,
-      emissive: 0xd97706,
-      sole: 0xffffff,
-      outsole: 0xf59e0b,
-      laces: 0xf59e0b
-    },
+    colorName: "Espresso Brown / Off-White / Amber",
+    image: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=800&q=80",
     swatches: ["#f59e0b", "#271a15", "#f5f5f0"],
     sizes: [8, 9, 10, 11, 12],
     rating: 4.9,
     reviews: 176,
-    description: "Woodland rugged outdoor high-top trail boot featuring extended ankle collar height, heavy-duty lugged tread blocks, and espresso leather."
+    description: "Woodland rugged outdoor high-top sneaker crafted from full-grain espresso leather with all-terrain rubber tread outsole."
   },
   {
     id: 6,
     name: "Neeman's Re-Velocity Eco High",
     category: "Sustainable Lifestyle",
-    modelType: "eco-knit",
     price: 11999,
     old: 14999,
     tag: "Eco-Friendly",
-    colorName: "Pure White / Cyber Violet Glow",
-    colorConfig: {
-      upper: 0xffffff,
-      overlay: 0xf1f5f9,
-      swoosh: 0xa855f7,
-      emissive: 0x9333ea,
-      sole: 0xffffff,
-      outsole: 0xa855f7,
-      laces: 0xa855f7
-    },
+    colorName: "Pure White / Cyber Violet",
+    image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80",
     swatches: ["#a855f7", "#ffffff", "#f1f5f9"],
     sizes: [7, 8, 9, 10, 11],
     rating: 4.8,
     reviews: 215,
-    description: "Neeman's eco-knit slip-on sneaker featuring a seamless sock-like tapered collar, rounded soft cushion heel cup, and Cyber Violet glow."
+    description: "Neeman's eco-conscious sustainable high-top knit sneaker made from 100% recycled ocean plastics with ultra-soft foam sole."
   }
 ];
 
@@ -168,7 +112,7 @@ const journalArticles = [
     title: "Why the future of sneakers is sculptural.",
     date: "Aug 20, 2026",
     img: "https://images.unsplash.com/photo-1512374382149-233c42b6a83b?auto=format&fit=crop&w=800&q=80",
-    content: "Modern sneaker design is moving away from flat patterns toward dynamic 3D sculpting. By utilizing parametric 3D CAD modeling and lightweight polymer soles, high-top silhouettes achieve unprecedented ergonomic lock-in and striking aesthetic presence."
+    content: "Modern sneaker design is moving away from flat patterns toward dynamic ergonomic sculpting. By utilizing lightweight polymer soles and anatomical leather overlays, high-top silhouettes achieve unprecedented lock-in and striking visual presence."
   },
   {
     id: 2,
@@ -188,364 +132,6 @@ const journalArticles = [
   }
 ];
 
-let gltfCache = null;
-let gltfLoadingPromise = null;
-
-function loadShoeGLTF() {
-  if (gltfCache) return Promise.resolve(gltfCache);
-  if (gltfLoadingPromise) return gltfLoadingPromise;
-
-  const loader = new GLTFLoader();
-  gltfLoadingPromise = new Promise((resolve, reject) => {
-    loader.load(
-      "./models/shoe.glb",
-      (gltf) => {
-        gltfCache = gltf;
-        resolve(gltf);
-      },
-      undefined,
-      (err) => reject(err)
-    );
-  });
-  return gltfLoadingPromise;
-}
-
-function parseThreeColor(val) {
-  if (!val && val !== 0) return new THREE.Color(0xffffff);
-  if (typeof val === "string") return new THREE.Color(val);
-  if (typeof val === "number") return new THREE.Color(val);
-  return new THREE.Color(0xffffff);
-}
-
-function JordanHigh3D({
-  colorConfig = products[0].colorConfig,
-  modelType = colorConfig.modelType || "high-top",
-  compact = false,
-  interactiveHover = false
-}) {
-  const mount = useRef(null);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    if (!mount.current) return;
-    let isMounted = true;
-    let frame;
-    let renderer, scene, camera, shoeGroup, glowLight, shadowMesh;
-    const currentMount = mount.current;
-
-    // Start with SIDE PROFILE VIEW facing the user on page load
-    let targetRotX = -0.05;
-    let targetRotY = Math.PI / 2; // 90° Side Profile View
-    let currentRotX = -0.05;
-    let currentRotY = Math.PI / 2;
-
-    let isDragging = false;
-    let startMousePos = { x: 0, y: 0 };
-    let dragRotOffset = { x: 0, y: 0 };
-
-    const getClientPos = (e) => {
-      if (e.touches && e.touches.length > 0) {
-        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      }
-      return { x: e.clientX, y: e.clientY };
-    };
-
-    const handlePointerMove = (e) => {
-      const pos = getClientPos(e);
-      const rect = currentMount.getBoundingClientRect();
-      const normX = ((pos.x - rect.left) / rect.width - 0.5) * 2;
-      const normY = ((pos.y - rect.top) / rect.height - 0.5) * 2;
-
-      if (isDragging) {
-        const deltaX = (pos.x - startMousePos.x) * 0.008;
-        const deltaY = (pos.y - startMousePos.y) * 0.008;
-        dragRotOffset.y += deltaX;
-        dragRotOffset.x += deltaY;
-        startMousePos = pos;
-      } else {
-        targetRotY = normX * 0.85 + Math.PI / 2;
-        targetRotX = normY * 0.4 - 0.05;
-      }
-    };
-
-    const handlePointerDown = (e) => {
-      isDragging = true;
-      startMousePos = getClientPos(e);
-      if (currentMount) currentMount.style.cursor = "grabbing";
-    };
-
-    const handlePointerUp = () => {
-      isDragging = false;
-      if (currentMount) currentMount.style.cursor = "grab";
-    };
-
-    const targetElement = interactiveHover ? currentMount : window;
-    targetElement.addEventListener("pointermove", handlePointerMove, { passive: true });
-    targetElement.addEventListener("touchmove", handlePointerMove, { passive: true });
-
-    if (!compact) {
-      currentMount.addEventListener("pointerdown", handlePointerDown);
-      currentMount.addEventListener("touchstart", handlePointerDown, { passive: true });
-      window.addEventListener("pointerup", handlePointerUp);
-      window.addEventListener("touchend", handlePointerUp);
-    }
-
-    try {
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-      camera.position.set(0, 0.1, compact ? 5.6 : 4.8);
-
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(currentMount.clientWidth || 300, currentMount.clientHeight || 300);
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      currentMount.appendChild(renderer.domElement);
-      if (!compact) currentMount.style.cursor = "grab";
-
-      shoeGroup = new THREE.Group();
-      scene.add(shoeGroup);
-
-      // Studio Lighting
-      scene.add(new THREE.AmbientLight(0xffffff, 1.4));
-      const key = new THREE.DirectionalLight(0xffffff, 3.2);
-      key.position.set(4, 6, 5);
-      scene.add(key);
-
-      const fill = new THREE.DirectionalLight(0xffffff, 1.2);
-      fill.position.set(-4, 3, -3);
-      scene.add(fill);
-
-      const glowColor = parseThreeColor(colorConfig.swoosh);
-      glowLight = new THREE.PointLight(glowColor, 7, 12);
-      glowLight.position.set(0, -0.4, 1.0);
-      scene.add(glowLight);
-
-      // Soft Ground Shadow Disc
-      const shadowGeo = new THREE.PlaneGeometry(3.6, 1.5);
-      const shadowMat = new THREE.MeshBasicMaterial({
-        color: glowColor,
-        transparent: true,
-        opacity: 0.22,
-        side: THREE.DoubleSide
-      });
-      shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
-      shadowMesh.rotation.x = Math.PI / 2;
-      shadowMesh.position.set(0, -1.05, 0);
-      shoeGroup.add(shadowMesh);
-
-      // Async GLTF Loading + Dynamic Model Silhouette Transformations
-      loadShoeGLTF()
-        .then((gltf) => {
-          if (!isMounted) return;
-          const clonedScene = gltf.scene.clone(true);
-
-          const swooshC = parseThreeColor(colorConfig.swoosh);
-          const emissiveC = parseThreeColor(colorConfig.emissive || colorConfig.swoosh);
-          const upperC = parseThreeColor(colorConfig.upper);
-          const overlayC = parseThreeColor(colorConfig.overlay);
-          const soleC = parseThreeColor(colorConfig.sole);
-          const lacesC = parseThreeColor(colorConfig.laces || colorConfig.swoosh);
-
-          // Customize materials with colorConfig & apply distinct geometry deformations per modelType
-          clonedScene.traverse((child) => {
-            if (child.isMesh) {
-              if (Array.isArray(child.material)) {
-                child.material = child.material.map(m => m.clone());
-              } else if (child.material) {
-                child.material = child.material.clone();
-              }
-
-              const mats = Array.isArray(child.material) ? child.material : [child.material];
-              mats.forEach((mat) => {
-                const matName = (mat.name || child.name || "").toLowerCase();
-                if (matName.includes("swoosh") || matName.includes("accent") || matName.includes("logo") || matName.includes("glow")) {
-                  mat.color = swooshC;
-                  if ("emissive" in mat) {
-                    mat.emissive = emissiveC;
-                    mat.emissiveIntensity = 0.8;
-                  }
-                } else if (matName.includes("upper")) {
-                  mat.color = upperC;
-                } else if (matName.includes("overlay")) {
-                  mat.color = overlayC;
-                } else if (matName.includes("sole")) {
-                  mat.color = soleC;
-                } else if (matName.includes("lace")) {
-                  mat.color = lacesC;
-                } else {
-                  mat.color = swooshC;
-                  if ("emissive" in mat) {
-                    mat.emissive = emissiveC;
-                    mat.emissiveIntensity = 0.7;
-                  }
-                }
-              });
-
-              // Apply distinct 3D Geometry deformations for different shoe models
-              const meshName = (child.name || "").toLowerCase();
-              if (modelType === "low-top") {
-                if (meshName.includes("collar") || meshName.includes("upper") || meshName.includes("ankle")) {
-                  child.scale.y = 0.65;
-                  child.position.y -= 0.1;
-                }
-              } else if (modelType === "rugged-boot") {
-                if (meshName.includes("collar") || meshName.includes("ankle")) {
-                  child.scale.y = 1.35;
-                  child.position.y += 0.12;
-                }
-              } else if (modelType === "eco-knit") {
-                if (meshName.includes("collar") || meshName.includes("lace")) {
-                  child.scale.set(0.88, 0.72, 0.88);
-                }
-              }
-            }
-          });
-
-          // Attach procedural 3D accent meshes to create distinct shoe silhouettes
-          const accentGroup = new THREE.Group();
-
-          if (modelType === "chunky-runner") {
-            // Sculpted Chunky Dual-Density Midsole Cushion Stack
-            const chunkySoleGeo = new THREE.BoxGeometry(2.4, 0.42, 1.0);
-            const chunkySoleMat = new THREE.MeshStandardMaterial({
-              color: soleC,
-              roughness: 0.3,
-              metalness: 0.1
-            });
-            const chunkySole = new THREE.Mesh(chunkySoleGeo, chunkySoleMat);
-            chunkySole.position.set(0, -0.32, 0);
-            accentGroup.add(chunkySole);
-
-            // Curved Rocker Toe Spring
-            clonedScene.rotation.z = -0.08;
-            clonedScene.position.y += 0.1;
-          } else if (modelType === "rugged-boot") {
-            // Rugged Offroad Tread Block Outsole
-            const treadGeo = new THREE.BoxGeometry(2.5, 0.18, 1.1);
-            const treadMat = new THREE.MeshStandardMaterial({
-              color: 0x1a1a1c,
-              roughness: 0.9
-            });
-            const tread = new THREE.Mesh(treadGeo, treadMat);
-            tread.position.set(0, -0.42, 0);
-            accentGroup.add(tread);
-          } else if (modelType === "retro-court") {
-            // Flat Retro Court Toe Bumper Cap
-            const capGeo = new THREE.CylinderGeometry(0.5, 0.52, 0.35, 16);
-            const capMat = new THREE.MeshStandardMaterial({
-              color: overlayC,
-              roughness: 0.4
-            });
-            const cap = new THREE.Mesh(capGeo, capMat);
-            cap.rotation.z = Math.PI / 2;
-            cap.position.set(0.9, -0.22, 0);
-            accentGroup.add(cap);
-          } else if (modelType === "eco-knit") {
-            // Smooth Rounded Cushion Heel Cup Pod
-            const heelPodGeo = new THREE.SphereGeometry(0.38, 16, 16);
-            const heelPodMat = new THREE.MeshStandardMaterial({
-              color: swooshC,
-              roughness: 0.2
-            });
-            const heelPod = new THREE.Mesh(heelPodGeo, heelPodMat);
-            heelPod.position.set(-0.85, -0.15, 0);
-            accentGroup.add(heelPod);
-          }
-
-          // Compute Bounding Box to center & scale real shoe
-          const box = new THREE.Box3().setFromObject(clonedScene);
-          const center = box.getCenter(new THREE.Vector3());
-          const size = box.getSize(new THREE.Vector3());
-
-          clonedScene.position.set(-center.x, -center.y, -center.z);
-
-          const modelContainer = new THREE.Group();
-          modelContainer.add(clonedScene);
-          modelContainer.add(accentGroup);
-
-          const maxDim = Math.max(size.x, size.y, size.z) || 1;
-          const scale = (compact ? 2.5 : 2.9) / maxDim;
-          modelContainer.scale.set(scale, scale, scale);
-
-          shoeGroup.add(modelContainer);
-          setLoaded(true);
-        })
-        .catch((e) => {
-          console.warn("Error loading 3D shoe model:", e);
-        });
-
-      shoeGroup.rotation.x = -0.05;
-      shoeGroup.rotation.y = Math.PI / 2;
-      shoeGroup.rotation.z = 0;
-
-      const resize = () => {
-        if (!currentMount) return;
-        const w = currentMount.clientWidth || 300, h = currentMount.clientHeight || 300;
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-        renderer.setSize(w, h);
-      };
-      window.addEventListener("resize", resize);
-
-      let time = Math.random() * 10;
-      const animate = () => {
-        frame = requestAnimationFrame(animate);
-        time += 0.014;
-
-        if (glowLight) {
-          glowLight.intensity = 6 + Math.sin(time * 3) * 2.5;
-        }
-
-        const idleRotY = Math.sin(time * 0.8) * 0.04;
-        const idleRotX = Math.cos(time * 0.6) * 0.03;
-
-        const finalTargetY = targetRotY + dragRotOffset.y + idleRotY;
-        const finalTargetX = targetRotX + dragRotOffset.x + idleRotX;
-
-        currentRotY += (finalTargetY - currentRotY) * 0.07;
-        currentRotX += (finalTargetX - currentRotX) * 0.07;
-
-        shoeGroup.rotation.y = currentRotY;
-        shoeGroup.rotation.x = currentRotX;
-
-        renderer.render(scene, camera);
-      };
-      animate();
-
-      return () => {
-        isMounted = false;
-        if (frame) cancelAnimationFrame(frame);
-        targetElement.removeEventListener("pointermove", handlePointerMove);
-        targetElement.removeEventListener("touchmove", handlePointerMove);
-        if (!compact) {
-          currentMount.removeEventListener("pointerdown", handlePointerDown);
-          currentMount.removeEventListener("touchstart", handlePointerDown);
-          window.removeEventListener("pointerup", handlePointerUp);
-          window.removeEventListener("touchend", handlePointerUp);
-        }
-        window.removeEventListener("resize", resize);
-        if (renderer) {
-          renderer.dispose();
-          if (currentMount && renderer.domElement && currentMount.contains(renderer.domElement)) {
-            currentMount.removeChild(renderer.domElement);
-          }
-        }
-      };
-    } catch (e) {
-      console.warn("WebGL initialization skipped:", e);
-    }
-  }, [colorConfig, modelType, compact, interactiveHover]);
-
-  return (
-    <div
-      ref={mount}
-      className={"shoe3d " + (compact ? "compact" : "") + (!loaded ? " loading" : "")}
-      aria-label="Real 3D Sneaker Canvas"
-      style={{ touchAction: "none" }}
-    ></div>
-  );
-}
-
 function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
   const [selectedSize, setSelectedSize] = useState(p.sizes[1] || p.sizes[0]);
 
@@ -561,13 +147,8 @@ function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
           <Heart size={18} fill={wished ? "currentColor" : "none"} />
         </button>
 
-        <div className="card-3d-wrapper">
-          <JordanHigh3D
-            colorConfig={p.colorConfig}
-            modelType={p.modelType}
-            compact
-            interactiveHover
-          />
+        <div className="card-image-wrapper">
+          <img src={p.image} alt={p.name} className="product-real-img" />
         </div>
 
         <div className="quick-view-overlay">
@@ -718,8 +299,8 @@ function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHis
                         <div className="order-items-preview">
                           {ord.items.map((it, idx) => (
                             <div className="order-item-mini" key={idx}>
-                              <div className="mini-3d-box">
-                                <JordanHigh3D colorConfig={it.colorConfig} modelType={it.modelType} compact />
+                              <div className="summary-item-real-thumb">
+                                <img src={it.image} alt={it.name} />
                               </div>
                               <div className="mini-meta">
                                 <b>{it.name}</b>
@@ -774,7 +355,7 @@ function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHis
             {authTab === "login" ? (
               <form onSubmit={handleLoginSubmit} className="auth-form">
                 <h2>Welcome <em>Back</em></h2>
-                <p>Sign in to track orders, manage wishlist, and launch 3D Studio.</p>
+                <p>Sign in to track orders, manage wishlist, and launch Studio.</p>
 
                 <div className="form-group">
                   <label>Email Address</label>
@@ -803,7 +384,7 @@ function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHis
             ) : (
               <form onSubmit={handleSignupSubmit} className="auth-form">
                 <h2>Join <em>Soleva</em></h2>
-                <p>Create an account to get early drop access and save 3D custom builds.</p>
+                <p>Create an account to get early drop access and save custom builds.</p>
 
                 <div className="form-group">
                   <label>Full Name</label>
@@ -885,7 +466,7 @@ function WishlistDrawer({ wishlist, products, onClose, onMoveToCart, onRemoveWis
           <div className="empty">
             <Heart size={44} style={{ color: "var(--muted)", opacity: 0.5 }} />
             <h3>Your wishlist is empty.</h3>
-            <p>Save your favorite 3D sneakers to review or buy later.</p>
+            <p>Save your favorite real sneakers to review or buy later.</p>
             <button className="primary" onClick={onClose}>Explore Collection</button>
           </div>
         ) : (
@@ -893,8 +474,8 @@ function WishlistDrawer({ wishlist, products, onClose, onMoveToCart, onRemoveWis
             <div className="cart-items">
               {wishProducts.map(p => (
                 <div className="cart-item" key={p.id}>
-                  <div className="cart-item-3d-thumb">
-                    <JordanHigh3D colorConfig={p.colorConfig} modelType={p.modelType} compact />
+                  <div className="cart-item-real-thumb">
+                    <img src={p.image} alt={p.name} />
                   </div>
                   <div className="cart-meta">
                     <b>{p.name}</b>
@@ -921,59 +502,36 @@ function WishlistDrawer({ wishlist, products, onClose, onMoveToCart, onRemoveWis
   );
 }
 
-/* Interactive 3D Studio Customizer Modal Component */
+/* Studio Customizer Modal Component */
 function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
-  const [activeTab, setActiveTab] = useState("swoosh");
-  const [customColors, setCustomColors] = useState({
-    swoosh: "#00f0ff",
-    emissive: "#00d8ff",
-    upper: "#ffffff",
-    overlay: "#121214",
-    sole: "#ffffff",
-    outsole: "#00d8ff",
-    laces: "#00f0ff"
-  });
+  const [activeTheme, setActiveTheme] = useState("#00f0ff");
   const [selectedSize, setSelectedSize] = useState(9);
+  const [selectedProduct, setSelectedProduct] = useState(products[0]);
 
-  const presets = [
-    { name: "Cyberpunk Cyan", colors: { swoosh: "#00f0ff", emissive: "#00d8ff", upper: "#ffffff", overlay: "#121214", sole: "#ffffff", outsole: "#00d8ff", laces: "#00f0ff" } },
-    { name: "Crimson Blaze", colors: { swoosh: "#ff2a55", emissive: "#ff0033", upper: "#ffffff", overlay: "#18181c", sole: "#ffffff", outsole: "#ff2a55", laces: "#ff2a55" } },
-    { name: "Voltage Gold", colors: { swoosh: "#ffb700", emissive: "#ff8800", upper: "#ffffff", overlay: "#0f172a", sole: "#ffffff", outsole: "#ffb700", laces: "#ffb700" } },
-    { name: "Ultraviolet", colors: { swoosh: "#a855f7", emissive: "#9333ea", upper: "#ffffff", overlay: "#121214", sole: "#ffffff", outsole: "#a855f7", laces: "#a855f7" } },
-    { name: "Emerald Glow", colors: { swoosh: "#10b981", emissive: "#059669", upper: "#ffffff", overlay: "#111827", sole: "#ffffff", outsole: "#10b981", laces: "#10b981" } },
-    { name: "Stealth Black", colors: { swoosh: "#ffffff", emissive: "#aaaaaa", upper: "#1a1a1e", overlay: "#0e0e11", sole: "#1a1a1e", outsole: "#2a2a30", laces: "#ffffff" } },
-    { name: "Pure White", colors: { swoosh: "#38bdf8", emissive: "#0284c7", upper: "#ffffff", overlay: "#f0f0f5", sole: "#ffffff", outsole: "#38bdf8", laces: "#38bdf8" } }
+  const colorThemes = [
+    { name: "Neon Cyber Cyan", color: "#00f0ff" },
+    { name: "Crimson Red Blaze", color: "#ff2a55" },
+    { name: "Voltage Amber Gold", color: "#ffb700" },
+    { name: "Ultraviolet Purple", color: "#a855f7" },
+    { name: "Emerald Court Green", color: "#10b981" },
+    { name: "Stealth Midnight Black", color: "#121214" }
   ];
-
-  const colorSwatches = [
-    "#00f0ff", "#ff2a55", "#ffb700", "#a855f7", "#10b981", "#38bdf8",
-    "#ffffff", "#121214", "#ff4500", "#e11d48", "#8b5cf6", "#f59e0b"
-  ];
-
-  const updatePartColor = (part, color) => {
-    setCustomColors(prev => {
-      const updated = { ...prev, [part]: color };
-      if (part === "swoosh") updated.emissive = color;
-      return updated;
-    });
-  };
 
   const handleSave = () => {
     const customProduct = {
       id: "custom-" + Date.now(),
-      name: "Custom 3D Studio Sneaker",
-      category: "Bespoke 3D Edition",
-      modelType: "high-top",
+      name: selectedProduct.name + " (Studio Edition)",
+      category: "Bespoke Edition",
       price: 17999,
       old: 20999,
-      tag: "Custom 3D Build",
-      colorName: "Personalized Custom Palette",
-      colorConfig: customColors,
-      swatches: [customColors.swoosh, customColors.overlay, customColors.upper],
+      tag: "Studio Build",
+      colorName: "Personalized Custom Theme",
+      image: selectedProduct.image,
+      swatches: [activeTheme, "#121214", "#ffffff"],
       sizes: [7, 8, 9, 10, 11, 12],
       rating: 5.0,
       reviews: 1,
-      description: "Bespoke 3D high-top sneaker crafted live inside the SOLEVA 3D Interactive Studio."
+      description: `Custom ${selectedProduct.name} personalized inside the SOLEVA Design Studio.`
     };
     onAddCustomSneaker(customProduct, selectedSize);
     onClose();
@@ -984,89 +542,54 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
       <div className="studio-container" onClick={e => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label="Close studio"><X size={20} /></button>
         
-        {/* Left 3D Viewport */}
+        {/* Left Real Shoe Studio Viewport */}
         <div className="studio-viewport">
           <div className="studio-header-badge">
-            <Sparkles size={14} /> 3D LIVE CUSTOMIZER
+            <Sparkles size={14} /> LIVE DESIGN STUDIO
           </div>
-          <div className="studio-canvas">
-            <JordanHigh3D colorConfig={customColors} interactiveHover />
+          <div className="studio-real-art">
+            <img src={selectedProduct.image} alt={selectedProduct.name} className="studio-main-real-img" />
+            <div className="studio-theme-glow" style={{ boxShadow: `0 0 80px 20px ${activeTheme}` }}></div>
           </div>
           <div className="studio-drag-hint">
-            <Rotate3D size={16} /> Drag sneaker to rotate 360°
+            <Palette size={16} /> Authentic Sneaker Studio
           </div>
         </div>
 
         {/* Right Customization Controls Panel */}
         <div className="studio-controls">
           <div className="studio-title">
-            <h2>Design Your <em>Sneaker.</em></h2>
-            <p>Customize individual materials, swoosh glow, overlays, and soles in real-time 3D.</p>
+            <h2>Customize Your <em>Pair.</em></h2>
+            <p>Select your base silhouette, accent color palette, and custom fit size.</p>
           </div>
 
-          {/* Preset Palettes */}
-          <div className="preset-section">
-            <span className="control-label">PRESET PALETTES</span>
+          {/* Silhouette Selector */}
+          <div>
+            <span className="control-label">SELECT SNEAKER SILHOUETTE</span>
             <div className="preset-chips">
-              {presets.map(p => (
+              {products.map(p => (
                 <button
-                  key={p.name}
-                  className="preset-chip"
-                  onClick={() => setCustomColors(p.colors)}
+                  key={p.id}
+                  className={"preset-chip " + (selectedProduct.id === p.id ? "selected-chip" : "")}
+                  onClick={() => setSelectedProduct(p)}
                 >
-                  <span className="preset-dot" style={{ background: p.colors.swoosh }}></span>
-                  {p.name}
+                  {p.name.split(" ")[0]} {p.name.split(" ")[1]}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Part Selection Tabs */}
-          <div className="part-tabs">
-            {[
-              { id: "swoosh", label: "Swoosh & Glow" },
-              { id: "upper", label: "Upper Base" },
-              { id: "overlay", label: "Overlay Leather" },
-              { id: "sole", label: "Sole" },
-              { id: "laces", label: "Laces" }
-            ].map(t => (
-              <button
-                key={t.id}
-                className={"part-tab " + (activeTab === t.id ? "active" : "")}
-                onClick={() => setActiveTab(t.id)}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Color Picker & Swatches for Selected Part */}
+          {/* Color Theme Selector */}
           <div className="color-picker-box">
-            <div className="picker-header">
-              <span>ACTIVE PART: <b>{activeTab.toUpperCase()}</b></span>
-              <div className="hex-input-group">
-                <input
-                  type="color"
-                  value={customColors[activeTab] || "#00f0ff"}
-                  onChange={e => updatePartColor(activeTab, e.target.value)}
-                  className="native-color-picker"
-                />
-                <input
-                  type="text"
-                  value={customColors[activeTab] || "#00f0ff"}
-                  onChange={e => updatePartColor(activeTab, e.target.value)}
-                  className="hex-text-input"
-                />
-              </div>
-            </div>
-
+            <span className="control-label">ACCENT COLOR PALETTE</span>
             <div className="swatch-grid">
-              {colorSwatches.map(hex => (
+              {colorThemes.map(t => (
                 <button
-                  key={hex}
-                  className={"swatch-btn " + (customColors[activeTab] === hex ? "selected" : "")}
-                  style={{ background: hex }}
-                  onClick={() => updatePartColor(activeTab, hex)}
+                  key={t.color}
+                  className={"swatch-btn " + (activeTheme === t.color ? "selected" : "")}
+                  style={{ background: t.color }}
+                  onClick={() => setActiveTheme(t.color)}
+                  title={t.name}
                 />
               ))}
             </div>
@@ -1399,8 +922,8 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
               <div className="summary-items-list">
                 {orderSummary.items.map((i, idx) => (
                   <div className="summary-item-row" key={idx}>
-                    <div className="summary-item-3d">
-                      <JordanHigh3D colorConfig={i.colorConfig} modelType={i.modelType} compact />
+                    <div className="summary-item-real-thumb">
+                      <img src={i.image} alt={i.name} />
                     </div>
                     <div className="summary-item-info">
                       <b>{i.name}</b>
@@ -1560,7 +1083,7 @@ function App() {
           <a className={activePage === "home" ? "active-link" : ""} onClick={() => navigateTo("home")}>Home</a>
           <a className={activePage === "shop" ? "active-link" : ""} onClick={() => navigateTo("shop")}>Shop</a>
           <button className="nav-btn-link" onClick={() => { setCustomizerOpen(true); setMenu(false); }}>
-            <Sparkles size={14} /> 3D Studio
+            <Sparkles size={14} /> Design Studio
           </button>
           <a className={activePage === "story" ? "active-link" : ""} onClick={() => navigateTo("story")}>Our story</a>
           <a className={activePage === "journal" ? "active-link" : ""} onClick={() => navigateTo("journal")}>Journal</a>
@@ -1593,16 +1116,16 @@ function App() {
               <div className="hero-copy">
                 <div className="eyebrow"><Sparkles size={15} /> SPRING / SUMMER 2026</div>
                 <h1>MOVE<br /><em>DIFFERENT.</em></h1>
-                <p>Engineered Indian high-top sneakers modeled directly from 3D blueprints. Precision comfort, glowing neon cyan accents, and everyday energy.</p>
+                <p>Engineered authentic high-top sneakers from Campus, Red Tape, HRX, Bata Power, Woodland, and Neeman's. Precision comfort and everyday energy.</p>
                 <div className="hero-buttons">
                   <button className="primary" onClick={() => navigateTo("shop")}>Explore collection <ArrowRight /></button>
                   <button className="secondary-studio-btn" onClick={() => setCustomizerOpen(true)}>
-                    <Palette size={16} /> Open 3D Studio
+                    <Palette size={16} /> Open Studio
                   </button>
                 </div>
                 <div className="hero-stats">
                   <div><strong>01</strong><span>Signature<br />silhouette</span></div>
-                  <div><strong>3D</strong><span>Adaptive<br />cushioning</span></div>
+                  <div><strong>PRO</strong><span>Adaptive<br />cushioning</span></div>
                   <div><strong>30</strong><span>Day free<br />returns</span></div>
                 </div>
               </div>
@@ -1610,10 +1133,14 @@ function App() {
                 <div className="orbit orbit1"></div>
                 <div className="orbit orbit2"></div>
                 <div className="scroll-sneaker">
-                  <JordanHigh3D colorConfig={products[0].colorConfig} modelType={products[0].modelType} />
+                  <img
+                    src="https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1200&q=80"
+                    alt="Red Tape Urban Glide X High-Top"
+                    className="hero-real-shoe-img"
+                  />
                 </div>
-                <div className="floating-label label-a"><Rotate3D size={17} /><span>360°<small>DRAG TO ROTATE</small></span></div>
-                <div className="floating-label label-b"><Zap size={17} /><span>SIDE PROFILE<small>3D VIEW</small></span></div>
+                <div className="floating-label label-a"><Sparkles size={17} /><span>AUTHENTIC<small>REAL PHOTOGRAPHY</small></span></div>
+                <div className="floating-label label-b"><Zap size={17} /><span>SIDE PROFILE<small>LEATHER HIGH-TOP</small></span></div>
               </div>
             </section>
 
@@ -1692,7 +1219,7 @@ function App() {
             <div className="page-banner">
               <span className="eyebrow">THE SOLEVA PHILOSOPHY</span>
               <h1>CRAFTED FOR <em>MOTION.</em></h1>
-              <p>Combining 3D digital precision with Indian craftsmanship for next-level ergonomic comfort.</p>
+              <p>Combining precision engineering with authentic Indian craftsmanship for next-level ergonomic comfort.</p>
             </div>
 
             <section className="feature">
@@ -1709,7 +1236,11 @@ function App() {
               <div className="feature-visual">
                 <div className="spec-ring">S<span>3</span></div>
                 <div className="feature-shoe">
-                  <JordanHigh3D compact colorConfig={products[1].colorConfig} modelType={products[1].modelType} />
+                  <img
+                    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80"
+                    alt="Campus Oxyfit Cyber Glow"
+                    className="feature-real-img"
+                  />
                 </div>
                 <div className="spec-label top">RESPONSIVE<br />FOAM</div>
                 <div className="spec-label bottom">LIGHTWEIGHT<br />MESH</div>
@@ -1724,7 +1255,7 @@ function App() {
             <div className="page-banner">
               <span className="eyebrow">THE SOLEVA JOURNAL</span>
               <h1>STORIES & <em>DESIGN.</em></h1>
-              <p>Deep dives into 3D sneaker sculpting, athletic recovery, and sustainable manufacturing.</p>
+              <p>Deep dives into sneaker sculpting, athletic recovery, and sustainable manufacturing.</p>
             </div>
 
             <section className="journal" style={{ paddingTop: 0 }}>
@@ -1782,7 +1313,7 @@ function App() {
           <div className="quick-modal" onClick={e => e.stopPropagation()}>
             <button className="modal-close" onClick={() => setQuickProduct(null)}><X size={18} /></button>
             <div className="modal-art">
-              <JordanHigh3D colorConfig={quickProduct.colorConfig} modelType={quickProduct.modelType} compact />
+              <img src={quickProduct.image} alt={quickProduct.name} className="quick-real-img" />
             </div>
             <div className="modal-details">
               <span className="tag">{quickProduct.tag}</span>
@@ -1794,7 +1325,7 @@ function App() {
               <p>{quickProduct.description}</p>
               <div className="specs-list">
                 <div><ShieldCheck size={16} /> <span>100% Genuine Italian Leather & High-Top Collar</span></div>
-                <div><Zap size={16} /> <span>Pulsing Neon Swoosh & Translucent Icy Outsole</span></div>
+                <div><Zap size={16} /> <span>High-Rebound Sole & Translucent Outsole</span></div>
                 <div><Truck size={16} /> <span>Free Express Shipping & 30-Day Returns</span></div>
               </div>
               <button
@@ -1836,8 +1367,8 @@ function App() {
                 <div className="cart-items">
                   {cart.map((i, idx) => (
                     <div className="cart-item" key={idx}>
-                      <div className="cart-item-3d-thumb">
-                        <JordanHigh3D colorConfig={i.colorConfig} modelType={i.modelType} compact />
+                      <div className="cart-item-real-thumb">
+                        <img src={i.image} alt={i.name} />
                       </div>
                       <div className="cart-meta">
                         <b>{i.name}</b>
@@ -1897,7 +1428,7 @@ function App() {
         />
       )}
 
-      {/* 3D Interactive Studio Customizer Modal */}
+      {/* Studio Customizer Modal */}
       {customizerOpen && (
         <Studio3DCustomizer
           onClose={() => setCustomizerOpen(false)}
