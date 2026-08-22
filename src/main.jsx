@@ -51,7 +51,7 @@ const products = [
     old: 9999,
     tag: "PUMA Classic",
     colorName: "PUMA Black / PUMA White",
-    image: "https://www.bing.com/images/search?view=detailV2&ccid=VVEipEsU&id=641B14FD7AE9C556E651CD44574A4A1A7D0061FE&thid=OIP.VVEipEsUaJ4uOo9WFWLB9gHaHa&mediaurl=https%3a%2f%2fimages.puma.com%2fimage%2fupload%2ff_auto%2cq_auto%2cb_rgb%3afafafa%2cw_2000%2ch_2000%2fglobal%2f374915%2f01%2fsv01%2ffnd%2fPNA%2ffmt%2fpng%2fSuede-Classic-XXI-Sneakers&exph=2000&expw=2000&q=PUMA+Suede+Classic+XXI&FORM=IRPRST&ck=E322A7157B328B714DFB181EDB0CCA4F&selectedIndex=1&itb=0",
+    image: "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/374915/01/sv01/fnd/PNA/fmt/png/Suede-Classic-XXI-Sneakers",
     swatches: ["#121214", "#ffffff", "#888888"],
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 4.9,
