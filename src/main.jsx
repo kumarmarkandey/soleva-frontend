@@ -17,11 +17,11 @@ export function formatINR(val) {
 const products = [
   {
     id: 1,
-    name: "Air Jordan 1 Cyber Cyan",
-    category: "High-Top",
-    price: 15999,
-    old: 18999,
-    tag: "Reference Edition",
+    name: "Campus Oxyfit Cyber Glow",
+    category: "High-Top Cyber",
+    price: 13999,
+    old: 16999,
+    tag: "India Edition",
     colorName: "Stealth Black / White / Neon Cyan Glow",
     colorConfig: {
       upper: 0xffffff,
@@ -35,123 +35,123 @@ const products = [
     swatches: ["#00f0ff", "#121214", "#ffffff"],
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 5.0,
-    reviews: 342,
-    description: "High-top silhouette modeled directly from 3D blueprints. Full-grain black & white leather with pulsing Neon Cyan Swoosh and translucent icy blue outsole."
+    reviews: 412,
+    description: "Campus premium high-top performance sneaker with responsive air mesh, pulsing Neon Cyan side branding, and icy translucent outsole."
   },
   {
     id: 2,
-    name: "Air Jordan 1 Crimson Flame",
-    category: "High-Top",
-    price: 15999,
-    old: 18999,
+    name: "Red Tape Urban Glide X",
+    category: "High-Top Street",
+    price: 14499,
+    old: 17999,
     tag: "Best Seller",
-    colorName: "Stealth Black / White / Crimson Glow",
+    colorName: "Matte Carbon / White / Crimson Red Glow",
     colorConfig: {
       upper: 0xffffff,
-      overlay: 0x121214,
+      overlay: 0x18181c,
       swoosh: 0xff2a55,
       emissive: 0xff0033,
       sole: 0xffffff,
       outsole: 0xff2a55,
       laces: 0xff2a55
     },
-    swatches: ["#ff2a55", "#121214", "#ffffff"],
+    swatches: ["#ff2a55", "#18181c", "#ffffff"],
     sizes: [7, 8, 9, 10, 11, 12],
     rating: 4.9,
-    reviews: 218,
-    description: "Iconic high-top profile with glowing Crimson Red lateral swoosh, metallic silver lace lock, and high-rebound cushioning."
+    reviews: 328,
+    description: "Red Tape street-style high-top profile engineered with genuine matte leather overlays, glowing Crimson lateral stripe, and impact-absorbing sole."
   },
   {
     id: 3,
-    name: "Air Jordan 1 Voltage Gold",
-    category: "High-Top",
-    price: 16999,
-    old: 19999,
-    tag: "Trending",
-    colorName: "Stealth Black / White / Gold Glow",
+    name: "HRX Surge Nitro Tech",
+    category: "Performance High-Top",
+    price: 15999,
+    old: 18999,
+    tag: "HRX Fitness",
+    colorName: "Midnight Navy / White / Voltage Gold Glow",
     colorConfig: {
       upper: 0xffffff,
-      overlay: 0x121214,
+      overlay: 0x0f172a,
       swoosh: 0xffb700,
       emissive: 0xff8800,
       sole: 0xffffff,
       outsole: 0xffb700,
       laces: 0xffb700
     },
-    swatches: ["#ffb700", "#121214", "#ffffff"],
+    swatches: ["#ffb700", "#0f172a", "#ffffff"],
     sizes: [8, 9, 10, 11, 12],
     rating: 4.9,
-    reviews: 184,
-    description: "Luxury amber gold glow edition. Features high-top ankle collar, Wings badge, and translucent gold tread outsole."
+    reviews: 265,
+    description: "Hrithik Roshan's HRX high-performance training sneaker featuring Nitro foam cushioning, glowing Amber Gold side cage, and high-traction court outsole."
   },
   {
     id: 4,
-    name: "Air Jordan 1 Ultraviolet",
-    category: "High-Top",
-    price: 16999,
-    old: 19999,
-    tag: "Limited Edition",
-    colorName: "Stealth Black / White / Cyber Violet",
+    name: "Bata Power Apex Volt",
+    category: "Court Athletic",
+    price: 12999,
+    old: 15999,
+    tag: "Power Series",
+    colorName: "Obsidian Black / White / Emerald Green Glow",
     colorConfig: {
       upper: 0xffffff,
-      overlay: 0x121214,
-      swoosh: 0xa855f7,
-      emissive: 0x9333ea,
-      sole: 0xffffff,
-      outsole: 0xa855f7,
-      laces: 0xa855f7
-    },
-    swatches: ["#a855f7", "#121214", "#ffffff"],
-    sizes: [7, 8, 9, 10, 11],
-    rating: 4.8,
-    reviews: 145,
-    description: "Deep ultraviolet glowing swoosh with matte black overlays, white Italian leather panels, and icy violet sole."
-  },
-  {
-    id: 5,
-    name: "Air Jordan 1 Emerald Glow",
-    category: "High-Top",
-    price: 15999,
-    old: 18999,
-    tag: "New Drop",
-    colorName: "Stealth Black / White / Emerald Green",
-    colorConfig: {
-      upper: 0xffffff,
-      overlay: 0x121214,
+      overlay: 0x111827,
       swoosh: 0x10b981,
       emissive: 0x059669,
       sole: 0xffffff,
       outsole: 0x10b981,
       laces: 0x10b981
     },
-    swatches: ["#10b981", "#121214", "#ffffff"],
+    swatches: ["#10b981", "#111827", "#ffffff"],
+    sizes: [7, 8, 9, 10, 11],
+    rating: 4.8,
+    reviews: 198,
+    description: "Bata Power court-ready athletic high-top with high-rebound heel counter, vibrant Emerald Green glow, and reinforced toe guard."
+  },
+  {
+    id: 5,
+    name: "Woodland Apex Trail Tracker",
+    category: "Rugged High-Top",
+    price: 16499,
+    old: 19999,
+    tag: "Outdoor Tough",
+    colorName: "Espresso Brown / Off-White / Tactical Amber Glow",
+    colorConfig: {
+      upper: 0xf5f5f0,
+      overlay: 0x271a15,
+      swoosh: 0xf59e0b,
+      emissive: 0xd97706,
+      sole: 0xffffff,
+      outsole: 0xf59e0b,
+      laces: 0xf59e0b
+    },
+    swatches: ["#f59e0b", "#271a15", "#f5f5f0"],
     sizes: [8, 9, 10, 11, 12],
     rating: 4.9,
-    reviews: 98,
-    description: "Vibrant neon emerald green accents with black leather overlays, silver lace tags, and responsive court sole."
+    reviews: 176,
+    description: "Woodland heavy-duty outdoor high-top crafted from full-grain espresso leather with tactical glowing amber accents and all-terrain tread."
   },
   {
     id: 6,
-    name: "Air Jordan 1 Pure Ice",
-    category: "High-Top",
-    price: 14999,
-    old: 17999,
-    tag: "Classic",
-    colorName: "Pure White / Azure Ice Glow",
+    name: "Neeman's Re-Velocity Eco High",
+    category: "Sustainable Lifestyle",
+    price: 11999,
+    old: 14999,
+    tag: "Eco-Friendly",
+    colorName: "Pure White / Cyber Violet Glow",
     colorConfig: {
       upper: 0xffffff,
-      overlay: 0xf0f0f5,
-      swoosh: 0x38bdf8,
-      emissive: 0x0284c7,
+      overlay: 0xf1f5f9,
+      swoosh: 0xa855f7,
+      emissive: 0x9333ea,
       sole: 0xffffff,
-      outsole: 0x38bdf8,
-      laces: 0x38bdf8
+      outsole: 0xa855f7,
+      laces: 0xa855f7
     },
-    swatches: ["#38bdf8", "#ffffff", "#e2e8f0"],
+    swatches: ["#a855f7", "#ffffff", "#f1f5f9"],
     sizes: [7, 8, 9, 10, 11],
     rating: 4.8,
-    reviews: 167,
-    description: "Clean triple-white leather high-top silhouette highlighted by an electric icy blue swoosh and translucent blue outsole."
+    reviews: 215,
+    description: "Neeman's eco-conscious sustainable high-top knit sneaker made from recycled ocean plastic with glowing Cyber Violet side swoosh."
   }
 ];
 
@@ -199,10 +199,11 @@ function JordanHigh3D({
     let renderer, scene, camera, shoeGroup, glowLight, shadowMesh;
     const currentMount = mount.current;
 
-    let targetRotX = -0.15;
-    let targetRotY = -0.25;
-    let currentRotX = -0.15;
-    let currentRotY = -0.25;
+    // Start with SIDE PROFILE VIEW facing the user on page load
+    let targetRotX = -0.05;
+    let targetRotY = Math.PI / 2; // 90° Side Profile View
+    let currentRotX = -0.05;
+    let currentRotY = Math.PI / 2;
 
     let isDragging = false;
     let startMousePos = { x: 0, y: 0 };
@@ -228,8 +229,8 @@ function JordanHigh3D({
         dragRotOffset.x += deltaY;
         startMousePos = pos;
       } else {
-        targetRotY = normX * 0.85 - 0.25;
-        targetRotX = normY * 0.4 - 0.15;
+        targetRotY = normX * 0.85 + Math.PI / 2;
+        targetRotX = normY * 0.4 - 0.05;
       }
     };
 
@@ -258,7 +259,7 @@ function JordanHigh3D({
     try {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-      camera.position.set(0.1, 0.2, compact ? 5.6 : 5.0);
+      camera.position.set(0, 0.1, compact ? 5.6 : 4.8);
 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -369,9 +370,9 @@ function JordanHigh3D({
           console.warn("Error loading 3D shoe model:", e);
         });
 
-      shoeGroup.rotation.x = -0.15;
-      shoeGroup.rotation.y = -0.25;
-      shoeGroup.rotation.z = 0.06;
+      shoeGroup.rotation.x = -0.05;
+      shoeGroup.rotation.y = Math.PI / 2;
+      shoeGroup.rotation.z = 0;
 
       const resize = () => {
         if (!currentMount) return;
@@ -583,10 +584,10 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
 
   const presets = [
     { name: "Cyberpunk Cyan", colors: { swoosh: "#00f0ff", emissive: "#00d8ff", upper: "#ffffff", overlay: "#121214", sole: "#ffffff", outsole: "#00d8ff", laces: "#00f0ff" } },
-    { name: "Crimson Blaze", colors: { swoosh: "#ff2a55", emissive: "#ff0033", upper: "#ffffff", overlay: "#121214", sole: "#ffffff", outsole: "#ff2a55", laces: "#ff2a55" } },
-    { name: "Voltage Gold", colors: { swoosh: "#ffb700", emissive: "#ff8800", upper: "#ffffff", overlay: "#121214", sole: "#ffffff", outsole: "#ffb700", laces: "#ffb700" } },
+    { name: "Crimson Blaze", colors: { swoosh: "#ff2a55", emissive: "#ff0033", upper: "#ffffff", overlay: "#18181c", sole: "#ffffff", outsole: "#ff2a55", laces: "#ff2a55" } },
+    { name: "Voltage Gold", colors: { swoosh: "#ffb700", emissive: "#ff8800", upper: "#ffffff", overlay: "#0f172a", sole: "#ffffff", outsole: "#ffb700", laces: "#ffb700" } },
     { name: "Ultraviolet", colors: { swoosh: "#a855f7", emissive: "#9333ea", upper: "#ffffff", overlay: "#121214", sole: "#ffffff", outsole: "#a855f7", laces: "#a855f7" } },
-    { name: "Emerald Glow", colors: { swoosh: "#10b981", emissive: "#059669", upper: "#ffffff", overlay: "#121214", sole: "#ffffff", outsole: "#10b981", laces: "#10b981" } },
+    { name: "Emerald Glow", colors: { swoosh: "#10b981", emissive: "#059669", upper: "#ffffff", overlay: "#111827", sole: "#ffffff", outsole: "#10b981", laces: "#10b981" } },
     { name: "Stealth Black", colors: { swoosh: "#ffffff", emissive: "#aaaaaa", upper: "#1a1a1e", overlay: "#0e0e11", sole: "#1a1a1e", outsole: "#2a2a30", laces: "#ffffff" } },
     { name: "Pure White", colors: { swoosh: "#38bdf8", emissive: "#0284c7", upper: "#ffffff", overlay: "#f0f0f5", sole: "#ffffff", outsole: "#38bdf8", laces: "#38bdf8" } }
   ];
@@ -607,8 +608,8 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
   const handleSave = () => {
     const customProduct = {
       id: "custom-" + Date.now(),
-      name: "Air Jordan 1 Custom 3D Studio",
-      category: "Custom 3D Edition",
+      name: "Custom 3D Studio Sneaker",
+      category: "Bespoke 3D Edition",
       price: 17999,
       old: 20999,
       tag: "Custom 3D Build",
@@ -618,7 +619,7 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
       sizes: [7, 8, 9, 10, 11, 12],
       rating: 5.0,
       reviews: 1,
-      description: "Bespoke Air Jordan 1 crafted live inside the SOLEVA 3D Interactive Studio."
+      description: "Bespoke 3D high-top sneaker crafted live inside the SOLEVA 3D Interactive Studio."
     };
     onAddCustomSneaker(customProduct, selectedSize);
     onClose();
@@ -645,7 +646,7 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
         {/* Right Customization Controls Panel */}
         <div className="studio-controls">
           <div className="studio-title">
-            <h2>Design Your <em>Jordan 1.</em></h2>
+            <h2>Design Your <em>Sneaker.</em></h2>
             <p>Customize individual materials, swoosh glow, overlays, and soles in real-time 3D.</p>
           </div>
 
@@ -755,7 +756,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
     country: "India"
   });
   const [deliveryOption, setDeliveryOption] = useState("standard");
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [paymentMethod, setPaymentMethod] = useState("upi");
   const [cardData, setCardData] = useState({ number: "", expiry: "", cvc: "" });
   const [errors, setErrors] = useState({});
   const [orderSummary, setOrderSummary] = useState(null);
@@ -1107,7 +1108,7 @@ function App() {
   };
 
   const filtered = useMemo(() => {
-    let arr = products.filter(p => (category === "All" || p.category === category) && p.name.toLowerCase().includes(query.toLowerCase()));
+    let arr = products.filter(p => (category === "All" || p.category.includes(category) || category === "High-Top") && p.name.toLowerCase().includes(query.toLowerCase()));
     if (sort === "price-low") arr.sort((a, b) => a.price - b.price);
     if (sort === "price-high") arr.sort((a, b) => b.price - a.price);
     if (sort === "rating") arr.sort((a, b) => b.rating - a.rating);
@@ -1226,19 +1227,19 @@ function App() {
               <JordanHigh3D colorConfig={products[0].colorConfig} />
             </div>
             <div className="floating-label label-a"><Rotate3D size={17} /><span>360°<small>DRAG TO ROTATE</small></span></div>
-            <div className="floating-label label-b"><Zap size={17} /><span>NEON GLOW<small>3D JORDAN</small></span></div>
+            <div className="floating-label label-b"><Zap size={17} /><span>SIDE PROFILE<small>3D VIEW</small></span></div>
           </div>
         </section>
 
         <section className="marquee">
-          <div>AIR JORDAN 1 GLOW SHOWCASE · NEON CYAN EMBEDDED 3D · AIR JORDAN 1 GLOW SHOWCASE · </div>
+          <div>REAL INDIAN BRAND SNEAKERS · CAMPUS · RED TAPE · HRX · BATA POWER · WOODLAND · NEEMAN'S · </div>
         </section>
 
         {/* Shop Grid Section */}
         <section id="shop" className="shop-section">
           <div className="section-head">
             <div>
-              <span className="eyebrow">THE COLLECTION</span>
+              <span className="eyebrow">THE INDIAN SNEAKER COLLECTION</span>
               <h2>Find your <em>pair.</em></h2>
             </div>
             <button className="filter-toggle" onClick={() => setShopOpen(!shopOpen)}>
