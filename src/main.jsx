@@ -10,13 +10,17 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import "./styles.css";
 
+export function formatINR(val) {
+  return "₹" + Math.round(val).toLocaleString("en-IN");
+}
+
 const products = [
   {
     id: 1,
     name: "Air Jordan 1 Cyber Cyan",
     category: "High-Top",
-    price: 219,
-    old: 249,
+    price: 15999,
+    old: 18999,
     tag: "Reference Edition",
     colorName: "Stealth Black / White / Neon Cyan Glow",
     colorConfig: {
@@ -38,8 +42,8 @@ const products = [
     id: 2,
     name: "Air Jordan 1 Crimson Flame",
     category: "High-Top",
-    price: 219,
-    old: 249,
+    price: 15999,
+    old: 18999,
     tag: "Best Seller",
     colorName: "Stealth Black / White / Crimson Glow",
     colorConfig: {
@@ -61,8 +65,8 @@ const products = [
     id: 3,
     name: "Air Jordan 1 Voltage Gold",
     category: "High-Top",
-    price: 229,
-    old: 259,
+    price: 16999,
+    old: 19999,
     tag: "Trending",
     colorName: "Stealth Black / White / Gold Glow",
     colorConfig: {
@@ -84,8 +88,8 @@ const products = [
     id: 4,
     name: "Air Jordan 1 Ultraviolet",
     category: "High-Top",
-    price: 229,
-    old: 259,
+    price: 16999,
+    old: 19999,
     tag: "Limited Edition",
     colorName: "Stealth Black / White / Cyber Violet",
     colorConfig: {
@@ -107,8 +111,8 @@ const products = [
     id: 5,
     name: "Air Jordan 1 Emerald Glow",
     category: "High-Top",
-    price: 219,
-    old: 249,
+    price: 15999,
+    old: 18999,
     tag: "New Drop",
     colorName: "Stealth Black / White / Emerald Green",
     colorConfig: {
@@ -130,8 +134,8 @@ const products = [
     id: 6,
     name: "Air Jordan 1 Pure Ice",
     category: "High-Top",
-    price: 209,
-    old: 239,
+    price: 14999,
+    old: 17999,
     tag: "Classic",
     colorName: "Pure White / Azure Ice Glow",
     colorConfig: {
@@ -204,17 +208,25 @@ function JordanHigh3D({
     let startMousePos = { x: 0, y: 0 };
     let dragRotOffset = { x: 0, y: 0 };
 
+    const getClientPos = (e) => {
+      if (e.touches && e.touches.length > 0) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+      return { x: e.clientX, y: e.clientY };
+    };
+
     const handlePointerMove = (e) => {
+      const pos = getClientPos(e);
       const rect = currentMount.getBoundingClientRect();
-      const normX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      const normY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      const normX = ((pos.x - rect.left) / rect.width - 0.5) * 2;
+      const normY = ((pos.y - rect.top) / rect.height - 0.5) * 2;
 
       if (isDragging) {
-        const deltaX = (e.clientX - startMousePos.x) * 0.008;
-        const deltaY = (e.clientY - startMousePos.y) * 0.008;
+        const deltaX = (pos.x - startMousePos.x) * 0.008;
+        const deltaY = (pos.y - startMousePos.y) * 0.008;
         dragRotOffset.y += deltaX;
         dragRotOffset.x += deltaY;
-        startMousePos = { x: e.clientX, y: e.clientY };
+        startMousePos = pos;
       } else {
         targetRotY = normX * 0.85 - 0.25;
         targetRotX = normY * 0.4 - 0.15;
@@ -223,7 +235,7 @@ function JordanHigh3D({
 
     const handlePointerDown = (e) => {
       isDragging = true;
-      startMousePos = { x: e.clientX, y: e.clientY };
+      startMousePos = getClientPos(e);
       if (currentMount) currentMount.style.cursor = "grabbing";
     };
 
@@ -233,10 +245,14 @@ function JordanHigh3D({
     };
 
     const targetElement = interactiveHover ? currentMount : window;
-    targetElement.addEventListener("pointermove", handlePointerMove);
+    targetElement.addEventListener("pointermove", handlePointerMove, { passive: true });
+    targetElement.addEventListener("touchmove", handlePointerMove, { passive: true });
+
     if (!compact) {
       currentMount.addEventListener("pointerdown", handlePointerDown);
+      currentMount.addEventListener("touchstart", handlePointerDown, { passive: true });
       window.addEventListener("pointerup", handlePointerUp);
+      window.addEventListener("touchend", handlePointerUp);
     }
 
     try {
@@ -395,9 +411,12 @@ function JordanHigh3D({
         isMounted = false;
         if (frame) cancelAnimationFrame(frame);
         targetElement.removeEventListener("pointermove", handlePointerMove);
+        targetElement.removeEventListener("touchmove", handlePointerMove);
         if (!compact) {
           currentMount.removeEventListener("pointerdown", handlePointerDown);
+          currentMount.removeEventListener("touchstart", handlePointerDown);
           window.removeEventListener("pointerup", handlePointerUp);
+          window.removeEventListener("touchend", handlePointerUp);
         }
         window.removeEventListener("resize", resize);
         if (renderer) {
@@ -417,6 +436,7 @@ function JordanHigh3D({
       ref={mount}
       className={"shoe3d " + (compact ? "compact" : "") + (!loaded ? " loading" : "")}
       aria-label="Real 3D Sneaker Canvas"
+      style={{ touchAction: "none" }}
     ></div>
   );
 }
@@ -459,8 +479,8 @@ function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
             <span className="color-name">{p.colorName}</span>
           </div>
           <div className="price">
-            <b>${p.price}</b>
-            <del>${p.old}</del>
+            <b>{formatINR(p.price)}</b>
+            <del>{formatINR(p.old)}</del>
           </div>
         </div>
 
@@ -519,12 +539,12 @@ function WishlistDrawer({ wishlist, products, onClose, onMoveToCart, onRemoveWis
             <div className="cart-items">
               {wishProducts.map(p => (
                 <div className="cart-item" key={p.id}>
-                  <div className="wishlist-card-3d">
+                  <div className="cart-item-3d-thumb">
                     <JordanHigh3D colorConfig={p.colorConfig} compact />
                   </div>
                   <div className="cart-meta">
                     <b>{p.name}</b>
-                    <span>{p.category} · ${p.price}</span>
+                    <span>{p.category} · {formatINR(p.price)}</span>
                     <button className="text-btn" onClick={() => onMoveToCart(p)}>
                       Move to bag <ArrowRight size={14} />
                     </button>
@@ -589,8 +609,8 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
       id: "custom-" + Date.now(),
       name: "Air Jordan 1 Custom 3D Studio",
       category: "Custom 3D Edition",
-      price: 239,
-      old: 279,
+      price: 17999,
+      old: 20999,
       tag: "Custom 3D Build",
       colorName: "Personalized Custom Palette",
       colorConfig: customColors,
@@ -715,7 +735,7 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
 
           {/* Add Custom Sneaker Button */}
           <button className="primary studio-add-btn" onClick={handleSave}>
-            Add Custom Pair to Bag ($239) <ArrowRight size={16} />
+            Add Custom Pair to Bag ({formatINR(17999)}) <ArrowRight size={16} />
           </button>
         </div>
       </div>
@@ -732,7 +752,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
     address: "",
     city: "",
     zip: "",
-    country: "United States"
+    country: "India"
   });
   const [deliveryOption, setDeliveryOption] = useState("standard");
   const [paymentMethod, setPaymentMethod] = useState("card");
@@ -740,7 +760,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
   const [errors, setErrors] = useState({});
   const [orderSummary, setOrderSummary] = useState(null);
 
-  const deliveryCost = deliveryOption === "standard" ? 0 : deliveryOption === "express" ? 15 : 25;
+  const deliveryCost = deliveryOption === "standard" ? 0 : deliveryOption === "express" ? 499 : 999;
   const grandTotal = total + deliveryCost;
 
   const validateStep1 = () => {
@@ -749,13 +769,13 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
     if (!formData.email.trim() || !formData.email.includes("@")) errs.email = "Valid email required";
     if (!formData.address.trim()) errs.address = "Street address required";
     if (!formData.city.trim()) errs.city = "City required";
-    if (!formData.zip.trim()) errs.zip = "ZIP/Postal code required";
+    if (!formData.zip.trim()) errs.zip = "PIN / Postal code required";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
   const validateStep3 = () => {
-    if (paymentMethod === "applepay") return true;
+    if (paymentMethod === "upi" || paymentMethod === "applepay") return true;
     let errs = {};
     if (!cardData.number.trim() || cardData.number.replace(/\s/g, "").length < 12) errs.number = "Valid card number required";
     if (!cardData.expiry.trim()) errs.expiry = "MM/YY required";
@@ -773,7 +793,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
       if (validateStep3()) {
         const simulatedOrder = {
           id: "SLV-" + Math.floor(100000 + Math.random() * 900000),
-          date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+          date: new Date().toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" }),
           items: [...cart],
           total: grandTotal,
           delivery: deliveryOption,
@@ -795,7 +815,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
           <div className="checkout-stepper">
             <div className={"step-node " + (step >= 1 ? "active" : "")}>
               <span className="step-num">1</span>
-              <span className="step-label">Shipping</span>
+              <span className="step-label">Address</span>
             </div>
             <div className="step-line"></div>
             <div className={"step-node " + (step >= 2 ? "active" : "")}>
@@ -819,7 +839,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
                 <label>Full Name</label>
                 <input
                   type="text"
-                  placeholder="e.g. Alex Morgan"
+                  placeholder="e.g. Rahul Sharma"
                   value={formData.fullName}
                   onChange={e => setFormData({ ...formData, fullName: e.target.value })}
                 />
@@ -829,7 +849,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
                 <label>Email Address</label>
                 <input
                   type="email"
-                  placeholder="alex@example.com"
+                  placeholder="rahul@example.com"
                   value={formData.email}
                   onChange={e => setFormData({ ...formData, email: e.target.value })}
                 />
@@ -839,7 +859,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
                 <label>Street Address</label>
                 <input
                   type="text"
-                  placeholder="123 Motion Way, Suite 400"
+                  placeholder="Flat 402, Skyline Residency, MG Road"
                   value={formData.address}
                   onChange={e => setFormData({ ...formData, address: e.target.value })}
                 />
@@ -849,17 +869,17 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
                 <label>City</label>
                 <input
                   type="text"
-                  placeholder="New York"
+                  placeholder="Mumbai"
                   value={formData.city}
                   onChange={e => setFormData({ ...formData, city: e.target.value })}
                 />
                 {errors.city && <span className="field-err">{errors.city}</span>}
               </div>
               <div className="form-group">
-                <label>ZIP / Postal Code</label>
+                <label>PIN Code</label>
                 <input
                   type="text"
-                  placeholder="10001"
+                  placeholder="400001"
                   value={formData.zip}
                   onChange={e => setFormData({ ...formData, zip: e.target.value })}
                 />
@@ -868,7 +888,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
             </div>
 
             <div className="checkout-footer">
-              <span className="total-display">Total: <b>${grandTotal.toFixed(2)}</b></span>
+              <span className="total-display">Total: <b>{formatINR(grandTotal)}</b></span>
               <button className="primary" onClick={handleNext}>
                 Continue to Delivery <ArrowRight size={16} />
               </button>
@@ -879,7 +899,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
         {/* STEP 2: Delivery Speed */}
         {step === 2 && (
           <div className="checkout-body">
-            <h2>Select <em>Delivery Method</em></h2>
+            <h2>Select <em>Delivery Speed</em></h2>
             <div className="options-stack">
               <label className={"option-card " + (deliveryOption === "standard" ? "selected" : "")}>
                 <input
@@ -890,7 +910,7 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
                 />
                 <div className="option-info">
                   <div className="option-head">
-                    <b>Standard Express Shipping</b>
+                    <b>Standard Express Delivery</b>
                     <span className="price-tag">FREE</span>
                   </div>
                   <span className="muted">Delivered in 3–5 business days</span>
@@ -906,8 +926,8 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
                 />
                 <div className="option-info">
                   <div className="option-head">
-                    <b>Soleva Priority Air</b>
-                    <span className="price-tag">+$15.00</span>
+                    <b>Soleva Priority Air Express</b>
+                    <span className="price-tag">+{formatINR(499)}</span>
                   </div>
                   <span className="muted">Delivered in 2 business days</span>
                 </div>
@@ -922,10 +942,10 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
                 />
                 <div className="option-info">
                   <div className="option-head">
-                    <b>Overnight Rush Courier</b>
-                    <span className="price-tag">+$25.00</span>
+                    <b>Next-Day Rush Courier</b>
+                    <span className="price-tag">+{formatINR(999)}</span>
                   </div>
-                  <span className="muted">Next business morning delivery</span>
+                  <span className="muted">Guaranteed next morning delivery</span>
                 </div>
               </label>
             </div>
@@ -945,20 +965,27 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
             <h2>Payment <em>Information</em></h2>
             <div className="payment-toggle">
               <button
+                className={"toggle-btn " + (paymentMethod === "upi" ? "active" : "")}
+                onClick={() => setPaymentMethod("upi")}
+              >
+                <Zap size={16} /> UPI / GPay / PhonePe
+              </button>
+              <button
                 className={"toggle-btn " + (paymentMethod === "card" ? "active" : "")}
                 onClick={() => setPaymentMethod("card")}
               >
                 <CreditCard size={16} /> Credit / Debit Card
               </button>
-              <button
-                className={"toggle-btn " + (paymentMethod === "applepay" ? "active" : "")}
-                onClick={() => setPaymentMethod("applepay")}
-              >
-                 Apple Pay / One-Touch
-              </button>
             </div>
 
-            {paymentMethod === "card" ? (
+            {paymentMethod === "upi" ? (
+              <div className="apple-pay-box">
+                <p>One-touch UPI Payment (Google Pay / PhonePe / Paytm / BHIM)</p>
+                <div className="apple-pay-preview" style={{ background: "linear-gradient(135deg, #0f9d58, #1a73e8)" }}>
+                  Pay {formatINR(grandTotal)} via UPI
+                </div>
+              </div>
+            ) : (
               <div className="form-grid">
                 <div className="form-group full">
                   <label>Card Number</label>
@@ -992,17 +1019,12 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
                   {errors.cvc && <span className="field-err">{errors.cvc}</span>}
                 </div>
               </div>
-            ) : (
-              <div className="apple-pay-box">
-                <p>Click below to authorize simulated Apple Pay touch checkout.</p>
-                <div className="apple-pay-preview"> Pay ${grandTotal.toFixed(2)}</div>
-              </div>
             )}
 
             <div className="checkout-footer">
               <button className="text-btn" onClick={() => setStep(2)}>Back</button>
               <button className="primary" onClick={handleNext}>
-                Pay ${grandTotal.toFixed(2)} <Check size={16} />
+                Pay {formatINR(grandTotal)} <Check size={16} />
               </button>
             </div>
           </div>
@@ -1019,17 +1041,32 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
             <p className="success-msg">Thank you for your order, {orderSummary.address.fullName}! A confirmation receipt has been sent to {orderSummary.address.email}.</p>
 
             <div className="summary-card">
-              <div className="summary-row">
-                <span>Shipping Address</span>
+              <div className="summary-items-list">
+                {orderSummary.items.map((i, idx) => (
+                  <div className="summary-item-row" key={idx}>
+                    <div className="summary-item-3d">
+                      <JordanHigh3D colorConfig={i.colorConfig} compact />
+                    </div>
+                    <div className="summary-item-info">
+                      <b>{i.name}</b>
+                      <span>UK {i.selectedSize} × {i.qty}</span>
+                    </div>
+                    <b className="summary-item-price">{formatINR(i.price * i.qty)}</b>
+                  </div>
+                ))}
+              </div>
+
+              <div className="summary-row" style={{ marginTop: "12px", paddingTop: "12px", borderTop: "1px solid #e0e0db" }}>
+                <span>Delivery Address</span>
                 <b>{orderSummary.address.address}, {orderSummary.address.city}</b>
               </div>
               <div className="summary-row">
                 <span>Estimated Arrival</span>
-                <b>{deliveryOption === "overnight" ? "Tomorrow by 10 AM" : deliveryOption === "express" ? "Within 2 Business Days" : "In 3-5 Business Days"}</b>
+                <b>{deliveryOption === "overnight" ? "Tomorrow Morning" : deliveryOption === "express" ? "Within 2 Business Days" : "In 3-5 Business Days"}</b>
               </div>
               <div className="summary-row">
                 <span>Total Paid</span>
-                <b className="total-highlight">${orderSummary.total.toFixed(2)}</b>
+                <b className="total-highlight">{formatINR(orderSummary.total)}</b>
               </div>
             </div>
 
@@ -1130,7 +1167,7 @@ function App() {
       )}
 
       <div className="announcement">
-        FREE EXPRESS SHIPPING ON ORDERS OVER $100 <span>·</span> EASY 30-DAY RETURNS
+        FREE EXPRESS SHIPPING ON ORDERS OVER ₹4,999 <span>·</span> EASY 30-DAY RETURNS
       </div>
 
       <header className="nav">
@@ -1327,8 +1364,8 @@ function App() {
               <span className="tag">{quickProduct.tag}</span>
               <h2>{quickProduct.name}</h2>
               <div className="price" style={{ marginBottom: "16px" }}>
-                <b>${quickProduct.price}</b>
-                <del>${quickProduct.old}</del>
+                <b>{formatINR(quickProduct.price)}</b>
+                <del>{formatINR(quickProduct.old)}</del>
               </div>
               <p>{quickProduct.description}</p>
               <div className="specs-list">
@@ -1343,14 +1380,14 @@ function App() {
                   setQuickProduct(null);
                 }}
               >
-                Add to bag (${quickProduct.price}) <ArrowRight size={16} />
+                Add to bag ({formatINR(quickProduct.price)}) <ArrowRight size={16} />
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Cart Drawer */}
+      {/* Cart Drawer with Synced Live 3D Shoe Thumbnails */}
       {cartOpen && (
         <div className="drawer-backdrop" onClick={() => setCartOpen(false)}>
           <aside className="cart-drawer" onClick={e => e.stopPropagation()}>
@@ -1372,12 +1409,12 @@ function App() {
                 <div className="cart-items">
                   {cart.map((i, idx) => (
                     <div className="cart-item" key={idx}>
-                      <div className="cart-swatch" style={{ background: i.swatches[0] }}>
-                        <div style={{ background: i.swatches[1] }}></div>
+                      <div className="cart-item-3d-thumb">
+                        <JordanHigh3D colorConfig={i.colorConfig} compact />
                       </div>
                       <div className="cart-meta">
                         <b>{i.name}</b>
-                        <span>UK {i.selectedSize} · ${i.price}</span>
+                        <span>UK {i.selectedSize} · {formatINR(i.price)}</span>
                         <div className="qty">
                           <button onClick={() => change(i.id, i.selectedSize, -1)}><Minus size={14} /></button>
                           <span>{i.qty}</span>
@@ -1391,7 +1428,7 @@ function App() {
                   ))}
                 </div>
                 <div className="checkout">
-                  <div><span>Subtotal</span><b>${total.toFixed(2)}</b></div>
+                  <div><span>Subtotal</span><b>{formatINR(total)}</b></div>
                   <small>Taxes and shipping calculated at checkout.</small>
                   <button
                     className="primary"
