@@ -623,7 +623,7 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
                   className={"preset-chip " + (selectedProduct.id === p.id ? "selected-chip" : "")}
                   onClick={() => setSelectedProduct(p)}
                 >
-                  {p.name.split(" ")[0]} {p.name.split(" ")[1]}
+                  {p.name}
                 </button>
               ))}
             </div>
