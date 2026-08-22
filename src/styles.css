@@ -2134,6 +2134,16 @@ footer {
   padding: 30px;
 }
 
+.studio-img-tint-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
 .studio-main-real-img {
   max-width: 85%;
   max-height: 80%;
@@ -2143,14 +2153,28 @@ footer {
   filter: drop-shadow(0 25px 45px rgba(0,0,0,0.5));
 }
 
+.studio-tint-layer {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+  bottom: 10%;
+  border-radius: 40%;
+  pointer-events: none;
+  z-index: 3;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  filter: blur(10px);
+}
+
 .studio-theme-glow {
   position: absolute;
-  width: 250px;
-  height: 250px;
+  width: 280px;
+  height: 280px;
   border-radius: 50%;
   pointer-events: none;
-  opacity: 0.3;
+  opacity: 0.35;
   z-index: 1;
+  transition: box-shadow 0.3s ease;
 }
 
 .selected-chip {
@@ -2158,6 +2182,7 @@ footer {
   color: #fff !important;
   border-color: var(--gold) !important;
 }
+
 
 
 

@@ -503,10 +503,40 @@ function WishlistDrawer({ wishlist, products, onClose, onMoveToCart, onRemoveWis
 }
 
 /* Studio Customizer Modal Component */
+function hexToHueRotate(hex) {
+  if (!hex) return "none";
+  if (hex === "#121214" || hex === "#000000") return "grayscale(0.95) brightness(0.6) contrast(1.4)";
+  if (hex === "#ffffff") return "brightness(1.25) contrast(1.1)";
+  
+  let r = parseInt(hex.slice(1, 3) || "00", 16) / 255;
+  let g = parseInt(hex.slice(3, 5) || "00", 16) / 255;
+  let b = parseInt(hex.slice(5, 7) || "00", 16) / 255;
+
+  let max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0;
+  if (max !== min) {
+    let d = max - min;
+    if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+    else if (max === g) h = (b - r) / d + 2;
+    else if (max === b) h = (r - g) / d + 4;
+    h /= 6;
+  }
+  const deg = Math.round(h * 360);
+  return `hue-rotate(${deg}deg) saturate(2.4) contrast(1.1)`;
+}
+
 function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
-  const [activeTheme, setActiveTheme] = useState("#00f0ff");
+  const [activeTab, setActiveTab] = useState("swoosh");
+  const [partColors, setPartColors] = useState({
+    swoosh: "#00f0ff",
+    upper: "#ffffff",
+    sole: "#ffffff",
+    laces: "#00f0ff"
+  });
   const [selectedSize, setSelectedSize] = useState(9);
   const [selectedProduct, setSelectedProduct] = useState(products[0]);
+
+  const currentColor = partColors[activeTab] || "#00f0ff";
 
   const colorThemes = [
     { name: "Neon Cyber Cyan", color: "#00f0ff" },
@@ -514,8 +544,18 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
     { name: "Voltage Amber Gold", color: "#ffb700" },
     { name: "Ultraviolet Purple", color: "#a855f7" },
     { name: "Emerald Court Green", color: "#10b981" },
-    { name: "Stealth Midnight Black", color: "#121214" }
+    { name: "Ice Blue Glow", color: "#38bdf8" },
+    { name: "Stealth Midnight Black", color: "#121214" },
+    { name: "Pure Titanium White", color: "#ffffff" }
   ];
+
+  const updateColor = (hex) => {
+    setPartColors(prev => ({
+      ...prev,
+      [activeTab]: hex,
+      ...(activeTab === "swoosh" ? { laces: hex } : {})
+    }));
+  };
 
   const handleSave = () => {
     const customProduct = {
@@ -525,9 +565,9 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
       price: 17999,
       old: 20999,
       tag: "Studio Build",
-      colorName: "Personalized Custom Theme",
+      colorName: `Custom ${activeTab.toUpperCase()} (${currentColor.toUpperCase()})`,
       image: selectedProduct.image,
-      swatches: [activeTheme, "#121214", "#ffffff"],
+      swatches: [partColors.swoosh, partColors.upper, partColors.sole],
       sizes: [7, 8, 9, 10, 11, 12],
       rating: 5.0,
       reviews: 1,
@@ -542,24 +582,44 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
       <div className="studio-container" onClick={e => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label="Close studio"><X size={20} /></button>
         
-        {/* Left Real Shoe Studio Viewport */}
+        {/* Left Real Shoe Studio Viewport with Live Color Recoloring */}
         <div className="studio-viewport">
           <div className="studio-header-badge">
             <Sparkles size={14} /> LIVE DESIGN STUDIO
           </div>
+          
           <div className="studio-real-art">
-            <img src={selectedProduct.image} alt={selectedProduct.name} className="studio-main-real-img" />
-            <div className="studio-theme-glow" style={{ boxShadow: `0 0 80px 20px ${activeTheme}` }}></div>
+            <div className="studio-img-tint-container">
+              <img
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                className="studio-main-real-img"
+                style={{
+                  filter: hexToHueRotate(partColors.swoosh),
+                  transition: "filter 0.3s cubic-bezier(0.16, 1, 0.3, 1)"
+                }}
+              />
+              <div
+                className="studio-tint-layer"
+                style={{
+                  backgroundColor: partColors.swoosh,
+                  mixBlendMode: partColors.swoosh === "#121214" ? "multiply" : "color",
+                  opacity: partColors.swoosh === "#121214" ? 0.8 : 0.5
+                }}
+              />
+            </div>
+            <div className="studio-theme-glow" style={{ boxShadow: `0 0 100px 30px ${partColors.swoosh}` }}></div>
           </div>
+
           <div className="studio-drag-hint">
-            <Palette size={16} /> Authentic Sneaker Studio
+            <Palette size={16} /> LIVE COLOR RECOLORING: <b style={{ color: partColors.swoosh, marginLeft: "4px" }}>{partColors.swoosh.toUpperCase()}</b>
           </div>
         </div>
 
         {/* Right Customization Controls Panel */}
         <div className="studio-controls">
           <div className="studio-title">
-            <h2>Customize Your <em>Pair.</em></h2>
+            <h2>Design Your <em>Sneaker.</em></h2>
             <p>Select your base silhouette, accent color palette, and custom fit size.</p>
           </div>
 
@@ -579,16 +639,50 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
             </div>
           </div>
 
-          {/* Color Theme Selector */}
+          {/* Part Tabs */}
+          <div className="part-tabs">
+            {[
+              { id: "swoosh", label: "Branding & Glow" },
+              { id: "upper", label: "Upper Base" },
+              { id: "sole", label: "Sole & Outsole" }
+            ].map(t => (
+              <button
+                key={t.id}
+                className={"part-tab " + (activeTab === t.id ? "active" : "")}
+                onClick={() => setActiveTab(t.id)}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Color Theme Selector & Hex Input */}
           <div className="color-picker-box">
-            <span className="control-label">ACCENT COLOR PALETTE</span>
+            <div className="picker-header">
+              <span>ACTIVE PART: <b>{activeTab.toUpperCase()}</b></span>
+              <div className="hex-input-group">
+                <input
+                  type="color"
+                  value={currentColor}
+                  onChange={e => updateColor(e.target.value)}
+                  className="native-color-picker"
+                />
+                <input
+                  type="text"
+                  value={currentColor}
+                  onChange={e => updateColor(e.target.value)}
+                  className="hex-text-input"
+                />
+              </div>
+            </div>
+
             <div className="swatch-grid">
               {colorThemes.map(t => (
                 <button
                   key={t.color}
-                  className={"swatch-btn " + (activeTheme === t.color ? "selected" : "")}
+                  className={"swatch-btn " + (currentColor === t.color ? "selected" : "")}
                   style={{ background: t.color }}
-                  onClick={() => setActiveTheme(t.color)}
+                  onClick={() => updateColor(t.color)}
                   title={t.name}
                 />
               ))}
