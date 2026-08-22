@@ -160,17 +160,7 @@ function loadShoeGLTF() {
         resolve(gltf);
       },
       undefined,
-      (err1) => {
-        loader.load(
-          "./models/jordan.glb",
-          (gltf2) => {
-            gltfCache = gltf2;
-            resolve(gltf2);
-          },
-          undefined,
-          (err2) => reject(err2)
-        );
-      }
+      (err) => reject(err)
     );
   });
   return gltfLoadingPromise;
