@@ -6,6 +6,7 @@ import {
   Instagram, Facebook, Twitter, Rotate3D, SlidersHorizontal, Eye, CheckCircle2
 } from "lucide-react";
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import "./styles.css";
 
 const products = [
@@ -143,17 +144,51 @@ const products = [
   }
 ];
 
+let gltfCache = null;
+let gltfLoadingPromise = null;
+
+function loadShoeGLTF() {
+  if (gltfCache) return Promise.resolve(gltfCache);
+  if (gltfLoadingPromise) return gltfLoadingPromise;
+
+  const loader = new GLTFLoader();
+  gltfLoadingPromise = new Promise((resolve, reject) => {
+    loader.load(
+      "./models/shoe.glb",
+      (gltf) => {
+        gltfCache = gltf;
+        resolve(gltf);
+      },
+      undefined,
+      (err1) => {
+        loader.load(
+          "./models/jordan.glb",
+          (gltf2) => {
+            gltfCache = gltf2;
+            resolve(gltf2);
+          },
+          undefined,
+          (err2) => reject(err2)
+        );
+      }
+    );
+  });
+  return gltfLoadingPromise;
+}
+
 function JordanHigh3D({
   colorConfig = products[0].colorConfig,
   compact = false,
   interactiveHover = false
 }) {
   const mount = useRef(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if (!mount.current) return;
+    let isMounted = true;
     let frame;
-    let renderer, scene, camera, shoeGroup;
+    let renderer, scene, camera, shoeGroup, glowLight, shadowMesh;
     const currentMount = mount.current;
 
     let targetRotX = -0.15;
@@ -203,7 +238,7 @@ function JordanHigh3D({
     try {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-      camera.position.set(0.1, 0.3, compact ? 6.4 : 5.8);
+      camera.position.set(0.1, 0.2, compact ? 5.6 : 5.0);
 
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -213,155 +248,88 @@ function JordanHigh3D({
       if (!compact) currentMount.style.cursor = "grab";
 
       shoeGroup = new THREE.Group();
+      scene.add(shoeGroup);
 
-      // Materials matching the Air Jordan High Cyan Glow spec sheet
-      const whiteLeather = new THREE.MeshStandardMaterial({
-        color: colorConfig.upper,
-        roughness: 0.35,
-        metalness: 0.05
-      });
-      const blackOverlay = new THREE.MeshStandardMaterial({
-        color: colorConfig.overlay,
-        roughness: 0.45,
-        metalness: 0.08
-      });
-      const glowSwooshMat = new THREE.MeshStandardMaterial({
-        color: colorConfig.swoosh,
-        emissive: colorConfig.emissive,
-        emissiveIntensity: 0.75,
-        roughness: 0.2,
-        metalness: 0.3
-      });
-      const whiteSoleMat = new THREE.MeshStandardMaterial({
-        color: colorConfig.sole,
-        roughness: 0.3
-      });
-      const icyOutsoleMat = new THREE.MeshStandardMaterial({
-        color: colorConfig.outsole,
-        emissive: colorConfig.emissive,
-        emissiveIntensity: 0.4,
-        transparent: true,
-        opacity: 0.82,
-        roughness: 0.15,
-        metalness: 0.1
-      });
-      const silverMetalMat = new THREE.MeshStandardMaterial({
-        color: 0xe0e0e5,
-        roughness: 0.15,
-        metalness: 0.85
-      });
-      const laceMat = new THREE.MeshStandardMaterial({
-        color: 0x121215,
-        roughness: 0.7
-      });
+      // Studio Lighting
+      scene.add(new THREE.AmbientLight(0xffffff, 1.4));
+      const key = new THREE.DirectionalLight(0xffffff, 3.2);
+      key.position.set(4, 6, 5);
+      scene.add(key);
 
-      // 1. High-Top Ankle Collar (Black Leather Overlay)
-      const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.65, 0.8, 32), blackOverlay);
-      collar.position.set(-0.75, 0.85, 0);
-      collar.rotation.z = 0.22;
-      shoeGroup.add(collar);
+      const fill = new THREE.DirectionalLight(0xffffff, 1.2);
+      fill.position.set(-4, 3, -3);
+      scene.add(fill);
 
-      // 2. White Leather Upper Body
-      const upper = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), whiteLeather);
-      upper.scale.set(1.68, 0.54, 0.72);
-      upper.position.set(0.12, 0.26, 0);
-      shoeGroup.add(upper);
+      glowLight = new THREE.PointLight(colorConfig.swoosh, 7, 12);
+      glowLight.position.set(0, -0.4, 1.0);
+      scene.add(glowLight);
 
-      // 3. White Toe Box
-      const toe = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 24), whiteLeather);
-      toe.scale.set(1.18, 0.44, 0.68);
-      toe.position.set(1.15, 0.18, 0);
-      shoeGroup.add(toe);
-
-      // 4. Black Toe Overlay (Mudguard)
-      const toeOverlay = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.12, 16, 32, Math.PI), blackOverlay);
-      toeOverlay.rotation.y = Math.PI / 2;
-      toeOverlay.position.set(1.22, 0.14, 0);
-      shoeGroup.add(toeOverlay);
-
-      // 5. Black Heel Counter
-      const heel = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 20), blackOverlay);
-      heel.scale.set(0.52, 0.64, 0.72);
-      heel.position.set(-1.22, 0.36, 0);
-      shoeGroup.add(heel);
-
-      // 6. White Rubber Midsole
-      const midSole = new THREE.Mesh(new THREE.BoxGeometry(3.55, 0.22, 1.34), whiteSoleMat);
-      midSole.position.set(0.05, -0.22, 0);
-      midSole.rotation.z = -0.02;
-      shoeGroup.add(midSole);
-
-      // 7. Translucent Icy Glowing Outsole
-      const outSole = new THREE.Mesh(new THREE.BoxGeometry(3.58, 0.12, 1.36), icyOutsoleMat);
-      outSole.position.set(0.05, -0.37, 0);
-      outSole.rotation.z = -0.02;
-      shoeGroup.add(outSole);
-
-      // 8. Glowing Electric Cyan Swoosh (Lateral Side)
-      const swoosh = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.09, 0.12), glowSwooshMat);
-      swoosh.position.set(-0.25, 0.54, 0.70);
-      swoosh.rotation.z = -0.36;
-      shoeGroup.add(swoosh);
-
-      // Swoosh Medial Side
-      const swooshMedial = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.09, 0.12), glowSwooshMat);
-      swooshMedial.position.set(-0.25, 0.54, -0.70);
-      swooshMedial.rotation.z = -0.36;
-      shoeGroup.add(swooshMedial);
-
-      // 9. Black Lacing System (6 Lace Bars)
-      for (let i = 0; i < 6; i++) {
-        const lace = new THREE.Mesh(new THREE.BoxGeometry(0.60, 0.035, 0.06), laceMat);
-        lace.position.set(-0.2 + i * 0.26, 0.58 + i * 0.06, 0.62);
-        lace.rotation.z = -0.15;
-        shoeGroup.add(lace);
-      }
-
-      // 10. Metallic Silver Lace Lock Tag
-      const laceLock = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.08, 0.14), silverMetalMat);
-      laceLock.position.set(0.95, 0.38, 0.62);
-      shoeGroup.add(laceLock);
-
-      // 11. Ankle Wings Logo Badge
-      const wingsBadge = new THREE.Mesh(
-        new THREE.TorusGeometry(0.24, 0.03, 10, 32),
-        glowSwooshMat
-      );
-      wingsBadge.rotation.y = Math.PI / 2;
-      wingsBadge.position.set(-0.78, 0.95, 0.64);
-      shoeGroup.add(wingsBadge);
-
-      // 12. Soft Ground Glow Shadow Disc
-      const shadowGeo = new THREE.PlaneGeometry(3.8, 1.4);
+      // Soft Ground Shadow Disc
+      const shadowGeo = new THREE.PlaneGeometry(3.6, 1.5);
       const shadowMat = new THREE.MeshBasicMaterial({
         color: colorConfig.swoosh,
         transparent: true,
-        opacity: 0.25,
+        opacity: 0.22,
         side: THREE.DoubleSide
       });
-      const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+      shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
       shadowMesh.rotation.x = Math.PI / 2;
-      shadowMesh.position.set(0, -0.46, 0);
+      shadowMesh.position.set(0, -1.05, 0);
       shoeGroup.add(shadowMesh);
+
+      // Async GLTF Loading
+      loadShoeGLTF()
+        .then((gltf) => {
+          if (!isMounted) return;
+          const clonedScene = gltf.scene.clone(true);
+
+          // Customize materials with colorConfig
+          clonedScene.traverse((child) => {
+            if (child.isMesh) {
+              if (Array.isArray(child.material)) {
+                child.material = child.material.map(m => m.clone());
+              } else if (child.material) {
+                child.material = child.material.clone();
+              }
+
+              const mats = Array.isArray(child.material) ? child.material : [child.material];
+              mats.forEach((mat) => {
+                const matName = (mat.name || "").toLowerCase();
+                if (matName.includes("swoosh") || matName.includes("accent") || matName.includes("logo") || matName.includes("glow")) {
+                  mat.color.setHex(colorConfig.swoosh);
+                  if ("emissive" in mat) {
+                    mat.emissive.setHex(colorConfig.emissive);
+                    mat.emissiveIntensity = 0.7;
+                  }
+                }
+              });
+            }
+          });
+
+          // Compute Bounding Box to center & scale real shoe
+          const box = new THREE.Box3().setFromObject(clonedScene);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+
+          clonedScene.position.set(-center.x, -center.y, -center.z);
+
+          const modelContainer = new THREE.Group();
+          modelContainer.add(clonedScene);
+
+          const maxDim = Math.max(size.x, size.y, size.z) || 1;
+          const scale = (compact ? 2.5 : 2.9) / maxDim;
+          modelContainer.scale.set(scale, scale, scale);
+
+          shoeGroup.add(modelContainer);
+          setLoaded(true);
+        })
+        .catch((e) => {
+          console.warn("Error loading 3D shoe model:", e);
+        });
 
       shoeGroup.rotation.x = -0.15;
       shoeGroup.rotation.y = -0.25;
       shoeGroup.rotation.z = 0.06;
-      scene.add(shoeGroup);
-
-      // Cyan Electric Glow Lighting setup
-      scene.add(new THREE.HemisphereLight(0xffffff, 0x111115, 2.2));
-      const key = new THREE.DirectionalLight(0xffffff, 3.8);
-      key.position.set(3, 5, 5);
-      scene.add(key);
-
-      const cyanGlowLight = new THREE.PointLight(colorConfig.swoosh, 10, 15);
-      cyanGlowLight.position.set(0, -0.2, 1.2);
-      scene.add(cyanGlowLight);
-
-      const rimLight = new THREE.PointLight(colorConfig.swoosh, 8, 12);
-      rimLight.position.set(-3, 2, -2);
-      scene.add(rimLight);
 
       const resize = () => {
         if (!currentMount) return;
@@ -377,11 +345,10 @@ function JordanHigh3D({
         frame = requestAnimationFrame(animate);
         time += 0.014;
 
-        // Pulsing Neon Glow Effect
-        glowSwooshMat.emissiveIntensity = 0.6 + Math.sin(time * 3) * 0.25;
-        cyanGlowLight.intensity = 8 + Math.sin(time * 3) * 3;
+        if (glowLight) {
+          glowLight.intensity = 6 + Math.sin(time * 3) * 2.5;
+        }
 
-        // Cursor-Only tilt + Mouse Drag (NO page scroll angle!)
         const idleRotY = Math.sin(time * 0.8) * 0.04;
         const idleRotX = Math.cos(time * 0.6) * 0.03;
 
@@ -399,6 +366,7 @@ function JordanHigh3D({
       animate();
 
       return () => {
+        isMounted = false;
         if (frame) cancelAnimationFrame(frame);
         targetElement.removeEventListener("pointermove", handlePointerMove);
         if (!compact) {
@@ -418,7 +386,13 @@ function JordanHigh3D({
     }
   }, [colorConfig, compact, interactiveHover]);
 
-  return <div ref={mount} className={"shoe3d " + (compact ? "compact" : "")} aria-label="High-Top Air Jordan 3D Sneaker Canvas"></div>;
+  return (
+    <div
+      ref={mount}
+      className={"shoe3d " + (compact ? "compact" : "") + (!loaded ? " loading" : "")}
+      aria-label="Real 3D Sneaker Canvas"
+    ></div>
+  );
 }
 
 function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
