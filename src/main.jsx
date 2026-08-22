@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowRight, Search, ShoppingBag, Heart, Menu, X, ChevronDown,
@@ -153,7 +153,7 @@ function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
 
         <div className="quick-view-overlay">
           <button className="quick-view-btn">
-            <Eye size={15} /> Quick View
+            <Eye size={15} /> 360° Quick View
           </button>
         </div>
       </div>
@@ -202,7 +202,6 @@ function ProductCard({ p, onAdd, onWish, wished, onQuickView }) {
   );
 }
 
-/* User Authentication & Profile Modal Component */
 function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHistory = [] }) {
   const [authTab, setAuthTab] = useState("login");
   const [profileTab, setProfileTab] = useState("orders");
@@ -247,7 +246,6 @@ function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHis
         <button className="modal-close" onClick={onClose} aria-label="Close modal"><X size={18} /></button>
 
         {user ? (
-          /* LOGGED IN USER PROFILE DASHBOARD */
           <div className="profile-dashboard">
             <div className="profile-header-card">
               <div className="avatar-circle">{user.name.slice(0, 2).toUpperCase()}</div>
@@ -261,7 +259,6 @@ function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHis
               </button>
             </div>
 
-            {/* Dashboard Sub-Tabs */}
             <div className="profile-subtabs">
               <button
                 className={"subtab-btn " + (profileTab === "orders" ? "active" : "")}
@@ -333,7 +330,6 @@ function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHis
             )}
           </div>
         ) : (
-          /* AUTH LOGIN / SIGNUP TABS */
           <div className="auth-form-container">
             <div className="auth-tab-bar">
               <button
@@ -428,7 +424,6 @@ function AuthProfileModal({ user, onLogin, onSignup, onLogout, onClose, orderHis
   );
 }
 
-/* Journal Article Modal Component */
 function JournalModal({ article, onClose }) {
   if (!article) return null;
 
@@ -450,7 +445,6 @@ function JournalModal({ article, onClose }) {
   );
 }
 
-/* Wishlist Drawer Component */
 function WishlistDrawer({ wishlist, products, onClose, onMoveToCart, onRemoveWish, onMoveAllToCart }) {
   const wishProducts = products.filter(p => wishlist.includes(p.id));
 
@@ -502,7 +496,6 @@ function WishlistDrawer({ wishlist, products, onClose, onMoveToCart, onRemoveWis
   );
 }
 
-/* Studio Customizer Modal Component */
 function hexToHueRotate(hex) {
   if (!hex) return "none";
   if (hex === "#121214" || hex === "#000000") return "grayscale(0.95) brightness(0.6) contrast(1.4)";
@@ -582,7 +575,6 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
       <div className="studio-container" onClick={e => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label="Close studio"><X size={20} /></button>
         
-        {/* Left Real Shoe Studio Viewport with Live Color Recoloring */}
         <div className="studio-viewport">
           <div className="studio-header-badge">
             <Sparkles size={14} /> LIVE DESIGN STUDIO
@@ -616,14 +608,12 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
           </div>
         </div>
 
-        {/* Right Customization Controls Panel */}
         <div className="studio-controls">
           <div className="studio-title">
             <h2>Design Your <em>Sneaker.</em></h2>
             <p>Select your base silhouette, accent color palette, and custom fit size.</p>
           </div>
 
-          {/* Silhouette Selector */}
           <div>
             <span className="control-label">SELECT SNEAKER SILHOUETTE</span>
             <div className="preset-chips">
@@ -639,7 +629,6 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
             </div>
           </div>
 
-          {/* Part Tabs */}
           <div className="part-tabs">
             {[
               { id: "swoosh", label: "Branding & Glow" },
@@ -656,7 +645,6 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
             ))}
           </div>
 
-          {/* Color Theme Selector & Hex Input */}
           <div className="color-picker-box">
             <div className="picker-header">
               <span>ACTIVE PART: <b>{activeTab.toUpperCase()}</b></span>
@@ -689,7 +677,6 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
             </div>
           </div>
 
-          {/* Size Selector */}
           <div className="studio-size-picker">
             <span className="control-label">SELECT YOUR UK SIZE</span>
             <div className="size-selector">
@@ -705,7 +692,6 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
             </div>
           </div>
 
-          {/* Add Custom Sneaker Button */}
           <button className="primary studio-add-btn" onClick={handleSave}>
             Add Custom Pair to Bag ({formatINR(17999)}) <ArrowRight size={16} />
           </button>
@@ -715,7 +701,6 @@ function Studio3DCustomizer({ onClose, onAddCustomSneaker }) {
   );
 }
 
-/* Multi-Step Checkout Modal Component */
 function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -782,7 +767,6 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
       <div className="checkout-modal" onClick={e => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label="Close checkout"><X size={18} /></button>
 
-        {/* Stepper Progress Bar */}
         {step < 4 && (
           <div className="checkout-stepper">
             <div className={"step-node " + (step >= 1 ? "active" : "")}>
@@ -802,7 +786,6 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
           </div>
         )}
 
-        {/* STEP 1: Shipping Address */}
         {step === 1 && (
           <div className="checkout-body">
             <h2>Shipping <em>Address</em></h2>
@@ -868,7 +851,6 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
           </div>
         )}
 
-        {/* STEP 2: Delivery Speed */}
         {step === 2 && (
           <div className="checkout-body">
             <h2>Select <em>Delivery Speed</em></h2>
@@ -931,7 +913,6 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
           </div>
         )}
 
-        {/* STEP 3: Payment Mock */}
         {step === 3 && (
           <div className="checkout-body">
             <h2>Payment <em>Information</em></h2>
@@ -1002,7 +983,6 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
           </div>
         )}
 
-        {/* STEP 4: Order Confirmation Summary */}
         {step === 4 && orderSummary && (
           <div className="checkout-body success-body">
             <div className="success-icon-badge">
@@ -1053,6 +1033,163 @@ function CheckoutModal({ cart, total, onClose, onOrderComplete }) {
             </button>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/* Interactive 360° Quick View Modal Component */
+function QuickViewModal({ product, onClose, onAddToCart }) {
+  if (!product) return null;
+
+  const [angleIndex, setAngleIndex] = useState(0);
+  const [autoSpin, setAutoSpin] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(product.sizes[1] || product.sizes[0]);
+  const dragRef = useRef(null);
+
+  const angles = [
+    { label: "Side 90°", degree: "90°", transform: "rotateY(0deg) rotate(0deg) scale(1)", desc: "Side Profile & Branding" },
+    { label: "3/4 View 45°", degree: "45°", transform: "rotateY(-25deg) rotate(2deg) scale(1.04)", desc: "Dynamic 3/4 Perspective" },
+    { label: "Front 0°", degree: "0°", transform: "rotateY(-60deg) rotate(5deg) scale(1.08)", desc: "Toe Cap & Lacing Structure" },
+    { label: "Heel 180°", degree: "180°", transform: "rotateY(45deg) rotate(-4deg) scale(1.04)", desc: "Heel Counter & Ankle Collar" },
+    { label: "Outsole 270°", degree: "270°", transform: "rotate(45deg) scale(0.95)", desc: "High-Traction Outsole Tread" }
+  ];
+
+  useEffect(() => {
+    if (!autoSpin) return;
+    const timer = setInterval(() => {
+      setAngleIndex(prev => (prev + 1) % angles.length);
+    }, 1400);
+    return () => clearInterval(timer);
+  }, [autoSpin, angles.length]);
+
+  const handleDragScrub = (e) => {
+    const isTouch = e.touches && e.touches.length > 0;
+    const startX = isTouch ? e.touches[0].clientX : e.clientX;
+    
+    const handleMove = (moveEvt) => {
+      const currentX = moveEvt.touches && moveEvt.touches.length > 0 ? moveEvt.touches[0].clientX : moveEvt.clientX;
+      const diff = currentX - startX;
+      if (Math.abs(diff) > 35) {
+        if (diff > 0) {
+          setAngleIndex(prev => (prev === 0 ? angles.length - 1 : prev - 1));
+        } else {
+          setAngleIndex(prev => (prev + 1) % angles.length);
+        }
+        window.removeEventListener("pointermove", handleMove);
+        window.removeEventListener("touchmove", handleMove);
+      }
+    };
+
+    window.addEventListener("pointermove", handleMove);
+    window.addEventListener("touchmove", handleMove);
+    window.addEventListener("pointerup", () => {
+      window.removeEventListener("pointermove", handleMove);
+    }, { once: true });
+    window.addEventListener("touchend", () => {
+      window.removeEventListener("touchmove", handleMove);
+    }, { once: true });
+  };
+
+  const currentAngle = angles[angleIndex];
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="quick-modal quick-360-modal" onClick={e => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}><X size={18} /></button>
+        
+        <div
+          className="modal-art quick-360-art"
+          ref={dragRef}
+          onPointerDown={handleDragScrub}
+          onTouchStart={handleDragScrub}
+          style={{ cursor: "grab" }}
+        >
+          <div className="view-360-badge">
+            <Rotate3D size={15} /> 360° VIEW · {currentAngle.degree}
+          </div>
+
+          <div className="quick-img-container">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="quick-real-img interactive-360-img"
+              style={{
+                transform: currentAngle.transform,
+                transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
+            />
+          </div>
+
+          <div className="controls-360-bar">
+            <div className="angle-pills">
+              {angles.map((ang, idx) => (
+                <button
+                  key={ang.degree}
+                  className={"angle-pill " + (angleIndex === idx ? "active" : "")}
+                  onClick={() => { setAngleIndex(idx); setAutoSpin(false); }}
+                >
+                  {ang.label}
+                </button>
+              ))}
+            </div>
+
+            <button
+              className={"spin-toggle-btn " + (autoSpin ? "active" : "")}
+              onClick={() => setAutoSpin(!autoSpin)}
+              title="Auto Spin 360°"
+            >
+              <Rotate3D size={15} /> {autoSpin ? "Pause 360°" : "Auto 360° Spin"}
+            </button>
+          </div>
+
+          <span className="drag-scrub-hint">Drag horizontally to rotate 360° · {currentAngle.desc}</span>
+        </div>
+
+        <div className="modal-details">
+          <span className="tag">{product.tag}</span>
+          <h2>{product.name}</h2>
+          <span className="color-name" style={{ display: "block", marginBottom: "12px" }}>{product.colorName}</span>
+
+          <div className="price" style={{ marginBottom: "16px" }}>
+            <b>{formatINR(product.price)}</b>
+            <del>{formatINR(product.old)}</del>
+          </div>
+          
+          <p>{product.description}</p>
+
+          <div className="quick-size-section" style={{ marginTop: "16px" }}>
+            <span className="control-label" style={{ fontSize: "11px", fontWeight: "700", color: "var(--muted)" }}>SELECT UK SIZE</span>
+            <div className="size-selector" style={{ marginTop: "6px" }}>
+              {product.sizes.map(s => (
+                <button
+                  key={s}
+                  className={"size-pill " + (selectedSize === s ? "active" : "")}
+                  onClick={() => setSelectedSize(s)}
+                >
+                  UK {s}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="specs-list" style={{ marginTop: "16px" }}>
+            <div><ShieldCheck size={16} /> <span>Genuine Leather & Cushioned High-Top Collar</span></div>
+            <div><Zap size={16} /> <span>Interactive 360° Inspection & High-Rebound Sole</span></div>
+            <div><Truck size={16} /> <span>Free Express Shipping across India</span></div>
+          </div>
+
+          <button
+            className="primary"
+            style={{ marginTop: "20px" }}
+            onClick={() => {
+              onAddToCart(product, selectedSize);
+              onClose();
+            }}
+          >
+            Add to bag ({formatINR(product.price)}) <ArrowRight size={16} />
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -1403,37 +1540,11 @@ function App() {
 
       {/* Quick View Modal */}
       {quickProduct && (
-        <div className="modal-backdrop" onClick={() => setQuickProduct(null)}>
-          <div className="quick-modal" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setQuickProduct(null)}><X size={18} /></button>
-            <div className="modal-art">
-              <img src={quickProduct.image} alt={quickProduct.name} className="quick-real-img" />
-            </div>
-            <div className="modal-details">
-              <span className="tag">{quickProduct.tag}</span>
-              <h2>{quickProduct.name}</h2>
-              <div className="price" style={{ marginBottom: "16px" }}>
-                <b>{formatINR(quickProduct.price)}</b>
-                <del>{formatINR(quickProduct.old)}</del>
-              </div>
-              <p>{quickProduct.description}</p>
-              <div className="specs-list">
-                <div><ShieldCheck size={16} /> <span>100% Genuine Italian Leather & High-Top Collar</span></div>
-                <div><Zap size={16} /> <span>High-Rebound Sole & Translucent Outsole</span></div>
-                <div><Truck size={16} /> <span>Free Express Shipping & 30-Day Returns</span></div>
-              </div>
-              <button
-                className="primary"
-                onClick={() => {
-                  add(quickProduct);
-                  setQuickProduct(null);
-                }}
-              >
-                Add to bag ({formatINR(quickProduct.price)}) <ArrowRight size={16} />
-              </button>
-            </div>
-          </div>
-        </div>
+        <QuickViewModal
+          product={quickProduct}
+          onClose={() => setQuickProduct(null)}
+          onAddToCart={(prod, sz) => add(prod, sz)}
+        />
       )}
 
       {/* Journal Article Reading Modal */}
